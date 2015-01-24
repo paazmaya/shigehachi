@@ -61,6 +61,10 @@ shigehachi.options.diffColor = 'pink';
 shigehachi.diff();
 ```
 
+## Contributing
+
+[Please refer to a GitHub blog post on how to create somewhat perfect pull request.](https://github.com/blog/1943-how-to-write-the-perfect-pull-request "How to write the perfect pull request")
+
 ## License
 
 Licensed under the MIT license.
