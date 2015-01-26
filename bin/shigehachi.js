@@ -64,12 +64,12 @@ var opts = nomnom.script('shigehachi')
       type: 'string',
       default: 'pae',
       choices: [
-	      'mae', // MeanAbsoluteError
-		    'mse', // MeanSquaredError
-		    'pae', // PeakAbsoluteError
-		    'psnr', // PeakSignalToNoiseRatio
-		    'rmse' // RootMeanSquaredError
-	    ],
+        'mae', // MeanAbsoluteError
+        'mse', // MeanSquaredError
+        'pae', // PeakAbsoluteError
+        'psnr', // PeakSignalToNoiseRatio
+        'rmse' // RootMeanSquaredError
+      ],
       help: 'Difference calculation metric'
    })
    .option('style', {
@@ -77,10 +77,10 @@ var opts = nomnom.script('shigehachi')
       type: 'string',
       default: 'tint',
       choices: [
-		    'assign',
-		    'threshold',
-		    'tint',
-		    'xor'
+        'assign',
+        'threshold',
+        'tint',
+        'xor'
       ],
       help: 'Style in which the diff image is created'
    })
@@ -98,7 +98,7 @@ if (!fs.existsSync(opts.currDir)) {
 }
 
 if (!fs.existsSync(opts.diffDir)) {
-	util.puts('Output directory did not exist, thus creating it');
+  util.puts('Output directory did not exist, thus creating it');
   fs.mkdirSync(opts.diffDir);
 }
 

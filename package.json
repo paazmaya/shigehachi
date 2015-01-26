@@ -7,7 +7,7 @@
     "shigehachi": "shigehachi.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/eslint -c .eslintrc index.js bin/shigehachi.js"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,8 @@
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
     "nomnom": "~1.8"
+  },
+  "devDependencies": {
+    "eslint": "~0.13"
   }
 }

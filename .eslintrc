@@ -113,7 +113,7 @@
     "no-warning-comments": 2,
     "no-with": 2,
     "no-wrap-func": 2,
-    "non-breaking-space": 2,
+    "no-irregular-whitespace": 2,
     "one-var": 0,
     "operator-assignment": [2, "always"],
     "quote-props": 0,
