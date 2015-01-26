@@ -2,7 +2,7 @@
 
 > Compare two sets of images and generate difference images
 
-[![Build Status](https://semaphoreapp.com/api/v1/projects/6e43cdad-b9fe-47a3-9b6c-97cd354353f3/331218/badge.png)](https://semaphoreapp.com/paazmaya/shigehachi)
+[![Build Status](https://semaphoreapp.com/api/v1/projects/6e43cdad-b9fe-47a3-9b6c-97cd354353f3/331218/shields_badge.svg)](https://semaphoreapp.com/paazmaya/shigehachi)
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index)](https://github.com/igrigorik/ga-beacon)
 
 Most likely use case, or the one that "works for me", is comparing
@@ -49,7 +49,6 @@ shigehachi -p images-previous -c images-current -o images-diff
 -s, --style         Style in which the diff image is created
 ```
 
-
 Combining `--version` and `--verbose`, the output will also contain the version
 information of the GraphicMagick found in the system, if any.
 
@@ -60,7 +59,7 @@ information of the GraphicMagick found in the system, if any.
 ```js
 var shigehachi = require('shigehachi');
 
-shigehachi.options.diffColor = 'pink';
+shigehachi.color = 'pink';
 shigehachi.diff();
 ```
 
