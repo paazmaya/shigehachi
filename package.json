@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/paazmaya/shigehachi/issues"
   },
-  "homepage": "https://github.com/paazmaya/shigehachi"
+  "homepage": "https://github.com/paazmaya/shigehachi",
+  "dependencies": {
+    "nomnom": "~1.8"
+  }
 }

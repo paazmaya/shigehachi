@@ -11,53 +11,34 @@ var fs = require('fs'),
   execFile = require('child_process').execFile,
   util = require('util');
 
-// Skip 'node' and 'index.js' 
-var args = process.argv.splice(2);
-
-util.puts(util.inspect(args));
-if (args.length < 2) {
-  util.puts('Sorry but there seems to be missing required parameters, such as directories for comparison');
-  process.exit();
-}
-
-var dateString = (function (now) {
-  now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
-  var s = now.toISOString().replace(/[\s:]/g, '-').split('-');
-  s.pop();
-  return s.join('-');
-}(new Date()));
-
-var prevDir = args[0];
-var currDir = args[1];
-var diffDir = args[2] || '/diff-' + dateString;
-
-if (!fs.existsSync(diffDir)) {
-  fs.mkdirSync(diffDir);
-}
-
-var capturedPrev = []; // List of image files
-
-var dir = fs.readdirSync(prevDir);
-capturedPrev = dir.filter(function (item) {
-  return item.match(/\.png$/);
-});
-
 var Ikkyoku = {
 
-  // All images grouped by the original in arrays
-  imageSets: [],
+  // Defaults
+  color: '#85144b',
+  metric: 'pae',
+  style: 'tint',
+  verbose: true,
+
+  // Directories
+  prevDir: '',
+  currDir: '',
+  diffDir: '',
+
+  // List of image files in "previous directory"
+  capturedPrev: [],
+
+  readPrevDir: function (dir) {
+    var dir = fs.readdirSync(dir);
+    this.capturedPrev = dir.filter(function (item) {
+      return item.match(/\.png$/);
+    });
+  },
 
   // List of commands as arrays ['binary', array arguments]
   commandList: [],
 
   // Currently iterating index of the commandList
   currentIndex: 0,
-
-  // List of thumbnails
-  imageThumbnails: [],
-
-  // Thumbnail square size
-  thumbSize: 200,
 
   // Regular expressions, test at http://regex101.com
   regExpResults: /^Image Difference\s+\((\w+)\):[\s|\w|=]+\s+(((\w+):\s+([\d\.\w]*)\s*(\d+\.\d+)?\s+)+)$/gmi,
@@ -85,20 +66,32 @@ var Ikkyoku = {
     this.runner(command[0], command[1]);
   },
 
-  metrics: [
-    //'mae', // MeanAbsoluteError
-    //'mse', // MeanSquaredError
-    'pae' // PeakAbsoluteError
-    //'psnr', // PeakSignalToNoiseRatio
-    //'rmse' // RootMeanSquaredError
-  ],
 
-  styles: [
-    //'assign',
-    // 'threshold',
-    'tint',
-    'xor'
-  ],
+  createCompareCommand: function (diffPicture, prevPicture, currPicture) {
+    console.log('diffPicture ' + diffPicture);
+    console.log('prevPicture ' + prevPicture);
+    console.log('currPicture ' + currPicture);
+
+    var outputFile = diffPicture.replace('.png', '-' +
+      this.color.replace('#', '') + '-' + this.metric +
+      '-' + this.style + '.png');
+
+    // http://www.graphicsmagick.org/compare.html
+    var compareArgs = [
+      'compare',
+      '-metric',
+      this.metric,
+      '-highlight-color',
+      '"' + this.color + '"',
+      '-highlight-style',
+      this.style,
+      '-file',
+      outputFile,
+      prevPicture,
+      currPicture
+    ];
+    this.commandList.push(['gm', compareArgs]);
+  },
 
   /**
    * Actuel function to create the diff images
@@ -107,21 +100,16 @@ var Ikkyoku = {
    */
   createDiffImages: function () {
 
-    // http://clrs.cc/
-    var colors = [
-      //'#ff851b', //orange
-      //'#01ff70', //lime
-      '#85144b', //maroon
-      '#b10dc9' //purple
-    ];
 
     var self = this;
 
-    capturedPrev.forEach(function (picture) {
+    this.readPrevDir(this.prevDir);
 
-      var prevPicture = prevDir + '/' + picture; // exists
-      var currPicture = currDir + '/' + picture; // maybe exists
-      var diffPicture = diffDir + '/' + picture.replace('.png', '-difference.png');
+    this.capturedPrev.forEach(function (picture) {
+
+      var prevPicture = self.prevDir + '/' + picture; // exists
+      var currPicture = self.currDir + '/' + picture; // maybe exists
+      var diffPicture = self.diffDir + '/' + picture.replace('.png', '-difference.png');
 
       util.puts('started diff for ' + picture);
 
@@ -131,46 +119,9 @@ var Ikkyoku = {
 
       if (prevPictureExists && currentFileExists) {
 
-        var images = []; // all images created in this iteration
-        images.push(prevPicture);
-        images.push(currPicture);
-
-        colors.forEach(function (color) {
-          console.log('color ' + color);
-
-          self.styles.forEach(function (style) {
-            console.log('style ' + style);
-
-            self.metrics.forEach(function (metric) {
-              console.log('metric ' + metric);
-
-              var outputFile = diffPicture.replace('.png', '-' +
-                color.replace('#', '') + '-' + metric + '-' + style + '.png');
-              images.push(outputFile);
-
-              // http://www.graphicsmagick.org/compare.html
-              var compareArgs = [
-                'compare',
-                '-metric',
-                metric,
-                '-highlight-color',
-                '"' + color + '"',
-                '-highlight-style',
-                style,
-                '-file',
-                outputFile,
-                prevPicture,
-                currPicture
-              ];
-              self.commandList.push(['gm', compareArgs]);
-
-            });
-          });
-        });
-
+        self.createCompareCommand(diffPicture, prevPicture, currPicture);
 
         var compositeFile = diffPicture.replace('-difference.png', '-composite.png');
-        images.push(compositeFile);
 
         // http://www.imagemagick.org/script/composite.php
         var compositeArgs = [
@@ -183,7 +134,6 @@ var Ikkyoku = {
         self.commandList.push(['composite', compositeArgs]);
 
         var negateFile = diffPicture.replace('-difference.png', '-negate.png');
-        images.push(negateFile);
 
         // http://www.imagemagick.org/script/convert.php
         var convertArgs = [
@@ -192,11 +142,6 @@ var Ikkyoku = {
           negateFile
         ];
         self.commandList.push(['convert', convertArgs]);
-
-        // Add command for creating thumbnails.
-        images.forEach(self.createThumbCommand, self);
-
-        self.imageSets.push(images);
       }
     }); // forEach
 
@@ -205,4 +150,4 @@ var Ikkyoku = {
   }
 };
 
-Ikkyoku.createDiffImages();
+module.exports = Ikkyoku;

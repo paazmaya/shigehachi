@@ -29,10 +29,10 @@ shigehachi -h
 ```
 
 Compare two directories with the default comparison algorithm and store
-differentiation images to a folder called `diff`:
+differentiation images to a folder called `images-diff`:
 
 ```sh
-shigehachi -o diff images-previous images-current
+shigehachi -p images-previous -c images-current -o images-diff
 ```
 
 ## Command line options
@@ -40,10 +40,13 @@ shigehachi -o diff images-previous images-current
 ```sh
 -h, --help          Help and usage instructions
 -V, --version       Version information
--o --output-dir     Directory in which the resulting differentiation images are stored
--c --diff-color     Color used in the output images
 -v, --verbose       Verbose output, will print which file is currently being processed
--a --algorithm      Difference calculation algorithm
+-P, --previous-dir  Directory in which the previous images are
+-C, --current-dir   Directory in which the current image are, that should have same names as previous
+-O, --output-dir    Directory in which the resulting differentiation images are stored
+-c, --color         Color used in the output images, such as \#b10dc9 or purple
+-m, --metric        Difference calculation Metric
+-s, --style         Style in which the diff image is created
 ```
 
 
