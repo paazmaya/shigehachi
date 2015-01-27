@@ -4,7 +4,7 @@
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": {
-    "shigehachi": "shigehachi.js"
+    "shigehachi": "bin/shigehachi.js"
   },
   "scripts": {
     "test": "./node_modules/.bin/eslint -c .eslintrc index.js bin/shigehachi.js"
