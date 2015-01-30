@@ -6,10 +6,11 @@
 
 'use strict';
 
-var index = require('../index'),
-  fs = require('fs'),
-  nomnom = require('nomnom');
+var fs = require('fs'),
+  util = require('util');
 
+var Jikishin = require('../index'),
+  nomnom = require('nomnom');
 
 var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
@@ -102,13 +103,6 @@ if (!fs.existsSync(opts.diffDir)) {
   fs.mkdirSync(opts.diffDir);
 }
 
-index.prevDir = opts.prevDir;
-index.currDir = opts.currDir;
-index.diffDir = opts.diffDir;
-
-index.color = opts.color;
-index.metric = opts.metric;
-index.style = opts.style;
-
-index.createDiffImages();
+var kage = new Jikishin(opts);
+kage.createDiffImages();
 
