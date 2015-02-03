@@ -6,20 +6,18 @@
 
 'use strict';
 
-var fs = require('fs'),
-  util = require('util');
-
-var Jikishin = require('../index'),
-  nomnom = require('nomnom');
+var fs = require('fs');
+var nomnom = require('nomnom');
+var Jikishin = require('../index');
 
 var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-var dateString = (function (now) {
+var dateString = (function dateString(now) {
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
   var s = now.toISOString().replace(/[\s:]/g, '-').split('-');
   s.pop();
   return s.join('-');
-}(new Date()));
+})(new Date());
 
 var opts = nomnom.script('shigehachi')
    .option('version', {
@@ -89,20 +87,19 @@ var opts = nomnom.script('shigehachi')
 
 
 if (!fs.existsSync(opts.prevDir)) {
-  util.puts('Sorry but the previously created image directory should exist, which was given as a first parameter');
+  console.log('Sorry but the previously created image directory should exist, which was given as a first parameter');
   process.exit();
 }
 
 if (!fs.existsSync(opts.currDir)) {
-  util.puts('Sorry but the currently created image directory should exist, which was given as a second parameter');
+  console.log('Sorry but the currently created image directory should exist, which was given as a second parameter');
   process.exit();
 }
 
 if (!fs.existsSync(opts.diffDir)) {
-  util.puts('Output directory did not exist, thus creating it');
+  console.log('Output directory did not exist, thus creating it');
   fs.mkdirSync(opts.diffDir);
 }
 
 var kage = new Jikishin(opts);
 kage.createDiffImages();
-

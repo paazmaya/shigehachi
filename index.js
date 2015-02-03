@@ -8,11 +8,11 @@
 
 var fs = require('fs'),
   path = require('path'),
-  execFile = require('child_process').execFile,
-  util = require('util');
+  execFile = require('child_process').execFile;
 
 /**
  * @param {object} options Configuration options
+ * @returns {void}
  */
 var Jikishin = function Jikishin(options) {
   options = options || {};
@@ -43,9 +43,9 @@ var Jikishin = function Jikishin(options) {
 
 };
 
-Jikishin.prototype.readPrevDir = function readPrevDir(dir) {
-  var dir = fs.readdirSync(dir);
-  this.capturedPrev = dir.filter(function (item) {
+Jikishin.prototype.readPrevDir = function readPrevDir(dirpath) {
+  var dir = fs.readdirSync(dirpath);
+  this.capturedPrev = dir.filter(function filterDir(item) {
     return item.match(/\.png$/);
   });
 };
@@ -58,8 +58,8 @@ Jikishin.prototype.runner = function runner(bin, args) {
     console.log(stdout);
     console.log(stderr);
 
-    //var matches = regExpResults.exec(stdout);
-    //console.dir(matches);
+    var matches = self.regExpResults.exec(stdout);
+    console.dir(matches);
 
     self.nextRun();
   });
@@ -110,7 +110,7 @@ Jikishin.prototype.createCompositeCommand = function createCompositeCommand(diff
   this.commandList.push(['composite', compositeArgs]);
 };
 
-Jikishin.prototype.createNegateCommand = function createNegateCommand(diffPicture, prevPicture, currPicture) {
+Jikishin.prototype.createNegateCommand = function createNegateCommand(diffPicture) {
   var negateFile = diffPicture.replace('-difference.png', '-negate.png');
 
   // http://www.imagemagick.org/script/convert.php
@@ -126,6 +126,7 @@ Jikishin.prototype.createNegateCommand = function createNegateCommand(diffPictur
  * Actual function to create the diff images
  * Originating from 2014-01-31
  * https://github.com/stefanjudis/grunt-photobox/blob/master/tasks/lib/photobox.js#L73
+ * @returns {void}
  */
 Jikishin.prototype.createDiffImages = function createDiffImages() {
 
@@ -139,7 +140,7 @@ Jikishin.prototype.createDiffImages = function createDiffImages() {
     var currPicture = self.currDir + '/' + picture; // maybe exists
     var diffPicture = self.diffDir + '/' + picture.replace('.png', '-difference.png');
 
-    util.puts('started diff for ' + picture);
+    console.log('started diff for ' + picture);
 
     if (fs.existsSync(prevPicture) && fs.existsSync(currPicture)) {
       self.createCompareCommand(diffPicture, prevPicture, currPicture);
