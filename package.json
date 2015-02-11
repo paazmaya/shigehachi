@@ -30,6 +30,6 @@
     "nomnom": "~1.8"
   },
   "devDependencies": {
-    "eslint": "~0.13"
+    "eslint": "~0.14"
   }
 }
