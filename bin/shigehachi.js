@@ -24,8 +24,8 @@ var opts = nomnom.script('shigehachi')
       abbr: 'V',
       flag: true,
       help: 'Version information',
-      callback: function() {
-         return pkg.version;
+      callback: function pkgVersion() {
+        return pkg.version;
       }
    })
    .option('verbose', {

@@ -29,7 +29,6 @@ var Jikishin = function Jikishin(options) {
   this.diffDir = options.diffDir || '';
 
   // List of image files in "previous directory"
-  this.capturedPrev = [];
   this.readPrevDir(this.prevDir);
 
   // List of commands as arrays ['binary', array arguments]
@@ -38,7 +37,7 @@ var Jikishin = function Jikishin(options) {
   // Currently iterating index of the commandList
   this.currentIndex = 0;
 
-  // Regular expressions, test at http://regex101.com
+  // Regular expression for getting diff results from command line
   this.regExpResults = /^Image Difference\s+\((\w+)\):[\s|\w|=]+\s+(((\w+):\s+([\d\.\w]*)\s*(\d+\.\d+)?\s+)+)$/gmi;
 
 };
@@ -134,7 +133,7 @@ Jikishin.prototype.createDiffImages = function createDiffImages() {
 
   this.readPrevDir(this.prevDir);
 
-  this.capturedPrev.forEach(function (picture) {
+  this.capturedPrev.forEach(function eachPicture(picture) {
 
     var prevPicture = self.prevDir + '/' + picture; // exists
     var currPicture = self.currDir + '/' + picture; // maybe exists
