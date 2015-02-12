@@ -2,11 +2,15 @@
  * Shigehachi
  *
  * Diff generation for two sets of images
+ *
+ * Copyright (c) Juga Paazmaya
+ * Licensed under the MIT license
  */
 
 'use strict';
 
-var fs = require('fs');
+var fs = require('fs'),
+  util = require('util');
 var nomnom = require('nomnom');
 var Jikishin = require('../index');
 
@@ -21,7 +25,7 @@ var opts = nomnom.script('shigehachi')
    .option('version', {
       abbr: 'V',
       flag: true,
-      help: 'Version information'
+      help: 'Version number, with verbosity also application name'
    })
    .option('verbose', {
       abbr: 'v',
@@ -86,20 +90,24 @@ if (opts.version) {
   process.exit();
 }
 
-if (!fs.existsSync(opts.prevDir)) {
+if (!fs.existsSync(opts.previousDir)) {
   console.log('Sorry but the previously created image directory should exist, which was given as a first parameter');
   process.exit();
 }
 
-if (!fs.existsSync(opts.currDir)) {
+if (!fs.existsSync(opts.currentDir)) {
   console.log('Sorry but the currently created image directory should exist, which was given as a second parameter');
   process.exit();
 }
 
-if (!fs.existsSync(opts.diffDir)) {
+if (!fs.existsSync(opts.differenceDir)) {
   console.log('Output directory did not exist, thus creating it');
-  fs.mkdirSync(opts.diffDir);
+  fs.mkdirSync(opts.differenceDir);
 }
 
 var kage = new Jikishin(opts);
+kage.whenDone = function (metrics) {
+  console.log('Comparison finished. Result metrics:');
+  console.log(util.inspect(metrics, {depth: null}));
+};
 kage.createDiffImages();

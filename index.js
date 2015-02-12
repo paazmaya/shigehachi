@@ -2,6 +2,9 @@
  * Shigehachi
  *
  * Diff generation for two sets of images
+ *
+ * Copyright (c) Juga Paazmaya
+ * Licensed under the MIT license
  */
 
 'use strict';
@@ -9,6 +12,12 @@
 var fs = require('fs'),
   path = require('path'),
   execFile = require('child_process').execFile;
+
+
+var regulars = {
+  metric: /^Image Difference\s+\((\w+)\):\s*?/gmi,
+  normalised: /^\s+(\w+):\s+([\d\.]+)/gm
+};
 
 /**
  * @param {object} options Configuration options
@@ -28,18 +37,20 @@ var Jikishin = function Jikishin(options) {
   this.currDir = options.currentDir || 'current';
   this.diffDir = options.differenceDir || 'difference';
 
+  // Callback when all commands have been iterated, called with metrics
+  this.whenDone = options.whenDone || null;
+
   // List of image files in "previous directory"
   this.readPrevDir(this.prevDir);
 
   // List of commands as arrays ['binary', array arguments]
   this.commandList = [];
 
+  // Metrics storage, indexed by the current image path
+  this.results = {};
+
   // Currently iterating index of the commandList
   this.currentIndex = 0;
-
-  // Regular expression for getting diff results from command line
-  this.regExpResults = /^Image Difference\s+\((\w+)\):[\s|\w|=]+\s+(((\w+):\s+([\d\.\w]*)\s*(\d+\.\d+)?\s+)+)$/gmi;
-
 };
 
 Jikishin.prototype.readPrevDir = function readPrevDir(dirpath) {
@@ -53,32 +64,56 @@ Jikishin.prototype.runner = function runner(bin, args) {
   console.log('runner: ' + bin + ' ' + args.join(' '));
   var self = this;
   execFile(bin, args, null, function childCallback (err, stdout, stderr) {
-    console.log(err);
-    console.log(stdout);
-    console.log(stderr);
+    if (err) {
+      console.log(err);
+    }
+    else {
 
-    var matches = self.regExpResults.exec(stdout);
-    console.dir(matches);
+      var currPath = '';
 
+      var metric = regulars.metric.exec(stdout);
+      if (metric) {
+        var norm = {};
+        var normalised;
+        while ((normalised = regulars.normalised.exec(stdout)) !== null) {
+          if (normalised.index === regulars.normalised.lastIndex) {
+            regulars.normalised.lastIndex++;
+          }
+          norm[normalised[1].toLowerCase()] = normalised[2];
+        }
+        self.results[currPath] = {
+          metric: metric[1],
+          normalised: norm
+        };
+        console.dir(self.results);
+      }
+    }
     self.nextRun();
   });
 };
 
 Jikishin.prototype.nextRun = function nextRun() {
   if (this.currentIndex === this.commandList.length) {
+    if (typeof this.whenDone === 'function') {
+      this.whenDone.call(this, [this.results]);
+    }
     return;
   }
   var command = this.commandList[this.currentIndex++];
   this.runner(command[0], command[1]);
 };
 
+/**
+ * Creates the initial comparison command with 'gm compare' and adds
+ * it to the command list.
+ *
+ * @param {string} diffPicture Path to the difference image file
+ * @param {string} prevPicture Path to the previous image file
+ * @param {string} currPicture Path to the current image file
+ * @returns {void}
+ * @see http://www.graphicsmagick.org/compare.html
+ */
 Jikishin.prototype.createCompareCommand = function createCompareCommand(diffPicture, prevPicture, currPicture) {
-
-  var outputFile = diffPicture.replace('.png', '-' +
-    this.color.replace('#', '') + '-' + this.metric +
-    '-' + this.style + '.png');
-
-  // http://www.graphicsmagick.org/compare.html
   var compareArgs = [
     'compare',
     '-metric',
@@ -88,17 +123,25 @@ Jikishin.prototype.createCompareCommand = function createCompareCommand(diffPict
     '-highlight-style',
     this.style,
     '-file',
-    outputFile,
+    diffPicture,
     prevPicture,
     currPicture
   ];
   this.commandList.push(['gm', compareArgs]);
 };
 
+/**
+ * Creates the composite command and adds it to the command list.
+ *
+ * @param {string} diffPicture Path to the difference image file
+ * @param {string} prevPicture Path to the previous image file
+ * @param {string} currPicture Path to the current image file
+ * @returns {void}
+ * @see http://www.imagemagick.org/script/composite.php
+ */
 Jikishin.prototype.createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
   var compositeFile = diffPicture.replace('-difference.png', '-composite.png');
 
-  // http://www.imagemagick.org/script/composite.php
   var compositeArgs = [
     prevPicture,
     currPicture,
@@ -109,10 +152,17 @@ Jikishin.prototype.createCompositeCommand = function createCompositeCommand(diff
   this.commandList.push(['composite', compositeArgs]);
 };
 
+
+/**
+ * Creates the negation command and adds it to the command list.
+ *
+ * @param {string} diffPicture Path to the difference image file
+ * @returns {void}
+ * @see http://www.imagemagick.org/script/convert.php
+ */
 Jikishin.prototype.createNegateCommand = function createNegateCommand(diffPicture) {
   var negateFile = diffPicture.replace('-difference.png', '-negate.png');
 
-  // http://www.imagemagick.org/script/convert.php
   var convertArgs = [
     '-negate',
     diffPicture,
@@ -144,7 +194,7 @@ Jikishin.prototype.createDiffImages = function createDiffImages() {
     if (fs.existsSync(prevPicture) && fs.existsSync(currPicture)) {
       self.createCompareCommand(diffPicture, prevPicture, currPicture);
       self.createCompositeCommand(diffPicture, prevPicture, currPicture);
-      self.createNegateCommand(diffPicture, prevPicture, currPicture);
+      self.createNegateCommand(diffPicture);
     }
   });
 

@@ -17,7 +17,11 @@ who was the 16th head master of [Jikishinkageryu Naginatajutsu](http://naginata.
 ## Getting started
 
 Make sure you have GraphicMagick installed and available in the `PATH`, before
-using `shigehachi`.
+using `shigehachi`. This can be tested by running for example:
+
+```sh
+gm version
+```
 
 Install the command line utility globally with npm, might need `sudo`:
 
@@ -25,7 +29,7 @@ Install the command line utility globally with npm, might need `sudo`:
 npm install --global shigehachi
 ```
 
-Run from the command line, for example the help output:
+Run from the command line, for example getting the help output:
 
 ```sh
 shigehachi -h
@@ -48,7 +52,7 @@ node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp
 
 ```sh
 -h, --help          Help and usage instructions
--V, --version       Version information
+-V, --version       Version number, with verbosity also application name
 -v, --verbose       Verbose output, will print which file is currently being processed
 -P, --previous-dir  Directory in which the previous images are
 -C, --current-dir   Directory in which the current image are, that should have same names as previous
@@ -94,6 +98,8 @@ kage.createDiffImages();
 [Please refer to a GitHub blog post on how to create somewhat perfect pull request.](https://github.com/blog/1943-how-to-write-the-perfect-pull-request "How to write the perfect pull request")
 
 ## License
+
+Copyright (c) [Juga Paazmaya](http://paazmaya.com)
 
 Licensed under [the MIT license](./LICENSE).
 
