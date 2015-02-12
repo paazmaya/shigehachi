@@ -35,7 +35,13 @@ Compare two directories with the default comparison algorithm and store
 differentiation images to a folder called `images-diff`:
 
 ```sh
-shigehachi -p images-previous -c images-current -o images-diff
+shigehachi -P images-previous -C images-current -O images-diff
+```
+
+The tests of this project are using the following command:
+
+```sh
+node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp
 ```
 
 ## Command line options
@@ -52,18 +58,35 @@ shigehachi -p images-previous -c images-current -o images-diff
 -s, --style         Style in which the diff image is created
 ```
 
-Combining `--version` and `--verbose`, the output will also contain the version
-information of the GraphicMagick found in the system, if any.
+Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
+of the application in addition to the version number.
 
 ## Application programming interface
 
-**Don't know yet if ever going to exist...**
+Best example of the usage inside another application is inside the script that is used
+for the command line interface, `bin/shigehachi.js`.
+
+First include this module in your script:
 
 ```js
-var shigehachi = require('shigehachi');
+var Jikishin = require('shigehachi');
+```
 
-shigehachi.color = 'pink';
-shigehachi.diff();
+Defined the options, which follow the same convention as the command line options, with the
+exception of being camelcased from the long versions:
+
+```js
+var options = {
+  differenceDir: ''
+};
+```
+
+Initialise an instance with the above `options` object and call `createDiffImages()` method
+to generate the images:
+
+```js
+var kage = new Jikishin(options);
+kage.createDiffImages();
 ```
 
 ## Contributing
@@ -72,7 +95,7 @@ shigehachi.diff();
 
 ## License
 
-Licensed under the MIT license.
+Licensed under [the MIT license](./LICENSE).
 
 ## Release history
 

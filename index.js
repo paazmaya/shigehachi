@@ -24,9 +24,9 @@ var Jikishin = function Jikishin(options) {
   this.verbose = typeof options.verbose === 'boolean' ? options.verbose : true;
 
   // Directories
-  this.prevDir = options.prevDir || '';
-  this.currDir = options.currDir || '';
-  this.diffDir = options.diffDir || '';
+  this.prevDir = options.previousDir || 'previous';
+  this.currDir = options.currentDir || 'current';
+  this.diffDir = options.differenceDir || 'difference';
 
   // List of image files in "previous directory"
   this.readPrevDir(this.prevDir);

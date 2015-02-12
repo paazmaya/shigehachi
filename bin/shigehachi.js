@@ -10,8 +10,6 @@ var fs = require('fs');
 var nomnom = require('nomnom');
 var Jikishin = require('../index');
 
-var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-
 var dateString = (function dateString(now) {
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
   var s = now.toISOString().replace(/[\s:]/g, '-').split('-');
@@ -23,29 +21,26 @@ var opts = nomnom.script('shigehachi')
    .option('version', {
       abbr: 'V',
       flag: true,
-      help: 'Version information',
-      callback: function pkgVersion() {
-        return pkg.version;
-      }
+      help: 'Version information'
    })
    .option('verbose', {
       abbr: 'v',
       flag: true,
       help: 'Verbose output, will print which file is currently being processed'
    })
-   .option('prevDir', {
+   .option('previousDir', {
       abbr: 'P',
       full: 'previous-dir',
       type: 'string',
       help: 'Directory in which the resulting differentiation images are stored'
    })
-   .option('currDir', {
+   .option('currentDir', {
       abbr: 'C',
       full: 'current-dir',
       type: 'string',
       help: 'Directory in which the resulting differentiation images are stored'
    })
-   .option('diffDir', {
+   .option('differenceDir', {
       abbr: 'O',
       full: 'output-dir',
       type: 'string',
@@ -85,6 +80,11 @@ var opts = nomnom.script('shigehachi')
    })
    .parse();
 
+if (opts.version) {
+  var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  console.log((opts.verbose ? pkg.name + ' v' : '') + pkg.version);
+  process.exit();
+}
 
 if (!fs.existsSync(opts.prevDir)) {
   console.log('Sorry but the previously created image directory should exist, which was given as a first parameter');
