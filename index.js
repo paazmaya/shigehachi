@@ -63,7 +63,7 @@ Jikishin.prototype.readPrevDir = function readPrevDir(dirpath) {
 Jikishin.prototype.runner = function runner(bin, args) {
   console.log('runner: ' + bin + ' ' + args.join(' '));
   var self = this;
-  execFile(bin, args, null, function childCallback (err, stdout, stderr) {
+  execFile(bin, args, null, function childCallback (err, stdout) {
     if (err) {
       console.log(err);
     }
@@ -85,7 +85,6 @@ Jikishin.prototype.runner = function runner(bin, args) {
           metric: metric[1],
           normalised: norm
         };
-        console.dir(self.results);
       }
     }
     self.nextRun();

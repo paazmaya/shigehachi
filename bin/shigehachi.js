@@ -106,7 +106,7 @@ if (!fs.existsSync(opts.differenceDir)) {
 }
 
 var kage = new Jikishin(opts);
-kage.whenDone = function (metrics) {
+kage.whenDone = function whenDone(metrics) {
   console.log('Comparison finished. Result metrics:');
   console.log(util.inspect(metrics, {depth: null}));
 };
