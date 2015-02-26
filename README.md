@@ -7,6 +7,7 @@
 [![Build Status](https://semaphoreapp.com/api/v1/projects/6e43cdad-b9fe-47a3-9b6c-97cd354353f3/331218/shields_badge.svg)](https://semaphoreapp.com/paazmaya/shigehachi)
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
 [![Dependency Status](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb)
+[![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master&style=flat-square)](http://inch-ci.org/github/paazmaya/shigehachi)
 
 Most likely use case, or the one that "works for me", is comparing
 two sets of screen captures from CasperJS browser testing.
