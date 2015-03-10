@@ -20,6 +20,12 @@
     "diff",
     "graphicmagick"
   ],
+  "files": [
+    "bin",
+    "LICENSE",
+    "index.js",
+    "README.md"
+  ],
   "author": "Juga Paazmaya",
   "license": "MIT",
   "bugs": {
