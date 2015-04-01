@@ -91,6 +91,16 @@ tape('wrong type of options get ignored', function (test) {
   test.equal(instance.whenDone, null, 'Callback is null');
 });
 
+tape('metric option must be one of the predefined', function (test) {
+  test.plan(1);
+
+  var instance = new Jikishin({
+		metric: 'hoplaa'
+  });
+
+  test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
+});
+
 tape('no files found when no matching suffixes', function (test) {
   test.plan(1);
 

@@ -61,13 +61,7 @@ var opts = nomnom.script('shigehachi')
       abbr: 'm',
       type: 'string',
       default: 'pae',
-      choices: [
-        'mae', // MeanAbsoluteError
-        'mse', // MeanSquaredError
-        'pae', // PeakAbsoluteError
-        'psnr', // PeakSignalToNoiseRatio
-        'rmse' // RootMeanSquaredError
-      ],
+      choices: Jikishin.prototype.metricTypes,
       help: 'Difference calculation metric'
    })
    .option('style', {

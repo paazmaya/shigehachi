@@ -39,6 +39,18 @@ var Jikishin = function Jikishin(options) {
 };
 
 /**
+ * Accepted metric types
+ * @var {array}
+ */
+Jikishin.prototype.metricTypes = [
+  'mae', // MeanAbsoluteError
+  'mse', // MeanSquaredError
+  'pae', // PeakAbsoluteError
+  'psnr', // PeakSignalToNoiseRatio
+  'rmse' // RootMeanSquaredError
+];
+
+/**
  * Read the options and set defaults when not defined
  * @param {object} options Options passed to the constructor
  * @returns {void}
@@ -47,7 +59,8 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   options = options || {};
 
   // Difference calculation algorithm
-  this.metric = typeof options.metric === 'string' ? options.metric : 'pae';
+  this.metric = typeof options.metric === 'string' &&
+    this.metricTypes.indexOf(options.metric) !== -1 ? options.metric : 'pae';
   this.style = typeof options.style === 'string' ? options.style : 'tint';
   this.color = typeof options.color === 'string' ? options.color : '#85144b';
 
