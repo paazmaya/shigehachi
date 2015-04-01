@@ -23,7 +23,7 @@ tape('default options gets set', function (test) {
   test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
   test.equal(instance.style, 'tint', 'Style is tint');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
-  test.ok(instance.verbose === true, 'Verbosity is boolean true');
+  test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
@@ -55,12 +55,12 @@ tape('other options gets set', function (test) {
   test.plan(3);
 
   var instance = new Jikishin({
-		verbose: false,
+		verbose: true,
 		suffixes: 'png,jpg,gif',
 		whenDone: function () {}
   });
 
-  test.ok(instance.verbose === false, 'Verbosity is boolean false');
+  test.ok(instance.verbose === true, 'Verbosity is boolean true');
   test.deepEqual(instance.suffixes, ['png', 'jpg', 'gif'], 'Suffixes are an array of three items');
   test.equal(typeof instance.whenDone, 'function', 'Callback is a function');
 });
@@ -83,7 +83,7 @@ tape('wrong type of options get ignored', function (test) {
   test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
   test.equal(instance.style, 'tint', 'Style is tint');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
-  test.ok(instance.verbose === true, 'Verbosity is boolean true');
+  test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');

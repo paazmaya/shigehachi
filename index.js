@@ -64,7 +64,7 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   this.style = typeof options.style === 'string' ? options.style : 'tint';
   this.color = typeof options.color === 'string' ? options.color : '#85144b';
 
-  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : true;
+  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
   this.suffixes = typeof options.suffixes === 'string' ? options.suffixes.split(',') : ['png'];
 
   // Directories
@@ -87,6 +87,10 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
   this.capturedPrev = dir.filter(function filterDir(item) {
     return item.match(suffix);
   });
+
+  if (this.verbose) {
+    console.log('Total of ' + this.capturedPrev.length + ' image files found');
+  }
 };
 
 /**
@@ -96,7 +100,9 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
  * @returns {void}
  */
 Jikishin.prototype._runner = function runner(bin, args) {
-  console.log('runner: ' + bin + ' ' + args.join(' '));
+  if (this.verbose) {
+    console.log('Command: ' + bin + ' ' + args.join(' '));
+  }
   var self = this;
   execFile(bin, args, null, function childCallback(err, stdout) {
     if (err) {
@@ -144,13 +150,21 @@ Jikishin.prototype._successRan = function successRan(output, currFile) {
  * @returns {void}
  */
 Jikishin.prototype._nextRun = function nextRun() {
-  if (this.currentIndex === this.commandList.length) {
+  var len = this.commandList.length;
+
+  if (this.currentIndex === len) {
     if (typeof this.whenDone === 'function') {
       this.whenDone.call(this, [this.results]);
     }
     return;
   }
+
   var command = this.commandList[this.currentIndex++];
+
+  if (this.verbose) {
+    console.log('Current command iteration ' + this.currentIndex + ' of ' + len);
+  }
+
   this._runner(command[0], command[1]);
 };
 
@@ -239,7 +253,9 @@ Jikishin.prototype.exec = function exec() {
     var currPicture = path.join(self.currDir, picture);
     var diffPicture = path.join(self.diffDir, picture);
 
-    console.log('started diff for ' + picture);
+    if (self.verbose) {
+      console.log('Started command creation for ' + picture);
+    }
 
     if (fs.existsSync(prevPicture) && fs.existsSync(currPicture)) {
       self._createCompareCommand(diffPicture, prevPicture, currPicture);

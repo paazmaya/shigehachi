@@ -106,7 +106,9 @@ if (!fs.existsSync(opts.differenceDir)) {
 }
 
 opts.whenDone = function whenDone(metrics) {
-  console.log('Comparison finished. Result metrics:');
+  if (opts.verbose) {
+    console.log('Comparison finished. Result metrics:');
+  }
   console.log(util.inspect(metrics, {depth: null}));
 };
 
