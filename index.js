@@ -47,17 +47,17 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   options = options || {};
 
   // Difference calculation algorithm
-  this.metric = options.metric || 'pae';
-  this.style = options.style || 'tint';
-  this.color = options.color || '#85144b';
+  this.metric = typeof options.metric === 'string' ? options.metric : 'pae';
+  this.style = typeof options.style === 'string' ? options.style : 'tint';
+  this.color = typeof options.color === 'string' ? options.color : '#85144b';
 
   this.verbose = typeof options.verbose === 'boolean' ? options.verbose : true;
   this.suffixes = typeof options.suffixes === 'string' ? options.suffixes.split(',') : ['png'];
 
   // Directories
-  this.prevDir = options.previousDir || 'previous';
-  this.currDir = options.currentDir || 'current';
-  this.diffDir = options.differenceDir || 'difference';
+  this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
+  this.currDir = typeof options.currentDir === 'string' ? options.currentDir : 'current';
+  this.diffDir = typeof options.differenceDir === 'string' ? options.differenceDir : 'difference';
 
   // Callback when all commands have been iterated, called with metrics
   this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;
@@ -85,9 +85,9 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
 Jikishin.prototype._runner = function runner(bin, args) {
   console.log('runner: ' + bin + ' ' + args.join(' '));
   var self = this;
-  execFile(bin, args, null, function childCallback (err, stdout) {
+  execFile(bin, args, null, function childCallback(err, stdout) {
     if (err) {
-      console.log(err);
+      console.error(err.syscall, err.code);
     }
     else if (bin === 'gm') {
       var currFile = args[args.length - 1];
@@ -210,10 +210,10 @@ Jikishin.prototype._createNegateCommand = function createNegateCommand(diffPictu
 };
 
 /**
- * Actual function to create the diff images
+ * Generate the difference images one by one
  * @returns {void}
  */
-Jikishin.prototype.exec = function createDiffImages() {
+Jikishin.prototype.exec = function exec() {
 
   var self = this;
 

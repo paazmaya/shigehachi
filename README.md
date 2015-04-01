@@ -115,21 +115,30 @@ var kage = new Jikishin(opts);
 kage.exec();
 ```
 
-
 ## Contributing
 
 [Please refer to a GitHub blog post on how to create somewhat perfect pull request.](https://github.com/blog/1943-how-to-write-the-perfect-pull-request "How to write the perfect pull request")
+
+Linting is done with [ESLint](http://eslint.org) and can be executed with `npm run lint`.
+There should be no errors appearing after any JavaScript file changes.
+
+Unit tests are written with [tape]() and can be executed with `npm test`.
+
+Code coverage is inspected with [covert](https://github.com/substack/covert) and
+can be executed with `npm run coverage`. Please make sure it is 100% at all times.
+
+
+## Version history
+
+* v1.0.0 (2015-04-xx)
+    - Project initiated and script imported from `nanbudo.fi` test script collection
+    - Dependency status via Versioneye #3
+    - Unit tests with tape and code coverage with covert #4
+    - Automated tests via Bamboo #2
 
 ## License
 
 Copyright (c) [Juga Paazmaya](http://paazmaya.com)
 
 Licensed under [the MIT license](./LICENSE).
-
-## Release history
-
-* v1.0.0 (2015-04-xx)
-    - Project initiated and script imported from `nanbudo.fi` test script collection
-    - Unit tests and code coverage #3
-    - Automated tests via Bamboo #2
 

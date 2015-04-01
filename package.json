@@ -6,8 +6,15 @@
   "bin": {
     "shigehachi": "bin/shigehachi.js"
   },
+  "author": {
+    "name": "Juga Paazmaya",
+    "email": "olavic@gmail.com",
+    "url": "http://paazmaya.com"
+  },
   "scripts": {
-    "test": "./node_modules/.bin/eslint -c .eslintrc index.js bin/shigehachi.js"
+    "lint": "eslint -c .eslintrc index.js bin/shigehachi.js",
+    "test": "node tests/index_tape.js",
+    "coverage": "covert tests/index_tape.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +33,6 @@
     "index.js",
     "README.md"
   ],
-  "author": "Juga Paazmaya",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/paazmaya/shigehachi/issues"
@@ -36,6 +42,8 @@
     "nomnom": "~1.8"
   },
   "devDependencies": {
-    "eslint": "~0.18"
+    "covert": "~1.0",
+    "eslint": "~0.18",
+    "tape": "~3.5"
   }
 }
