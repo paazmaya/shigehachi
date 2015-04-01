@@ -1,7 +1,7 @@
 /**
  * Shigehachi
  *
- * Diff generation for two sets of images
+ * Compare two sets of images and generate difference images
  *
  * Copyright (c) Juga Paazmaya
  * Licensed under the MIT license
@@ -82,6 +82,12 @@ var opts = nomnom.script('shigehachi')
       ],
       help: 'Style in which the diff image is created'
    })
+   .option('suffixes', {
+      abbr: 'S',
+      type: 'string',
+      default: 'png',
+      help: 'Image suffixes used for finding previous images, separated by comma'
+   })
    .parse();
 
 if (opts.version) {
@@ -105,9 +111,10 @@ if (!fs.existsSync(opts.differenceDir)) {
   fs.mkdirSync(opts.differenceDir);
 }
 
-var kage = new Jikishin(opts);
-kage.whenDone = function whenDone(metrics) {
+opts.whenDone = function whenDone(metrics) {
   console.log('Comparison finished. Result metrics:');
   console.log(util.inspect(metrics, {depth: null}));
 };
-kage.createDiffImages();
+
+var kage = new Jikishin(opts);
+kage.exec();

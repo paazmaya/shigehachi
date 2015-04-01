@@ -1,7 +1,9 @@
 /**
  * Shigehachi
  *
- * Diff generation for two sets of images
+ * Compare two sets of images and generate difference images
+ *
+ * A lot has been inspired by https://github.com/stefanjudis/grunt-photobox/
  *
  * Copyright (c) Juga Paazmaya
  * Licensed under the MIT license
@@ -13,7 +15,7 @@ var fs = require('fs'),
   path = require('path'),
   execFile = require('child_process').execFile;
 
-
+// Regular expressions for catching numbers from GM output
 var regulars = {
   metric: /^Image Difference\s+\((\w+)\):\s*?/gmi,
   normalised: /^\s+(\w+):\s+([\d\.]+)/gm
@@ -24,24 +26,7 @@ var regulars = {
  * @returns {void}
  */
 var Jikishin = function Jikishin(options) {
-  options = options || {};
-
-  // Defaults
-  this.color = options.color || '#85144b';
-  this.metric = options.metric || 'pae';
-  this.style = options.style || 'tint';
-  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : true;
-
-  // Directories
-  this.prevDir = options.previousDir || 'previous';
-  this.currDir = options.currentDir || 'current';
-  this.diffDir = options.differenceDir || 'difference';
-
-  // Callback when all commands have been iterated, called with metrics
-  this.whenDone = options.whenDone || null;
-
-  // List of image files in "previous directory"
-  this.readPrevDir(this.prevDir);
+  this._readOptions(options);
 
   // List of commands as arrays ['binary', array arguments]
   this.commandList = [];
@@ -53,45 +38,99 @@ var Jikishin = function Jikishin(options) {
   this.currentIndex = 0;
 };
 
-Jikishin.prototype.readPrevDir = function readPrevDir(dirpath) {
+/**
+ * Read the options and set defaults when not defined
+ * @param {object} options Options passed to the constructor
+ * @returns {void}
+ */
+Jikishin.prototype._readOptions = function readOptions(options) {
+  options = options || {};
+
+  // Difference calculation algorithm
+  this.metric = options.metric || 'pae';
+  this.style = options.style || 'tint';
+  this.color = options.color || '#85144b';
+
+  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : true;
+  this.suffixes = typeof options.suffixes === 'string' ? options.suffixes.split(',') : ['png'];
+
+  // Directories
+  this.prevDir = options.previousDir || 'previous';
+  this.currDir = options.currentDir || 'current';
+  this.diffDir = options.differenceDir || 'difference';
+
+  // Callback when all commands have been iterated, called with metrics
+  this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;
+};
+
+/**
+ * Filter the previous directory for image files
+ * @param {string} dirpath Directory which will be searched for image files
+ * @returns {void}
+ */
+Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
   var dir = fs.readdirSync(dirpath);
+  var suffix = new RegExp('\.(' + this.suffixes.join('|') + ')$');
   this.capturedPrev = dir.filter(function filterDir(item) {
-    return item.match(/\.png$/);
+    return item.match(suffix);
   });
 };
 
-Jikishin.prototype.runner = function runner(bin, args) {
+/**
+ * Execute a command
+ * @param {string} bin Binary that is supposed to be executed
+ * @param {array} args List of arguments passed to the binary command
+ * @returns {void}
+ */
+Jikishin.prototype._runner = function runner(bin, args) {
   console.log('runner: ' + bin + ' ' + args.join(' '));
   var self = this;
   execFile(bin, args, null, function childCallback (err, stdout) {
     if (err) {
       console.log(err);
     }
-    else {
-
-      var currPath = '';
-
-      var metric = regulars.metric.exec(stdout);
-      if (metric) {
-        var norm = {};
-        var normalised;
-        while ((normalised = regulars.normalised.exec(stdout)) !== null) {
-          if (normalised.index === regulars.normalised.lastIndex) {
-            regulars.normalised.lastIndex++;
-          }
-          norm[normalised[1].toLowerCase()] = normalised[2];
-        }
-        self.results[currPath] = {
-          metric: metric[1],
-          normalised: norm
-        };
-      }
+    else if (bin === 'gm') {
+      var currFile = args[args.length - 1];
+      self._successRan(stdout, currFile);
     }
-    self.nextRun();
+    self._nextRun();
   });
 };
 
-Jikishin.prototype.nextRun = function nextRun() {
+/**
+ * Called when the given command has not failed and parses the output
+ * @param {string} output Output from a GM command
+ * @param {string} currFile Path to the current image file
+ * @returns {void}
+ */
+Jikishin.prototype._successRan = function successRan(output, currFile) {
+
+  var self = this;
+
+  var metric = regulars.metric.exec(output);
+  if (metric) {
+    var norm = {};
+    var normalised;
+
+    while ((normalised = regulars.normalised.exec(output)) !== null) {
+      if (normalised.index === regulars.normalised.lastIndex) {
+        regulars.normalised.lastIndex++;
+      }
+      norm[normalised[1].toLowerCase()] = normalised[2];
+    }
+
+    self.results[currFile] = {
+      metric: metric[1],
+      normalised: norm
+    };
+  }
+};
+
+/**
+ * Iterates to the next command, if such exists in the command list
+ * @returns {void}
+ */
+Jikishin.prototype._nextRun = function nextRun() {
   if (this.currentIndex === this.commandList.length) {
     if (typeof this.whenDone === 'function') {
       this.whenDone.call(this, [this.results]);
@@ -99,7 +138,7 @@ Jikishin.prototype.nextRun = function nextRun() {
     return;
   }
   var command = this.commandList[this.currentIndex++];
-  this.runner(command[0], command[1]);
+  this._runner(command[0], command[1]);
 };
 
 /**
@@ -112,7 +151,7 @@ Jikishin.prototype.nextRun = function nextRun() {
  * @returns {void}
  * @see http://www.graphicsmagick.org/compare.html
  */
-Jikishin.prototype.createCompareCommand = function createCompareCommand(diffPicture, prevPicture, currPicture) {
+Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPicture, prevPicture, currPicture) {
   var compareArgs = [
     'compare',
     '-metric',
@@ -138,8 +177,8 @@ Jikishin.prototype.createCompareCommand = function createCompareCommand(diffPict
  * @returns {void}
  * @see http://www.imagemagick.org/script/composite.php
  */
-Jikishin.prototype.createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
-  var compositeFile = diffPicture.replace('-difference.png', '-composite.png');
+Jikishin.prototype._createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
+  var compositeFile = diffPicture.replace('.png', '-composite.png');
 
   var compositeArgs = [
     prevPicture,
@@ -159,8 +198,8 @@ Jikishin.prototype.createCompositeCommand = function createCompositeCommand(diff
  * @returns {void}
  * @see http://www.imagemagick.org/script/convert.php
  */
-Jikishin.prototype.createNegateCommand = function createNegateCommand(diffPicture) {
-  var negateFile = diffPicture.replace('-difference.png', '-negate.png');
+Jikishin.prototype._createNegateCommand = function createNegateCommand(diffPicture) {
+  var negateFile = diffPicture.replace('.png', '-negate.png');
 
   var convertArgs = [
     '-negate',
@@ -172,33 +211,32 @@ Jikishin.prototype.createNegateCommand = function createNegateCommand(diffPictur
 
 /**
  * Actual function to create the diff images
- * Originating from 2014-01-31
- * https://github.com/stefanjudis/grunt-photobox/blob/master/tasks/lib/photobox.js#L73
  * @returns {void}
  */
-Jikishin.prototype.createDiffImages = function createDiffImages() {
+Jikishin.prototype.exec = function createDiffImages() {
 
   var self = this;
 
-  this.readPrevDir(this.prevDir);
+  // List of image files in "previous directory"
+  this._readPrevDir(this.prevDir);
 
   this.capturedPrev.forEach(function eachPicture(picture) {
 
-    var prevPicture = self.prevDir + '/' + picture; // exists
-    var currPicture = self.currDir + '/' + picture; // maybe exists
-    var diffPicture = self.diffDir + '/' + picture.replace('.png', '-difference.png');
+    var prevPicture = path.join(self.prevDir, picture);
+    var currPicture = path.join(self.currDir, picture);
+    var diffPicture = path.join(self.diffDir, picture);
 
     console.log('started diff for ' + picture);
 
     if (fs.existsSync(prevPicture) && fs.existsSync(currPicture)) {
-      self.createCompareCommand(diffPicture, prevPicture, currPicture);
-      self.createCompositeCommand(diffPicture, prevPicture, currPicture);
-      self.createNegateCommand(diffPicture);
+      self._createCompareCommand(diffPicture, prevPicture, currPicture);
+      self._createCompositeCommand(diffPicture, prevPicture, currPicture);
+      self._createNegateCommand(diffPicture);
     }
   });
 
   // Start running the commands one by one.
-  this.nextRun();
+  this._nextRun();
 };
 
 module.exports = Jikishin;

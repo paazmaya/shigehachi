@@ -1,4 +1,4 @@
-# Shigehachi
+# Shigehachi (繁八)
 
 > Compare two sets of images and generate difference images
 
@@ -12,8 +12,10 @@
 Most likely use case, or the one that "works for me", is comparing
 two sets of screen captures from CasperJS browser testing.
 
-The name for the project is honouring the legacy of Mr Sonobe Shigehachi,
-who was the 16th head master of [Jikishinkageryu Naginatajutsu](http://naginata.fi/en/koryu).
+The name of the project is for honouring the legacy of Mr Sonobe Shigehachi (園部 繁八),
+who was the 16th head master of [Jikishinkageryu Naginatajutsu](http://naginata.fi/en/koryu),
+which is an ancient Japanese martial art, focusing the handling of a long pole like weapon
+called naginata.
 
 ## Getting started
 
@@ -61,6 +63,7 @@ node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp
 -c, --color         Color used in the output images, such as \#b10dc9 or purple
 -m, --metric        Difference calculation Metric
 -s, --style         Style in which the diff image is created
+-S, --suffixes      Image suffixes used for finding previous images. Defaults to 'png'
 ```
 
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
@@ -78,7 +81,7 @@ var Jikishin = require('shigehachi');
 ```
 
 Defined the options, which follow the same convention as the command line options, with the
-exception of being camelcased from the long versions:
+exception of being camelCased from the long versions:
 
 ```js
 var options = {
@@ -86,13 +89,32 @@ var options = {
 };
 ```
 
-Initialise an instance with the above `options` object and call `createDiffImages()` method
+Initialise an instance with the above `options` object and call `exec()` method
 to generate the images:
 
 ```js
 var kage = new Jikishin(options);
-kage.createDiffImages();
+kage.exec();
 ```
+
+In addition to the options used for command line, there is also a callback which gets
+called when the execution has been done. It gets passed one argument, which is the
+collection of metrics.
+
+```js
+var util = require('util');
+
+var opts = {
+  whenDone = function whenDone(metrics) {
+    console.log('Comparison finished. Result metrics:');
+    console.log(util.inspect(metrics, {depth: null}));
+  }
+};
+
+var kage = new Jikishin(opts);
+kage.exec();
+```
+
 
 ## Contributing
 
@@ -106,7 +128,7 @@ Licensed under [the MIT license](./LICENSE).
 
 ## Release history
 
-* v1.0.0 (2015-0x-xx)
+* v1.0.0 (2015-04-xx)
     - Project initiated and script imported from `nanbudo.fi` test script collection
     - Unit tests and code coverage #3
     - Automated tests via Bamboo #2
