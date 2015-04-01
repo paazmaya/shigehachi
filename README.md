@@ -105,7 +105,7 @@ collection of metrics.
 var util = require('util');
 
 var opts = {
-  whenDone = function whenDone(metrics) {
+  whenDone: function (metrics) {
     console.log('Comparison finished. Result metrics:');
     console.log(util.inspect(metrics, {depth: null}));
   }
@@ -113,6 +113,20 @@ var opts = {
 
 var kage = new Jikishin(opts);
 kage.exec();
+```
+
+The metrics output could look something similar to:
+
+```
+Comparison finished. Result metrics:
+[ { 'tests/fixtures/curr/postcss.png':
+     { metric: 'PeakAbsoluteError',
+       normalised:
+        { red: '0.1411764706',
+          green: '0.7882352941',
+          blue: '0.7960784314',
+          opacity: '1.0000000000',
+          total: '1.0000000000' } } } ]
 ```
 
 ## Contributing

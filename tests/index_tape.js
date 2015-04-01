@@ -3,17 +3,14 @@
  *
  * Compare two sets of images and generate difference images
  *
- * A lot has been inspired by https://github.com/stefanjudis/grunt-photobox/
- *
  * Copyright (c) Juga Paazmaya
  * Licensed under the MIT license
  */
 
 'use strict';
 
-var tape = require('tape');
-
-var Jikishin = require('../index');
+var tape = require('tape'),
+  Jikishin = require('../index');
 
 tape('default options gets set', function (test) {
   test.plan(9);

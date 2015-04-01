@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Shigehachi
  *
@@ -91,12 +93,12 @@ if (opts.version) {
 }
 
 if (!fs.existsSync(opts.previousDir)) {
-  console.log('Sorry but the previously created image directory should exist, which was given as a first parameter');
+  console.log('Sorry but the previously created image directory should exist');
   process.exit();
 }
 
 if (!fs.existsSync(opts.currentDir)) {
-  console.log('Sorry but the currently created image directory should exist, which was given as a second parameter');
+  console.log('Sorry but the currently created image directory should exist');
   process.exit();
 }
 
