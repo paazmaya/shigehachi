@@ -9,24 +9,28 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb)
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
 
-Most likely use case, or the one that "works for me", is comparing
-two sets of screen captures from CasperJS browser testing.
+This tool reads a folder, searching for images and then tries to find matching ones
+from another folder. These pairs are compared and an image is created to a third folder,
+which visualises the differences of the first two.
 
 The name of the project is for honouring the legacy of Mr Sonobe Shigehachi (園部 繁八),
-who was the 16th head master of [Jikishinkageryu Naginatajutsu](http://naginata.fi/en/koryu),
+who was the 16th head master of
+[Jikishinkageryu Naginatajutsu (直心影流薙刀術)](http://naginata.fi/en/koryu),
 which is an ancient Japanese martial art, focusing the handling of a long pole like weapon
 called naginata.
 
 ## Getting started
 
-Make sure you have GraphicMagick installed and available in the `PATH`, before
-using `shigehachi`. This can be tested by running for example:
+Make sure you have [GraphicMagick](http://www.graphicsmagick.org/) installed and available
+in the `PATH`, before trying to use `shigehachi`. This can be tested by running for example
+the following command which should provide plenty of information when successful:
 
 ```sh
 gm version
 ```
 
-Install the command line utility globally with npm, might need `sudo`:
+Install the `sakugawa` command line utility globally with [npm](https://www.npmjs.com/).
+Elevated privileges might be needed via `sudo`, depending:
 
 ```sh
 npm install --global shigehachi
@@ -52,6 +56,8 @@ node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp
 ```
 
 ## Command line options
+
+The output of `shigehachi -h` pretty much covers all the options:
 
 ```sh
 -h, --help          Help and usage instructions
@@ -99,15 +105,12 @@ kage.exec();
 
 In addition to the options used for command line, there is also a callback which gets
 called when the execution has been done. It gets passed one argument, which is the
-collection of metrics.
+collection object of metrics, indexed by the current image file path.
 
 ```js
-var util = require('util');
-
 var opts = {
   whenDone: function (metrics) {
-    console.log('Comparison finished. Result metrics:');
-    console.log(util.inspect(metrics, {depth: null}));
+    console.log(JSON.stringify(metrics, null, '  '));
   }
 };
 
@@ -117,16 +120,19 @@ kage.exec();
 
 The metrics output could look something similar to:
 
-```
-Comparison finished. Result metrics:
-[ { 'tests/fixtures/curr/postcss.png':
-     { metric: 'PeakAbsoluteError',
-       normalised:
-        { red: '0.1411764706',
-          green: '0.7882352941',
-          blue: '0.7960784314',
-          opacity: '1.0000000000',
-          total: '1.0000000000' } } } ]
+```json
+{
+  "tests/fixtures/curr/postcss.png": {
+    "metric": "PeakAbsoluteError",
+    "normalised": {
+      "red": "0.1411764706",
+      "green": "0.7882352941",
+      "blue": "0.7960784314",
+      "opacity": "1.0000000000",
+      "total": "1.0000000000"
+    }
+  }
+}
 ```
 
 ## Contributing
@@ -148,7 +154,7 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
     - Project initiated and script imported from `nanbudo.fi` test script collection
     - Dependency status via Versioneye #3
     - Unit tests with tape and code coverage with covert #4
-    - Automated tests via Bamboo #2
+    - Automated tests via Semaphore #2
 
 ## License
 

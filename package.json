@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint -c .eslintrc index.js bin/shigehachi.js",
     "test": "node tests/index_tape.js && node tests/cli_tape.js",
-    "coverage": "covert tests/*tape.js"
+    "coverage": "covert tests/index_tape.js"
   },
   "repository": {
     "type": "git",

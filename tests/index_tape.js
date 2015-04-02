@@ -1,5 +1,6 @@
 /**
  * Shigehachi
+ * https://github.com/paazmaya/shigehachi
  *
  * Compare two sets of images and generate difference images
  *
@@ -113,11 +114,24 @@ tape('no files found when no matching suffixes', function (test) {
 
   var instance = new Jikishin({
 		previousDir: 'tests/fixtures/prev/',
-		suffixes: 'jpg,gif'
+		suffixes: 'tiff,bmp'
   });
 	instance._readPrevDir(instance.prevDir);
 
   test.equal(instance.capturedPrev.length, 0, 'Previous images list is empty');
+});
+
+tape('image files found when matching suffixes', function (test) {
+  test.plan(1);
+
+  var instance = new Jikishin({
+    previousDir: 'tests/fixtures/prev/',
+    suffixes: 'png,gif',
+    verbose: true
+  });
+  instance._readPrevDir(instance.prevDir);
+
+  test.equal(instance.capturedPrev.length, 1, 'Previous images list contains files');
 });
 
 tape('runner should fail when command not found', function (test) {
@@ -127,4 +141,317 @@ tape('runner should fail when command not found', function (test) {
 
   test.throws(instance._runner('not', ['found']));
 });
+
+tape('runner should call _successRan when command is using gm', function (test) {
+  test.plan(2);
+
+  var instance = new Jikishin({
+    verbose: true
+  });
+
+  instance._successRan = function (stdout, currFile) {
+    test.equal(currFile, 'a-file-name', 'Callback called with the given filename');
+  };
+  instance._nextRun = function () {
+    test.pass('Next iteration got called');
+  };
+  instance._runner('gm', ['version', 'a-file-name']);
+});
+
+tape('gm output gets parsed meaningfully with mae metric', function (test) {
+  test.plan(5);
+
+  var output = [
+    'Image Difference (MeanAbsoluteError):',
+    '           Normalized    Absolute',
+    '          ============  ==========',
+    '     Red: 0.0135227820        3.4',
+    '   Green: 0.0771904810       19.7',
+    '    Blue: 0.0779529725       19.9',
+    ' Opacity: 0.0982667803       25.1',
+    '   Total: 0.0667332540       17.0'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin({
+    metric: 'mae'
+  });
+  instance._successRan(output, filepath);
+
+  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
+
+  var res = instance.results[filepath];
+
+  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.equal(res.metric, 'MeanAbsoluteError', 'Metric recorded correctly');
+
+  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
+  test.equal(res.normalised.total, '0.0667332540', 'Normalised value for total recorded correctly');
+});
+
+tape('gm output gets parsed meaningfully with mse metric', function (test) {
+  test.plan(5);
+
+  var output = [
+    'Image Difference (MeanSquaredError):',
+    '           Normalized    Absolute',
+    '          ============  ==========',
+    '     Red: 0.0016826921        0.4',
+    '   Green: 0.0602237442       15.4',
+    '    Blue: 0.0614397708       15.7',
+    ' Opacity: 0.0982667803       25.1',
+    '   Total: 0.0554032469       14.1'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin({
+    metric: 'mse'
+  });
+  instance._successRan(output, filepath);
+
+  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
+
+  var res = instance.results[filepath];
+
+  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.equal(res.metric, 'MeanSquaredError', 'Metric recorded correctly');
+
+  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
+  test.equal(res.normalised.total, '0.0554032469', 'Normalised value for total recorded correctly');
+});
+
+tape('gm output gets parsed meaningfully with pae metric', function (test) {
+  test.plan(5);
+
+  var output = [
+    'Image Difference (PeakAbsoluteError):',
+    '           Normalized    Absolute ',
+    '          ============  ==========',
+    '     Red: 0.1411764706       36.0 ',
+    '   Green: 0.7882352941      201.0 ',
+    '    Blue: 0.7960784314      203.0 ',
+    ' Opacity: 1.0000000000      255.0 ',
+    '   Total: 1.0000000000      255.0 '
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin({
+    metric: 'pae'
+  });
+  instance._successRan(output, filepath);
+
+  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
+
+  var res = instance.results[filepath];
+
+  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.equal(res.metric, 'PeakAbsoluteError', 'Metric recorded correctly');
+
+  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
+  test.equal(res.normalised.total, '1.0000000000', 'Normalised value for total recorded correctly');
+});
+
+tape('gm output gets parsed meaningfully with psnr metric', function (test) {
+  test.plan(5);
+
+  var output = [
+    'Image Difference (PeakSignalToNoiseRatio):',
+    '           PSNR',
+    '          ======',
+    '     Red: 27.74',
+    '   Green: 12.20',
+    '    Blue: 12.12',
+    ' Opacity: 10.08',
+    '   Total: 12.56'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin({
+    metric: 'psnr'
+  });
+  instance._successRan(output, filepath);
+
+  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
+
+  var res = instance.results[filepath];
+
+  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.equal(res.metric, 'PeakSignalToNoiseRatio', 'Metric recorded correctly');
+
+  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
+  test.equal(res.normalised.total, '12.56', 'Normalised value for total recorded correctly');
+});
+
+tape('gm output gets parsed meaningfully with rmse metric', function (test) {
+  test.plan(5);
+
+  var output = [
+    'Image Difference (RootMeanSquaredError):',
+    '           Normalized    Absolute',
+    '          ============  ==========',
+    '     Red: 0.0410206303       10.5',
+    '   Green: 0.2454052653       62.6',
+    '    Blue: 0.2478704718       63.2',
+    ' Opacity: 0.3134753265       79.9',
+    '   Total: 0.2353789431       60.0'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin({
+    metric: 'rmse'
+  });
+  instance._successRan(output, filepath);
+
+  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
+
+  var res = instance.results[filepath];
+
+  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
+
+  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
+  test.equal(res.normalised.total, '0.2353789431', 'Normalised value for total recorded correctly');
+});
+
+tape('next runner calls runner', function (test) {
+  test.plan(2);
+
+  var instance = new Jikishin({
+    verbose: true
+  });
+  instance.commandList = [['gm', ['version']]];
+
+  instance._runner = function (bin, args) {
+    test.equal(bin, 'gm', 'Runner got called with gm');
+    test.deepEqual(args, ['version'], 'Runner got called with expected arguments');
+  };
+
+  instance._nextRun();
+});
+
+tape('next runner calls callback when no more command queued', function (test) {
+  test.plan(1);
+
+  var instance = new Jikishin({
+    verbose: true,
+    whenDone: function (res) {
+      test.deepEqual(res, {
+        filepath: 'results'
+      }, 'Callback got called with expected arguments');
+    }
+  });
+  instance.results = {
+    filepath: 'results'
+  };
+
+  instance._nextRun();
+});
+
+tape('create compare command', function (test) {
+  test.plan(2);
+
+  var diff = 'difference.png';
+  var prev = 'previous.png';
+  var curr = 'current.png';
+  var instance = new Jikishin({
+    metric: 'psnr',
+    style: 'assign',
+    color: 'purple'
+  });
+  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
+  instance._createCompareCommand(diff, prev, curr);
+
+  test.deepEqual(instance.commandList, [['gm', [
+    'compare',
+    '-metric',
+    'psnr',
+    '-highlight-color',
+    '"purple"',
+    '-highlight-style',
+    'assign',
+    '-file',
+    diff,
+    prev,
+    curr
+  ]]], 'Command list contains one item with correct arguments');
+});
+
+tape('create composite command', function (test) {
+  test.plan(2);
+
+  var diff = 'difference.png';
+  var prev = 'previous.png';
+  var curr = 'current.png';
+  var instance = new Jikishin({
+    metric: 'psnr',
+    style: 'assign',
+    color: 'purple'
+  });
+  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
+  instance._createCompositeCommand(diff, prev, curr);
+
+  test.deepEqual(instance.commandList, [['composite', [
+    prev,
+    curr,
+    '-compose',
+    'difference',
+    'difference-composite.png'
+  ]]], 'Command list contains one item with correct arguments');
+});
+
+tape('create negate command', function (test) {
+  test.plan(2);
+
+  var diff = 'difference.png';
+  var instance = new Jikishin({
+    metric: 'psnr',
+    style: 'assign',
+    color: 'purple'
+  });
+  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
+  instance._createNegateCommand(diff);
+
+  test.deepEqual(instance.commandList, [['convert', [
+    '-negate',
+    diff,
+    'difference-negate.png'
+  ]]], 'Command list contains one item with correct arguments');
+});
+
+tape('exec should not create commands when no files, but call next runner', function (test) {
+  test.plan(2);
+
+  var instance = new Jikishin({
+    verbose: true
+  });
+
+  instance._nextRun = function () {
+    test.pass('Next iteration got called');
+  };
+  instance.exec();
+
+  test.equal(instance.commandList.length, 0, 'Command list is empty');
+});
+
+tape('exec creates commands and calls next runner', function (test) {
+  test.plan(2);
+
+  var instance = new Jikishin({
+    verbose: true,
+    previousDir: 'tests/fixtures/prev',
+    currentDir: 'tests/fixtures/curr'
+  });
+
+  instance._nextRun = function () {
+    test.pass('Next iteration got called');
+  };
+  instance.exec();
+
+  test.equal(instance.commandList.length, 3, 'Command list contains items');
+});
+
+
+
+
+
 

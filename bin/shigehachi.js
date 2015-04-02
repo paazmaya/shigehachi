@@ -2,6 +2,7 @@
 
 /**
  * Shigehachi
+ * https://github.com/paazmaya/shigehachi
  *
  * Compare two sets of images and generate difference images
  *
@@ -11,8 +12,7 @@
 
 'use strict';
 
-var fs = require('fs'),
-  util = require('util');
+var fs = require('fs');
 var nomnom = require('nomnom');
 var Jikishin = require('../index');
 
@@ -108,7 +108,7 @@ opts.whenDone = function whenDone(metrics) {
   if (opts.verbose) {
     console.log('Comparison finished. Result metrics:');
   }
-  console.log(util.inspect(metrics, {depth: null}));
+  console.log(JSON.stringify(metrics, null, '  '));
 };
 
 var kage = new Jikishin(opts);

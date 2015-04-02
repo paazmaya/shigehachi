@@ -1,5 +1,6 @@
 /**
  * Shigehachi
+ * https://github.com/paazmaya/shigehachi
  *
  * Compare two sets of images and generate difference images
  *
@@ -15,12 +16,6 @@ var fs = require('fs'),
   path = require('path'),
   execFile = require('child_process').execFile;
 
-// Regular expressions for catching numbers from GM output
-var regulars = {
-  metric: /^Image Difference\s+\((\w+)\):\s*?/gmi,
-  normalised: /^\s+(\w+):\s+([\d\.]+)/gm
-};
-
 /**
  * @param {object} options Configuration options
  * @returns {void}
@@ -30,6 +25,9 @@ var Jikishin = function Jikishin(options) {
 
   // List of commands as arrays ['binary', array arguments]
   this.commandList = [];
+
+  // List of files found from previous image directory
+  this.capturedPrev = [];
 
   // Metrics storage, indexed by the current image path
   this.results = {};
@@ -97,6 +95,13 @@ Jikishin.prototype._readOptions = function readOptions(options) {
  * @returns {void}
  */
 Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
+  if (!fs.existsSync(dirpath)) {
+    if (this.verbose) {
+      console.error('Previous image directory did not exists');
+    }
+    return;
+  }
+
   var dir = fs.readdirSync(dirpath);
   var suffix = new RegExp('\.(' + this.suffixes.join('|') + ')$');
   this.capturedPrev = dir.filter(function filterDir(item) {
@@ -139,21 +144,25 @@ Jikishin.prototype._runner = function runner(bin, args) {
  */
 Jikishin.prototype._successRan = function successRan(output, currFile) {
 
-  var self = this;
+  // Regular expressions for catching numbers from GM output
+  var expr = {
+    metric: /^Image Difference\s+\((\w+)\):\s*?/gmi,
+    normalised: /^\s+(\w+):\s+([\d\.]+)/gm
+  };
 
-  var metric = regulars.metric.exec(output);
+  var metric = expr.metric.exec(output);
   if (metric) {
     var norm = {};
     var normalised;
 
-    while ((normalised = regulars.normalised.exec(output)) !== null) {
-      if (normalised.index === regulars.normalised.lastIndex) {
-        regulars.normalised.lastIndex++;
+    while ((normalised = expr.normalised.exec(output)) !== null) {
+      if (normalised.index === expr.normalised.lastIndex) {
+        expr.normalised.lastIndex++;
       }
       norm[normalised[1].toLowerCase()] = normalised[2];
     }
 
-    self.results[currFile] = {
+    this.results[currFile] = {
       metric: metric[1],
       normalised: norm
     };
@@ -169,7 +178,7 @@ Jikishin.prototype._nextRun = function nextRun() {
 
   if (this.currentIndex === len) {
     if (typeof this.whenDone === 'function') {
-      this.whenDone.call(this, [this.results]);
+      this.whenDone.call(this, this.results);
     }
     return;
   }

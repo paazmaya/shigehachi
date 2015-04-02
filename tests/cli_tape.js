@@ -1,5 +1,6 @@
 /**
  * Shigehachi
+ * https://github.com/paazmaya/shigehachi
  *
  * Compare two sets of images and generate difference images
  *
@@ -85,7 +86,8 @@ tape('cli should create difference directory when it does not exist', function (
   test.plan(1);
 
   execFile('node', [cli, '-P', 'tests/expected', '-C', 'tests/fixtures', '-O', 'tmp/output-dir-' + Math.round(Math.random() * 255), '-S', 'tiff'], null, function (err, stdout) {
-    test.equals(stdout.trim(), 'Output directory for differentiation images did not exist, thus creating it', 'Creation message');
+    var row = stdout.split('\n')[0];
+    test.equals(row.trim(), 'Output directory for differentiation images did not exist, thus creating it', 'Creation message');
   });
 
 });
