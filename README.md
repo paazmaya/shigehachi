@@ -52,7 +52,7 @@ shigehachi -P images-previous -C images-current -O images-diff
 The tests of this project are using the following command:
 
 ```sh
-node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp
+node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp -S png,jpg,gif
 ```
 
 ## Command line options
@@ -150,7 +150,7 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
-* v1.0.0 (2015-04-xx)
+* v1.0.0 (2015-04-02)
     - Project initiated and script imported from `nanbudo.fi` test script collection
     - Dependency status via Versioneye #3
     - Unit tests with tape and code coverage with covert #4

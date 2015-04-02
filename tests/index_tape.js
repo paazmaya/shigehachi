@@ -131,7 +131,7 @@ tape('image files found when matching suffixes', function (test) {
   });
   instance._readPrevDir(instance.prevDir);
 
-  test.equal(instance.capturedPrev.length, 1, 'Previous images list contains files');
+  test.equal(instance.capturedPrev.length, 3, 'Previous images list contains files');
 });
 
 tape('runner should fail when command not found', function (test) {
@@ -313,6 +313,48 @@ tape('gm output gets parsed meaningfully with rmse metric', function (test) {
   test.equal(res.normalised.total, '0.2353789431', 'Normalised value for total recorded correctly');
 });
 
+tape('gm output with version info', function (test) {
+  test.plan(1);
+
+  var output = [
+    'GraphicsMagick 1.3.21 2015-02-28 Q8 http://www.GraphicsMagick.org/',
+    'Copyright (C) 2002-2014 GraphicsMagick Group.',
+    'Additional copyrights and licenses apply to this software.',
+    'See http://www.GraphicsMagick.org/www/Copyright.html for details.'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin();
+  instance._successRan(output, filepath);
+
+  test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
+});
+
+tape('gm output with messy things', function (test) {
+  test.plan(1);
+
+  var output = [
+    'Image Difference (RootMeanSquaredError):',
+    'GraphicsMagick 1.3.21 2015-02-28 Q8 http://www.GraphicsMagick.org/',
+    '          ============  ==========',
+    '     Red: 0.0410206303       10.5',
+    '    Blue: 0.2478704718       63.2',
+    'Copyright (C) 2002-2014 GraphicsMagick Group.',
+    'Additional copyrights and licenses apply to this software.',
+    '          ======',
+    '   Green: 12.20',
+    'See http://www.GraphicsMagick.org/www/Copyright.html for details.'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin();
+  instance._successRan(output, filepath);
+
+  console.log(JSON.stringify(instance.results, null, '  '));
+
+  test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
+});
+
 tape('next runner calls runner', function (test) {
   test.plan(2);
 
@@ -439,7 +481,8 @@ tape('exec creates commands and calls next runner', function (test) {
   var instance = new Jikishin({
     verbose: true,
     previousDir: 'tests/fixtures/prev',
-    currentDir: 'tests/fixtures/curr'
+    currentDir: 'tests/fixtures/curr',
+    suffixes: 'gif'
   });
 
   instance._nextRun = function () {

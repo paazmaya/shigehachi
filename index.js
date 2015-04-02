@@ -157,15 +157,18 @@ Jikishin.prototype._successRan = function successRan(output, currFile) {
 
     while ((normalised = expr.normalised.exec(output)) !== null) {
       if (normalised.index === expr.normalised.lastIndex) {
-        expr.normalised.lastIndex++;
+        expr.normalised.lastIndex++; // TODO: how to trigger for testing?
       }
       norm[normalised[1].toLowerCase()] = normalised[2];
     }
 
-    this.results[currFile] = {
-      metric: metric[1],
-      normalised: norm
-    };
+    // Since all metric methods output a total value, use it for safeguarding
+    if (norm.hasOwnProperty('total')) {
+      this.results[currFile] = {
+        metric: metric[1],
+        normalised: norm
+      };
+    }
   }
 };
 
