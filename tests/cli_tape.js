@@ -34,3 +34,60 @@ tape('cli should output name and version number when verbose version', function 
   });
 
 });
+
+tape('cli help output', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '--help'], null, function (err, stdout) {
+    var count = (stdout.match(/differentiation/g) || []).length;
+    test.equals(count, 2, 'Word "differentiation" is found several times');
+  });
+
+});
+
+tape('cli does not allow to use wrong metric', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '-m', 'hoplaa'], null, function (err, stdout) {
+    test.ok(stdout.indexOf('psnr,') !== -1, 'Metric options listed');
+  });
+
+});
+
+tape('cli does not allow to use wrong style', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '-s', 'hoplaa'], null, function (err, stdout) {
+    test.ok(stdout.indexOf('threshold,') !== -1, 'Style options listed');
+  });
+
+});
+
+tape('cli should fail when previous directory does not exist', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '-P', 'not-around-here'], null, function (err, stdout) {
+    test.equals(stdout.trim(), 'Sorry but the previously created image directory should exist', 'Error message');
+  });
+
+});
+
+tape('cli should fail when current directory does not exist', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout) {
+    test.equals(stdout.trim(), 'Sorry but the currently created image directory should exist', 'Error message');
+  });
+
+});
+
+tape('cli should create difference directory when it does not exist', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '-P', 'tests/expected', '-C', 'tests/fixtures', '-O', 'tmp/output-dir-' + Math.round(Math.random() * 255), '-S', 'tiff'], null, function (err, stdout) {
+    test.equals(stdout.trim(), 'Output directory for differentiation images did not exist, thus creating it', 'Creation message');
+  });
+
+});
+
+

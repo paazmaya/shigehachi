@@ -38,19 +38,21 @@ var opts = nomnom.script('shigehachi')
       abbr: 'P',
       full: 'previous-dir',
       type: 'string',
-      help: 'Directory in which the resulting differentiation images are stored'
+      default: 'previous',
+      help: 'Directory in which the previous images are stored'
    })
    .option('currentDir', {
       abbr: 'C',
       full: 'current-dir',
       type: 'string',
-      help: 'Directory in which the resulting differentiation images are stored'
+      default: 'current',
+      help: 'Directory in which the current images are stored'
    })
    .option('differenceDir', {
       abbr: 'O',
       full: 'output-dir',
       type: 'string',
-      default: './diff-' + dateString,
+      default: 'diff-' + dateString,
       help: 'Directory in which the resulting differentiation images are stored'
    })
    .option('color', {
@@ -70,13 +72,8 @@ var opts = nomnom.script('shigehachi')
       abbr: 's',
       type: 'string',
       default: 'tint',
-      choices: [
-        'assign',
-        'threshold',
-        'tint',
-        'xor'
-      ],
-      help: 'Style in which the diff image is created'
+      choices: Jikishin.prototype.styleTypes,
+      help: 'Style in which the differentiation image is created'
    })
    .option('suffixes', {
       abbr: 'S',
@@ -103,7 +100,7 @@ if (!fs.existsSync(opts.currentDir)) {
 }
 
 if (!fs.existsSync(opts.differenceDir)) {
-  console.log('Output directory did not exist, thus creating it');
+  console.log('Output directory for differentiation images did not exist, thus creating it');
   fs.mkdirSync(opts.differenceDir);
 }
 

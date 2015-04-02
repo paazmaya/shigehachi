@@ -77,8 +77,8 @@ tape('wrong type of options get ignored', function (test) {
 		whenDone: 'callback me not'
   });
 
-  test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
-  test.equal(instance.style, 'tint', 'Style is tint');
+  test.equal(instance.metric, 'pae', 'Metric is the default');
+  test.equal(instance.style, 'tint', 'Style is the default');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
@@ -95,7 +95,17 @@ tape('metric option must be one of the predefined', function (test) {
 		metric: 'hoplaa'
   });
 
-  test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
+  test.equal(instance.metric, 'pae', 'Metric is the default');
+});
+
+tape('style option must be one of the predefined', function (test) {
+  test.plan(1);
+
+  var instance = new Jikishin({
+    style: 'hoplaa'
+  });
+
+  test.equal(instance.style, 'tint', 'Style is the default');
 });
 
 tape('no files found when no matching suffixes', function (test) {

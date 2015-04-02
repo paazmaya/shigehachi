@@ -39,8 +39,9 @@ var Jikishin = function Jikishin(options) {
 };
 
 /**
- * Accepted metric types
+ * Acceptable metric values
  * @var {array}
+ * @see http://www.graphicsmagick.org/compare.html
  */
 Jikishin.prototype.metricTypes = [
   'mae', // MeanAbsoluteError
@@ -48,6 +49,18 @@ Jikishin.prototype.metricTypes = [
   'pae', // PeakAbsoluteError
   'psnr', // PeakSignalToNoiseRatio
   'rmse' // RootMeanSquaredError
+];
+
+/**
+ * Acceptable style values
+ * @var {array}
+ * @see http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-style
+ */
+Jikishin.prototype.styleTypes = [
+  'assign',
+  'threshold',
+  'tint',
+  'xor'
 ];
 
 /**
@@ -61,7 +74,9 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
     this.metricTypes.indexOf(options.metric) !== -1 ? options.metric : 'pae';
-  this.style = typeof options.style === 'string' ? options.style : 'tint';
+  this.style = typeof options.style === 'string' &&
+    this.styleTypes.indexOf(options.style) !== -1 ? options.style : 'tint';
+  // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
   this.color = typeof options.color === 'string' ? options.color : '#85144b';
 
   this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
