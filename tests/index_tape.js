@@ -14,7 +14,7 @@ var tape = require('tape'),
   Jikishin = require('../index');
 
 tape('default options gets set', function (test) {
-  test.plan(9);
+  test.plan(10);
 
   var instance = new Jikishin();
 
@@ -22,6 +22,7 @@ tape('default options gets set', function (test) {
   test.equal(instance.style, 'tint', 'Style is tint');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
+  test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
@@ -30,12 +31,13 @@ tape('default options gets set', function (test) {
 });
 
 tape('algorithm and directory options gets set', function (test) {
-  test.plan(6);
+  test.plan(7);
 
   var instance = new Jikishin({
 		metric: 'psnr',
 		style: 'xor',
 		color: 'pink',
+    recursive: true,
 		previousDir: '1',
 		currentDir: '2',
 		differenceDir: '3'
@@ -44,6 +46,7 @@ tape('algorithm and directory options gets set', function (test) {
   test.equal(instance.metric, 'psnr', 'Metric becomes PeakSignalToNoiseRatio');
   test.equal(instance.style, 'xor', 'Style is xor');
   test.equal(instance.color, 'pink', 'Color is pink');
+  test.ok(instance.recursive === true, 'Recursive is boolean true');
   test.equal(instance.prevDir, '1', 'Previous directory');
   test.equal(instance.currDir, '2', 'Current directory');
   test.equal(instance.diffDir, '3', 'Difference directory');
@@ -64,12 +67,13 @@ tape('other options gets set', function (test) {
 });
 
 tape('wrong type of options get ignored', function (test) {
-  test.plan(9);
+  test.plan(10);
 
   var instance = new Jikishin({
 		metric: [],
 		style: 20,
 		color: {},
+    recursive: 'yes please',
 		previousDir: 100,
 		currentDir: true,
 		differenceDir: {},
@@ -82,6 +86,7 @@ tape('wrong type of options get ignored', function (test) {
   test.equal(instance.style, 'tint', 'Style is the default');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
+  test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
@@ -491,6 +496,19 @@ tape('exec creates commands and calls next runner', function (test) {
   instance.exec();
 
   test.equal(instance.commandList.length, 3, 'Command list contains items');
+});
+
+tape('filter directories recursively', function (test) {
+  test.plan(1);
+
+  var instance = new Jikishin({
+    suffixes: 'png',
+    recursive: true
+  });
+
+  var images = instance._filterDir('tests/fixtures/curr');
+
+  test.equal(images.length, 2, 'Both png images were found');
 });
 
 

@@ -82,14 +82,4 @@ tape('cli should fail when current directory does not exist', function (test) {
 
 });
 
-tape('cli should create difference directory when it does not exist', function (test) {
-  test.plan(1);
-
-  execFile('node', [cli, '-P', 'tests/expected', '-C', 'tests/fixtures', '-O', 'tmp/output-dir-' + Math.round(Math.random() * 255), '-S', 'tiff'], null, function (err, stdout) {
-    var row = stdout.split('\n')[0];
-    test.equals(row.trim(), 'Output directory for differentiation images did not exist, thus creating it', 'Creation message');
-  });
-
-});
-
 

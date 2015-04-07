@@ -12,7 +12,7 @@
 
 'use strict';
 
-var fs = require('fs'),
+var fs = require('fs-extra'),
   path = require('path'),
   execFile = require('child_process').execFile;
 
@@ -34,6 +34,9 @@ var Jikishin = function Jikishin(options) {
 
   // Currently iterating index of the commandList
   this.currentIndex = 0;
+
+  // Regular expression for matching image files
+  this.suffix = new RegExp('\.(' + this.suffixes.join('|') + ')$');
 };
 
 /**
@@ -78,6 +81,7 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   this.color = typeof options.color === 'string' ? options.color : '#85144b';
 
   this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
+  this.recursive = typeof options.recursive === 'boolean' ? options.recursive : false;
   this.suffixes = typeof options.suffixes === 'string' ? options.suffixes.split(',') : ['png'];
 
   // Directories
@@ -87,6 +91,38 @@ Jikishin.prototype._readOptions = function readOptions(options) {
 
   // Callback when all commands have been iterated, called with metrics
   this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;
+};
+
+/**
+ * Find all image files in the given directory path, possible
+ * using recursion if options wish so to happen.
+ * @param {string} basedir Directory which will be searched for image files
+ * @param {string} parent Possible sub directory path under dirpath
+ * @returns {array} List of image file paths relative to the initial dirpath
+ */
+Jikishin.prototype._filterDir = function filterDir(basedir, parent) {
+  parent = parent || '';
+  var dirpath = path.join(basedir, parent);
+  var dir = fs.readdirSync(dirpath);
+  var self = this;
+
+  var images = [];
+
+  dir.forEach(function eachDir(item) {
+    var filepath = path.join(dirpath, item); // full path
+    var itempath = path.join(parent, item); // relative path to basedir
+    if (self.recursive) {
+      var stat = fs.statSync(filepath);
+      if (stat.isDirectory()) {
+        images = images.concat(filterDir.call(self, basedir, itempath));
+      }
+    }
+    if (item.match(self.suffix)) {
+      images.push(itempath);
+    }
+  });
+
+  return images;
 };
 
 /**
@@ -102,11 +138,7 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
     return;
   }
 
-  var dir = fs.readdirSync(dirpath);
-  var suffix = new RegExp('\.(' + this.suffixes.join('|') + ')$');
-  this.capturedPrev = dir.filter(function filterDir(item) {
-    return item.match(suffix);
-  });
+  this.capturedPrev = this._filterDir(dirpath);
 
   if (this.verbose) {
     console.log('Total of ' + this.capturedPrev.length + ' image files found');
@@ -274,6 +306,13 @@ Jikishin.prototype.exec = function exec() {
   // List of image files in "previous directory"
   this._readPrevDir(this.prevDir);
 
+  if (!fs.existsSync(this.diffDir)) {
+    if (this.verbose) {
+      console.log('Output directory for differentiation images did not exist, thus creating it');
+    }
+    fs.mkdirpSync(this.diffDir);
+  }
+
   this.capturedPrev.forEach(function eachPicture(picture) {
 
     var prevPicture = path.join(self.prevDir, picture);
@@ -285,6 +324,12 @@ Jikishin.prototype.exec = function exec() {
     }
 
     if (fs.existsSync(prevPicture) && fs.existsSync(currPicture)) {
+      // Make sure the directory structure is created
+      var dirname = path.dirname(diffPicture);
+      if (!fs.existsSync(dirname)) {
+        fs.mkdirpSync(dirname);
+      }
+
       self._createCompareCommand(diffPicture, prevPicture, currPicture);
       self._createCompositeCommand(diffPicture, prevPicture, currPicture);
       self._createNegateCommand(diffPicture);

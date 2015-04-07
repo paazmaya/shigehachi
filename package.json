@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": {
@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
+    "fs-extra": "~0.18",
     "nomnom": "~1.8"
   },
   "devDependencies": {

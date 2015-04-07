@@ -81,6 +81,11 @@ var opts = nomnom.script('shigehachi')
       default: 'png',
       help: 'Image suffixes used for finding previous images, separated by comma'
    })
+   .option('recursive', {
+      abbr: 'r',
+      flag: true,
+      help: 'Recursive search of images in the previous and current directories'
+   })
    .parse();
 
 if (opts.version) {
@@ -97,11 +102,6 @@ if (!fs.existsSync(opts.previousDir)) {
 if (!fs.existsSync(opts.currentDir)) {
   console.log('Sorry but the currently created image directory should exist');
   process.exit();
-}
-
-if (!fs.existsSync(opts.differenceDir)) {
-  console.log('Output directory for differentiation images did not exist, thus creating it');
-  fs.mkdirSync(opts.differenceDir);
 }
 
 opts.whenDone = function whenDone(metrics) {

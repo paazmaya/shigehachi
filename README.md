@@ -70,6 +70,7 @@ The output of `shigehachi -h` pretty much covers all the options:
 -m, --metric        Difference calculation Metric
 -s, --style         Style in which the diff image is created
 -S, --suffixes      Image suffixes used for finding previous images. Defaults to 'png'
+-r, --recursive     Shall the previous and current directories be recursively searched and matched
 ```
 
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
@@ -150,7 +151,10 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
-* v1.0.0 (2015-04-02)
+* `v1.1.0` (2015-04-07)
+    - Added the ability to filter directories recursively
+    - Make sure all target directories exist
+* `v1.0.0` (2015-04-02)
     - Project initiated and script imported from `nanbudo.fi` test script collection
     - Dependency status via Versioneye #3
     - Unit tests with tape and code coverage with covert #4
