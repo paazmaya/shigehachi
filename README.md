@@ -69,7 +69,7 @@ The output of `shigehachi -h` pretty much covers all the options:
 -c, --color         Color used in the output images, such as \#b10dc9 or purple
 -m, --metric        Difference calculation Metric
 -s, --style         Style in which the diff image is created
--S, --suffixes      Image suffixes used for finding previous images. Defaults to 'png'
+-M, --match         Regular expression for matching files. Default '\\.png$'
 -r, --recursive     Shall the previous and current directories be recursively searched and matched
 ```
 
@@ -80,6 +80,12 @@ of the application in addition to the version number.
 
 Best example of the usage inside another application is inside the script that is used
 for the command line interface, `bin/shigehachi.js`.
+
+Installation with [npm](https://www.npmjs.com/):
+
+```sh
+npm install --save shigehachi
+```
 
 First include this module in your script:
 
@@ -136,6 +142,21 @@ The metrics output could look something similar to:
 }
 ```
 
+### File matching
+
+Please note that the command line option and the module configuration expects the `match`
+to be a string which is passed to `new RegExp()` constructor.
+
+By default all PNG files are taken in use, with `/\.png$/`, but the reason for having
+the option as a regular expression, is to have much more flexibility in which file names
+are filtered. Please note that while escaping characters in a string, the backward slash
+needs to be escaped as well.
+
+The current implementation does not allow to set any flags for the regular expression,
+but the functionality can be added with a suitable pull request.
+
+[More about JavaScript regular expressions.](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions)
+
 ## Contributing
 
 [Please refer to a GitHub blog post on how to create somewhat perfect pull request.](https://github.com/blog/1943-how-to-write-the-perfect-pull-request "How to write the perfect pull request")
@@ -151,6 +172,9 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v2.0.0` (2015-04-08)
+    - Ability to filter files with regular expression matching
+    - Removed suffix option, in favour of matching with a regular expression
 * `v1.1.0` (2015-04-07)
     - Added the ability to filter directories recursively
     - Make sure all target directories exist

@@ -75,11 +75,11 @@ var opts = nomnom.script('shigehachi')
       choices: Jikishin.prototype.styleTypes,
       help: 'Style in which the differentiation image is created'
    })
-   .option('suffixes', {
-      abbr: 'S',
+   .option('match', {
+      abbr: 'M',
       type: 'string',
-      default: 'png',
-      help: 'Image suffixes used for finding previous images, separated by comma'
+      default: '\\.png$',
+      help: 'Regular expression for matching and filtering image files'
    })
    .option('recursive', {
       abbr: 'r',

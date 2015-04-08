@@ -23,7 +23,7 @@ tape('default options gets set', function (test) {
   test.equal(instance.color, '#85144b', 'Color is something in hex');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
-  test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
+  test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
   test.equal(instance.diffDir, 'difference', 'Difference directory');
@@ -53,16 +53,17 @@ tape('algorithm and directory options gets set', function (test) {
 });
 
 tape('other options gets set', function (test) {
-  test.plan(3);
+  test.plan(4);
 
   var instance = new Jikishin({
 		verbose: true,
-		suffixes: 'png,jpg,gif',
+		match: '\\.(png|jpg|gif)$',
 		whenDone: function () {}
   });
 
   test.ok(instance.verbose === true, 'Verbosity is boolean true');
-  test.deepEqual(instance.suffixes, ['png', 'jpg', 'gif'], 'Suffixes are an array of three items');
+  test.ok(instance.match instanceof RegExp, 'Match is an Regular Expression');
+  test.equal(instance.match.source, '\\.(png|jpg|gif)$', 'Matching regular expression');
   test.equal(typeof instance.whenDone, 'function', 'Callback is a function');
 });
 
@@ -78,7 +79,7 @@ tape('wrong type of options get ignored', function (test) {
 		currentDir: true,
 		differenceDir: {},
 		verbose: 'yes',
-		suffixes: false,
+		match: false,
 		whenDone: 'callback me not'
   });
 
@@ -87,7 +88,7 @@ tape('wrong type of options get ignored', function (test) {
   test.equal(instance.color, '#85144b', 'Color is something in hex');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
-  test.deepEqual(instance.suffixes, ['png'], 'Suffixes are an array with one value, png');
+  test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
   test.equal(instance.diffDir, 'difference', 'Difference directory');
@@ -114,24 +115,24 @@ tape('style option must be one of the predefined', function (test) {
   test.equal(instance.style, 'tint', 'Style is the default');
 });
 
-tape('no files found when no matching suffixes', function (test) {
+tape('no files found when no matching expression', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
 		previousDir: 'tests/fixtures/prev/',
-		suffixes: 'tiff,bmp'
+    match: '\\.(tiff|bmp)$'
   });
 	instance._readPrevDir(instance.prevDir);
 
   test.equal(instance.capturedPrev.length, 0, 'Previous images list is empty');
 });
 
-tape('image files found when matching suffixes', function (test) {
+tape('image files found when matching expression', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
     previousDir: 'tests/fixtures/prev/',
-    suffixes: 'png,gif',
+    match: '\\.(png|gif)$',
     verbose: true
   });
   instance._readPrevDir(instance.prevDir);
@@ -487,7 +488,7 @@ tape('exec creates commands and calls next runner', function (test) {
     verbose: true,
     previousDir: 'tests/fixtures/prev',
     currentDir: 'tests/fixtures/curr',
-    suffixes: 'gif'
+    match: '\.gif$'
   });
 
   instance._nextRun = function () {
@@ -502,7 +503,6 @@ tape('filter directories recursively', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
-    suffixes: 'png',
     recursive: true
   });
 

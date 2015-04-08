@@ -34,9 +34,6 @@ var Jikishin = function Jikishin(options) {
 
   // Currently iterating index of the commandList
   this.currentIndex = 0;
-
-  // Regular expression for matching image files
-  this.suffix = new RegExp('\.(' + this.suffixes.join('|') + ')$');
 };
 
 /**
@@ -82,7 +79,9 @@ Jikishin.prototype._readOptions = function readOptions(options) {
 
   this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
   this.recursive = typeof options.recursive === 'boolean' ? options.recursive : false;
-  this.suffixes = typeof options.suffixes === 'string' ? options.suffixes.split(',') : ['png'];
+
+  // Regular expression for matching image files
+  this.match = typeof options.match === 'string' ? new RegExp(options.match) : /\.png$/;
 
   // Directories
   this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
@@ -117,7 +116,7 @@ Jikishin.prototype._filterDir = function filterDir(basedir, parent) {
         images = images.concat(filterDir.call(self, basedir, itempath));
       }
     }
-    if (item.match(self.suffix)) {
+    if (item.match(self.match)) {
       images.push(itempath);
     }
   });
