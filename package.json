@@ -13,7 +13,7 @@
   },
   "scripts": {
     "lint": "eslint -c .eslintrc index.js bin/shigehachi.js",
-    "test": "node tests/index_tape.js && node tests/cli_tape.js",
+    "test": "node tests/index_tape.js && node tests/cli_tape.js && rm -rf tmp",
     "coverage": "covert tests/index_tape.js"
   },
   "repository": {

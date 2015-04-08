@@ -49,10 +49,14 @@ differentiation images to a folder called `images-diff`:
 shigehachi -P images-previous -C images-current -O images-diff
 ```
 
+Along with the "compare" image, there will also be a "negate" and "composite" images,
+which should help to determine which metric algorithm is the most suitable for the given
+comparison.
+
 The tests of this project are using the following command:
 
 ```sh
-node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp -S png,jpg,gif
+node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp -M '\.(png|jpg|gif)$'
 ```
 
 ## Command line options
@@ -69,7 +73,7 @@ The output of `shigehachi -h` pretty much covers all the options:
 -c, --color         Color used in the output images, such as \#b10dc9 or purple
 -m, --metric        Difference calculation Metric
 -s, --style         Style in which the diff image is created
--M, --match         Regular expression for matching files. Default '\\.png$'
+-M, --match         Regular expression for matching files. Default '\.png$'
 -r, --recursive     Shall the previous and current directories be recursively searched and matched
 ```
 
@@ -142,7 +146,7 @@ The metrics output could look something similar to:
 }
 ```
 
-### File matching
+## File matching
 
 Please note that the command line option and the module configuration expects the `match`
 to be a string which is passed to `new RegExp()` constructor.

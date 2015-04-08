@@ -10,6 +10,8 @@
 
 'use strict';
 
+var fs = require('fs');
+
 var tape = require('tape'),
   Jikishin = require('../index');
 
@@ -137,7 +139,7 @@ tape('image files found when matching expression', function (test) {
   });
   instance._readPrevDir(instance.prevDir);
 
-  test.equal(instance.capturedPrev.length, 3, 'Previous images list contains files');
+  test.equal(instance.capturedPrev.length, 2, 'Previous images list contains files from base level of the previous dir');
 });
 
 tape('runner should fail when command not found', function (test) {
@@ -488,7 +490,7 @@ tape('exec creates commands and calls next runner', function (test) {
     verbose: true,
     previousDir: 'tests/fixtures/prev',
     currentDir: 'tests/fixtures/curr',
-    match: '\.gif$'
+    match: '\\.gif$'
   });
 
   instance._nextRun = function () {
@@ -511,8 +513,35 @@ tape('filter directories recursively', function (test) {
   test.equal(images.length, 2, 'Both png images were found');
 });
 
+tape('output directory gets created when it does not exist', function (test) {
+  test.plan(2);
+
+  var diffDir = 'tmp/diff-' + (new Date).getTime();
+  var instance = new Jikishin({
+    verbose: true,
+    match: 'nothing$',
+    differenceDir: diffDir
+  });
+
+  test.ok(fs.existsSync(diffDir) === false, 'Output directory does not exist initially');
+  instance.exec();
+  test.ok(fs.existsSync(diffDir) === true, 'Output directory exists after execution');
+});
 
 
+tape('output directory gets created recursively when it does not exist', function (test) {
+  test.plan(2);
 
+  var diffDir = 'tmp/diff-' + (new Date).getTime();
+  var instance = new Jikishin({
+    verbose: true,
+    recursive: true,
+    previousDir: 'tests/fixtures/prev',
+    currentDir: 'tests/fixtures/curr',
+    differenceDir: diffDir
+  });
 
-
+  test.ok(fs.existsSync(diffDir + '/website') === false, 'Output child directory does not exist initially');
+  instance.exec();
+  test.ok(fs.existsSync(diffDir + '/website') === true, 'Output child directory exists after execution');
+});
