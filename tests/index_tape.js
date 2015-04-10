@@ -320,6 +320,45 @@ tape('gm output gets parsed meaningfully with rmse metric', function (test) {
   test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
   test.equal(res.normalised.total, '0.2353789431', 'Normalised value for total recorded correctly');
 });
+tape('gm output gets parsed meaningfully with double output from rmse metric', function (test) {
+  test.plan(5);
+
+  var output = [
+    'Image Difference (RootMeanSquaredError):',
+    '           Normalized    Absolute',
+    '          ============  ==========',
+    '     Red: 0.0410206303       10.5',
+    '   Green: 0.2454052653       62.6',
+    '    Blue: 0.2478704718       63.2',
+    ' Opacity: 0.3134753265       79.9',
+    '   Total: 0.2353789431       60.0',
+    '',
+    'Image Difference (RootMeanSquaredError):',
+    '           Normalized    Absolute',
+    '          ============  ==========',
+    '     Red: 0.0420206303       10.5',
+    '   Green: 0.2464052653       62.6',
+    '    Blue: 0.2488704718       63.2',
+    ' Opacity: 0.3144753265       79.9',
+    '   Total: 0.2393789431       60.0'
+  ].join('\n');
+  var filepath = 'tests/fixtures/curr/postcss.png';
+
+  var instance = new Jikishin({
+    metric: 'rmse'
+  });
+  instance._successRan(output, filepath);
+
+  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
+
+  var res = instance.results[filepath];
+
+  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
+
+  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
+  test.equal(res.normalised.total, '0.2393789431', 'Normalised value for total from the latter values');
+});
 
 tape('gm output with version info', function (test) {
   test.plan(1);

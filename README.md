@@ -30,7 +30,7 @@ gm version
 ```
 
 Install the `sakugawa` command line utility globally with [npm](https://www.npmjs.com/).
-Elevated privileges might be needed via `sudo`, depending:
+Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
 
 ```sh
 npm install --global shigehachi
@@ -69,10 +69,10 @@ The output of `shigehachi -h` pretty much covers all the options:
 -v, --verbose       Verbose output, will print which file is currently being processed
 -P, --previous-dir  Directory in which the previous images are
 -C, --current-dir   Directory in which the current image are, that should have same names as previous
--O, --output-dir    Directory in which the resulting differentiation images are stored
+-O, --output-dir    Directory in which the resulting difference images are stored
 -c, --color         Color used in the output images, such as \#b10dc9 or purple
 -m, --metric        Difference calculation Metric
--s, --style         Style in which the diff image is created
+-s, --style         Style in which the difference images are created
 -M, --match         Regular expression for matching files. Default '\.png$'
 -r, --recursive     Shall the previous and current directories be recursively searched and matched
 ```
