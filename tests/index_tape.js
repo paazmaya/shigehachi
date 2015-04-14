@@ -16,13 +16,14 @@ var tape = require('tape'),
   Jikishin = require('../index');
 
 tape('default options gets set', function (test) {
-  test.plan(10);
+  test.plan(11);
 
   var instance = new Jikishin();
 
   test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
   test.equal(instance.style, 'tint', 'Style is tint');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
+  test.equal(instance.compose, 'difference', 'Compose is difference');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
@@ -33,12 +34,13 @@ tape('default options gets set', function (test) {
 });
 
 tape('algorithm and directory options gets set', function (test) {
-  test.plan(7);
+  test.plan(8);
 
   var instance = new Jikishin({
 		metric: 'psnr',
 		style: 'xor',
 		color: 'pink',
+    compose: 'bumpmap',
     recursive: true,
 		previousDir: '1',
 		currentDir: '2',
@@ -48,6 +50,7 @@ tape('algorithm and directory options gets set', function (test) {
   test.equal(instance.metric, 'psnr', 'Metric becomes PeakSignalToNoiseRatio');
   test.equal(instance.style, 'xor', 'Style is xor');
   test.equal(instance.color, 'pink', 'Color is pink');
+  test.equal(instance.compose, 'bumpmap', 'Compose is bumpmap');
   test.ok(instance.recursive === true, 'Recursive is boolean true');
   test.equal(instance.prevDir, '1', 'Previous directory');
   test.equal(instance.currDir, '2', 'Current directory');
@@ -70,12 +73,13 @@ tape('other options gets set', function (test) {
 });
 
 tape('wrong type of options get ignored', function (test) {
-  test.plan(10);
+  test.plan(11);
 
   var instance = new Jikishin({
 		metric: [],
 		style: 20,
 		color: {},
+    compose: 1234,
     recursive: 'yes please',
 		previousDir: 100,
 		currentDir: true,
@@ -88,6 +92,7 @@ tape('wrong type of options get ignored', function (test) {
   test.equal(instance.metric, 'pae', 'Metric is the default');
   test.equal(instance.style, 'tint', 'Style is the default');
   test.equal(instance.color, '#85144b', 'Color is something in hex');
+  test.equal(instance.compose, 'difference', 'Compose is difference');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
@@ -115,6 +120,16 @@ tape('style option must be one of the predefined', function (test) {
   });
 
   test.equal(instance.style, 'tint', 'Style is the default');
+});
+
+tape('compose option must be one of the predefined', function (test) {
+  test.plan(1);
+
+  var instance = new Jikishin({
+    compose: 'otherkind'
+  });
+
+  test.equal(instance.compose, 'difference', 'Compose is the default');
 });
 
 tape('no files found when no matching expression', function (test) {
@@ -473,17 +488,18 @@ tape('create composite command', function (test) {
   var instance = new Jikishin({
     metric: 'psnr',
     style: 'assign',
-    color: 'purple'
+    color: 'purple',
+    compose: 'copycyan'
   });
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
   var args = instance._createCompositeCommand(diff, prev, curr);
 
   test.deepEqual(args, [
     'composite',
-    prev,
     curr,
+    prev,
     '-compose',
-    'difference',
+    'copycyan',
     'difference-composite.png'
   ], 'Returned arguments are correct');
 });

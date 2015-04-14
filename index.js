@@ -62,6 +62,36 @@ Jikishin.prototype.styleTypes = [
 ];
 
 /**
+ * Acceptable composition values
+ * @var {array}
+ * @see http://www.graphicsmagick.org/GraphicsMagick.html#details-compose
+ */
+Jikishin.prototype.composeTypes = [
+  'over',
+  'in',
+  'out',
+  'atop',
+  'xor',
+  'plus',
+  'minus',
+  'add',
+  'subtract',
+  'difference',
+  'divide',
+  'multiply',
+  'bumpmap',
+  'copy',
+  'copyred',
+  'copygreen',
+  'copyblue',
+  'copyopacity',
+  'copycyan',
+  'copymagenta',
+  'copyyellow',
+  'copyblack'
+];
+
+/**
  * Read the options and set defaults when not defined
  * @param {object} options Options passed to the constructor
  * @returns {void}
@@ -76,6 +106,9 @@ Jikishin.prototype._readOptions = function readOptions(options) {
     this.styleTypes.indexOf(options.style) !== -1 ? options.style : 'tint';
   // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
   this.color = typeof options.color === 'string' ? options.color : '#85144b';
+
+  this.compose = typeof options.compose === 'string' &&
+    this.composeTypes.indexOf(options.compose) !== -1 ? options.compose : 'difference';
 
   this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
   this.recursive = typeof options.recursive === 'boolean' ? options.recursive : false;
@@ -256,6 +289,9 @@ Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPic
 /**
  * Creates the composite command and adds it to the command list.
  *
+ * The order of the images is relevant as the first is the changed,
+ * and the second if the original.
+ *
  * @param {string} diffPicture Path to the difference image file
  * @param {string} prevPicture Path to the previous image file
  * @param {string} currPicture Path to the current image file
@@ -267,10 +303,10 @@ Jikishin.prototype._createCompositeCommand = function createCompositeCommand(dif
 
   var compositeArgs = [
     'composite',
-    prevPicture,
     currPicture,
+    prevPicture,
     '-compose',
-    'difference',
+    this.compose,
     compositeFile
   ];
 

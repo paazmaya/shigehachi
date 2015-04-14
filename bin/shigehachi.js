@@ -75,6 +75,13 @@ var opts = nomnom.script('shigehachi')
       choices: Jikishin.prototype.styleTypes,
       help: 'Style in which the differentiation image is created'
    })
+   .option('compose', {
+      abbr: 'p',
+      type: 'string',
+      default: 'difference',
+      choices: Jikishin.prototype.composeTypes,
+      help: 'Composition type used for creating a composite image'
+   })
    .option('match', {
       abbr: 'M',
       type: 'string',

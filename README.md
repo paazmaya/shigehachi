@@ -73,6 +73,7 @@ The output of `shigehachi -h` pretty much covers all the options:
 -c, --color         Color used in the output images, such as \#b10dc9 or purple
 -m, --metric        Difference calculation Metric
 -s, --style         Style in which the difference images are created
+-p, --compose       Composition type used for creating a composite image
 -M, --match         Regular expression for matching files. Default '\.png$'
 -r, --recursive     Shall the previous and current directories be recursively searched and matched
 ```
@@ -176,6 +177,11 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v2.1.0` (2015-04-14)
+    - Clean up command creation since they all are subcommands of `gm`
+    - Fixed the image file order for `gm composite` command, changed image first
+    - New option `compose` for setting composition type,
+      defaults to `'difference'` which was hard coded previously
 * `v2.0.1` (2015-04-14)
     - ImageMagick was still used in two of the three commands
 * `v2.0.0` (2015-04-08)
