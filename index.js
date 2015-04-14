@@ -159,7 +159,7 @@ Jikishin.prototype._runner = function runner(bin, args) {
     if (err) {
       console.error(err.syscall, err.code);
     }
-    else if (bin === 'gm') {
+    else if (args[0] === 'compare') {
       var currFile = args[args.length - 1];
       self._successRan(stdout, currFile);
     }
@@ -168,8 +168,8 @@ Jikishin.prototype._runner = function runner(bin, args) {
 };
 
 /**
- * Called when the given command has not failed and parses the output
- * @param {string} output Output from a GM command
+ * Called when the given 'gm compare' command has not failed and parses the output
+ * @param {string} output Output from a 'gm compare' command
  * @param {string} currFile Path to the current image file
  * @returns {void}
  */
@@ -260,19 +260,20 @@ Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPic
  * @param {string} prevPicture Path to the previous image file
  * @param {string} currPicture Path to the current image file
  * @returns {void}
- * @see http://www.imagemagick.org/script/composite.php
+ * @see http://www.graphicsmagick.org/composite.html
  */
 Jikishin.prototype._createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
   var compositeFile = diffPicture.replace('.png', '-composite.png');
 
   var compositeArgs = [
+    'composite',
     prevPicture,
     currPicture,
     '-compose',
     'difference',
     compositeFile
   ];
-  this.commandList.push(['composite', compositeArgs]);
+  this.commandList.push(['gm', compositeArgs]);
 };
 
 
@@ -281,17 +282,18 @@ Jikishin.prototype._createCompositeCommand = function createCompositeCommand(dif
  *
  * @param {string} diffPicture Path to the difference image file
  * @returns {void}
- * @see http://www.imagemagick.org/script/convert.php
+ * @see http://www.graphicsmagick.org/convert.html
  */
 Jikishin.prototype._createNegateCommand = function createNegateCommand(diffPicture) {
   var negateFile = diffPicture.replace('.png', '-negate.png');
 
   var convertArgs = [
+    'convert',
     '-negate',
     diffPicture,
     negateFile
   ];
-  this.commandList.push(['convert', convertArgs]);
+  this.commandList.push(['gm', convertArgs]);
 };
 
 /**

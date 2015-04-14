@@ -150,7 +150,7 @@ tape('runner should fail when command not found', function (test) {
   test.throws(instance._runner('not', ['found']));
 });
 
-tape('runner should call _successRan when command is using gm', function (test) {
+tape('runner should call _successRan when command is using compare', function (test) {
   test.plan(2);
 
   var instance = new Jikishin({
@@ -158,12 +158,12 @@ tape('runner should call _successRan when command is using gm', function (test) 
   });
 
   instance._successRan = function (stdout, currFile) {
-    test.equal(currFile, 'a-file-name', 'Callback called with the given filename');
+    test.equal(currFile, 'tests/fixtures/curr/young-girl.gif', 'Callback called with the given filename');
   };
   instance._nextRun = function () {
     test.pass('Next iteration got called');
   };
-  instance._runner('gm', ['version', 'a-file-name']);
+  instance._runner('gm', ['compare', 'tests/fixtures/prev/young-girl.gif', 'tests/fixtures/curr/young-girl.gif']);
 });
 
 tape('gm output gets parsed meaningfully with mae metric', function (test) {
@@ -479,7 +479,8 @@ tape('create composite command', function (test) {
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
   instance._createCompositeCommand(diff, prev, curr);
 
-  test.deepEqual(instance.commandList, [['composite', [
+  test.deepEqual(instance.commandList, [['gm', [
+    'composite',
     prev,
     curr,
     '-compose',
@@ -500,7 +501,8 @@ tape('create negate command', function (test) {
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
   instance._createNegateCommand(diff);
 
-  test.deepEqual(instance.commandList, [['convert', [
+  test.deepEqual(instance.commandList, [['gm', [
+    'convert',
     '-negate',
     diff,
     'difference-negate.png'

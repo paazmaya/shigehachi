@@ -176,6 +176,8 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v2.0.1` (2015-04-14)
+    - ImageMagick was still used in two of the three commands
 * `v2.0.0` (2015-04-08)
     - Ability to filter files with regular expression matching
     - Removed suffix option, in favour of matching with a regular expression
