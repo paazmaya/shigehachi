@@ -55,9 +55,26 @@ comparison.
 
 The tests of this project are using the following command:
 
+## Comparison example
+
+By running the following command:
+
 ```sh
-node bin/shigehachi.js -C tests/fixtures/curr -P tests/fixtures/prev -O tmp -M '\.(png|jpg|gif)$'
+shigehachi --current-dir tests/fixtures/curr/website \
+ --previous-dir tests/fixtures/prev/website \
+ --output-dir tests/expected/website \
+ --match '\.(png)$' \
+ --metric rmse
 ```
+
+Would result these three images:
+
+![naginata.fi koryu page difference](./tests/expected/website/naginata-koryu.png)
+
+![naginata.fi koryu page negate](./tests/expected/website/naginata-koryu-negate.png)
+
+![naginata.fi koryu page composite](./tests/expected/website/naginata-koryu-composite.png)
+
 
 ## Command line options
 
