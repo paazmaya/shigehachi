@@ -147,7 +147,7 @@ tape('runner should fail when command not found', function (test) {
 
   var instance = new Jikishin();
 
-  test.throws(instance._runner('not', ['found']));
+  test.throws(instance._runner(['failing-sub-command']));
 });
 
 tape('runner should call _successRan when command is using compare', function (test) {
@@ -163,7 +163,7 @@ tape('runner should call _successRan when command is using compare', function (t
   instance._nextRun = function () {
     test.pass('Next iteration got called');
   };
-  instance._runner('gm', ['compare', 'tests/fixtures/prev/young-girl.gif', 'tests/fixtures/curr/young-girl.gif']);
+  instance._runner(['compare', 'tests/fixtures/prev/young-girl.gif', 'tests/fixtures/curr/young-girl.gif']);
 });
 
 tape('gm output gets parsed meaningfully with mae metric', function (test) {
@@ -403,15 +403,14 @@ tape('gm output with messy things', function (test) {
 });
 
 tape('next runner calls runner', function (test) {
-  test.plan(2);
+  test.plan(1);
 
   var instance = new Jikishin({
     verbose: true
   });
-  instance.commandList = [['gm', ['version']]];
+  instance.commandList = [['version']];
 
-  instance._runner = function (bin, args) {
-    test.equal(bin, 'gm', 'Runner got called with gm');
+  instance._runner = function (args) {
     test.deepEqual(args, ['version'], 'Runner got called with expected arguments');
   };
 
@@ -448,9 +447,9 @@ tape('create compare command', function (test) {
     color: 'purple'
   });
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  instance._createCompareCommand(diff, prev, curr);
+  var args = instance._createCompareCommand(diff, prev, curr);
 
-  test.deepEqual(instance.commandList, [['gm', [
+  test.deepEqual(args, [
     'compare',
     '-metric',
     'psnr',
@@ -462,7 +461,7 @@ tape('create compare command', function (test) {
     diff,
     prev,
     curr
-  ]]], 'Command list contains one item with correct arguments');
+  ], 'Returned arguments are correct');
 });
 
 tape('create composite command', function (test) {
@@ -477,16 +476,16 @@ tape('create composite command', function (test) {
     color: 'purple'
   });
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  instance._createCompositeCommand(diff, prev, curr);
+  var args = instance._createCompositeCommand(diff, prev, curr);
 
-  test.deepEqual(instance.commandList, [['gm', [
+  test.deepEqual(args, [
     'composite',
     prev,
     curr,
     '-compose',
     'difference',
     'difference-composite.png'
-  ]]], 'Command list contains one item with correct arguments');
+  ], 'Returned arguments are correct');
 });
 
 tape('create negate command', function (test) {
@@ -499,14 +498,14 @@ tape('create negate command', function (test) {
     color: 'purple'
   });
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  instance._createNegateCommand(diff);
+  var args = instance._createNegateCommand(diff);
 
-  test.deepEqual(instance.commandList, [['gm', [
+  test.deepEqual(args, [
     'convert',
     '-negate',
     diff,
     'difference-negate.png'
-  ]]], 'Command list contains one item with correct arguments');
+  ], 'Returned arguments are correct');
 });
 
 tape('exec should not create commands when no files, but call next runner', function (test) {

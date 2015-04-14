@@ -23,7 +23,7 @@ var fs = require('fs-extra'),
 var Jikishin = function Jikishin(options) {
   this._readOptions(options);
 
-  // List of commands as arrays ['binary', array arguments]
+  // Array of arrays, gm command arguments
   this.commandList = [];
 
   // List of files found from previous image directory
@@ -145,22 +145,21 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
 };
 
 /**
- * Execute a command
- * @param {string} bin Binary that is supposed to be executed
- * @param {array} args List of arguments passed to the binary command
+ * Execute a command with 'gm'
+ * @param {array} gmArgs List of arguments passed to the binary command
  * @returns {void}
  */
-Jikishin.prototype._runner = function runner(bin, args) {
+Jikishin.prototype._runner = function runner(gmArgs) {
   if (this.verbose) {
-    console.log('Command: ' + bin + ' ' + args.join(' '));
+    console.log('Command: gm ' + gmArgs.join(' '));
   }
   var self = this;
-  execFile(bin, args, null, function childCallback(err, stdout) {
+  execFile('gm', gmArgs, null, function childCallback(err, stdout) {
     if (err) {
       console.error(err.syscall, err.code);
     }
-    else if (args[0] === 'compare') {
-      var currFile = args[args.length - 1];
+    else if (gmArgs[0] === 'compare') {
+      var currFile = gmArgs.pop();
       self._successRan(stdout, currFile);
     }
     self._nextRun();
@@ -223,7 +222,7 @@ Jikishin.prototype._nextRun = function nextRun() {
     console.log('Current command iteration ' + this.currentIndex + ' of ' + len);
   }
 
-  this._runner(command[0], command[1]);
+  this._runner(command);
 };
 
 /**
@@ -250,7 +249,8 @@ Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPic
     prevPicture,
     currPicture
   ];
-  this.commandList.push(['gm', compareArgs]);
+
+  return compareArgs;
 };
 
 /**
@@ -273,7 +273,8 @@ Jikishin.prototype._createCompositeCommand = function createCompositeCommand(dif
     'difference',
     compositeFile
   ];
-  this.commandList.push(['gm', compositeArgs]);
+
+  return compositeArgs;
 };
 
 
@@ -293,7 +294,8 @@ Jikishin.prototype._createNegateCommand = function createNegateCommand(diffPictu
     diffPicture,
     negateFile
   ];
-  this.commandList.push(['gm', convertArgs]);
+
+  return convertArgs;
 };
 
 /**
@@ -330,10 +332,11 @@ Jikishin.prototype.exec = function exec() {
       if (!fs.existsSync(dirname)) {
         fs.mkdirpSync(dirname);
       }
-
-      self._createCompareCommand(diffPicture, prevPicture, currPicture);
-      self._createCompositeCommand(diffPicture, prevPicture, currPicture);
-      self._createNegateCommand(diffPicture);
+      self.commandList.push(
+        self._createCompareCommand(diffPicture, prevPicture, currPicture),
+        self._createCompositeCommand(diffPicture, prevPicture, currPicture),
+        self._createNegateCommand(diffPicture)
+      );
     }
   });
 
