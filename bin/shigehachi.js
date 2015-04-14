@@ -111,12 +111,18 @@ if (!fs.existsSync(opts.currentDir)) {
   process.exit();
 }
 
-opts.whenDone = function whenDone(metrics) {
+/**
+ * Example of using finished callback
+ * @param {Object} metrics Data of the comparison with numbers normalised
+ * @returns {void}
+ */
+var _whenDone = function whenDone(metrics) {
   if (opts.verbose) {
     console.log('Comparison finished. Result metrics:');
   }
   console.log(JSON.stringify(metrics, null, '  '));
 };
+opts.whenDone = _whenDone;
 
 var kage = new Jikishin(opts);
 kage.exec();

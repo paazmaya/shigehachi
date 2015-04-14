@@ -64,6 +64,15 @@ tape('cli does not allow to use wrong style', function (test) {
 
 });
 
+tape('cli does not allow to use wrong compose', function (test) {
+  test.plan(1);
+
+  execFile('node', [cli, '-p', 'hoplaa'], null, function (err, stdout) {
+    test.ok(stdout.indexOf('copymagenta,') !== -1, 'Compose options listed');
+  });
+
+});
+
 tape('cli should fail when previous directory does not exist', function (test) {
   test.plan(1);
 

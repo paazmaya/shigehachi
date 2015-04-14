@@ -299,7 +299,7 @@ Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPic
  * @see http://www.graphicsmagick.org/composite.html
  */
 Jikishin.prototype._createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
-  var compositeFile = diffPicture.replace('.png', '-composite.png');
+  var compositeFile = diffPicture.replace(/\.png$/, '-composite.png');
 
   var compositeArgs = [
     'composite',
@@ -322,7 +322,7 @@ Jikishin.prototype._createCompositeCommand = function createCompositeCommand(dif
  * @see http://www.graphicsmagick.org/convert.html
  */
 Jikishin.prototype._createNegateCommand = function createNegateCommand(diffPicture) {
-  var negateFile = diffPicture.replace('.png', '-negate.png');
+  var negateFile = diffPicture.replace(/\.png$/, '-negate.png');
 
   var convertArgs = [
     'convert',
@@ -357,6 +357,12 @@ Jikishin.prototype.exec = function exec() {
     var prevPicture = path.join(self.prevDir, picture);
     var currPicture = path.join(self.currDir, picture);
     var diffPicture = path.join(self.diffDir, picture);
+
+    // Make sure the diff image is a PNG
+    var suffix = '.png';
+    if (diffPicture.indexOf(suffix, diffPicture.length - suffix.length) === -1) {
+      diffPicture = diffPicture.substr(0, diffPicture.lastIndexOf('.')) + suffix;
+    }
 
     if (self.verbose) {
       console.log('Started command creation for ' + picture);

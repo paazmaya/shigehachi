@@ -557,6 +557,47 @@ tape('exec creates commands and calls next runner', function (test) {
   test.equal(instance.commandList.length, 3, 'Command list contains items');
 });
 
+tape('exec enforces diff image as png', function (test) {
+  test.plan(4);
+
+  var instance = new Jikishin({
+    verbose: true,
+    previousDir: 'tests/fixtures/prev',
+    currentDir: 'tests/fixtures/curr',
+    match: '\\.jpg$'
+  });
+
+  instance._nextRun = function () {
+    test.pass('Next iteration got called');
+  };
+  instance.exec();
+
+  test.deepEqual(instance.commandList[0], [
+    'compare', '-metric', 'pae',
+    '-highlight-color', '"#85144b"',
+    '-highlight-style', 'tint', '-file',
+    'difference/old-book-by-mr-sonobe.png',
+    'tests/fixtures/prev/old-book-by-mr-sonobe.jpg',
+    'tests/fixtures/curr/old-book-by-mr-sonobe.jpg'
+  ], 'Diff item in first command has png file instead of jpg');
+
+  test.deepEqual(instance.commandList[1], [
+    'composite',
+    'tests/fixtures/curr/old-book-by-mr-sonobe.jpg',
+    'tests/fixtures/prev/old-book-by-mr-sonobe.jpg',
+    '-compose',
+    'difference',
+    'difference/old-book-by-mr-sonobe-composite.png'
+  ], 'Diff item in second command has png file instead of jpg');
+
+  test.deepEqual(instance.commandList[2], [
+    'convert',
+    '-negate',
+    'difference/old-book-by-mr-sonobe.png',
+    'difference/old-book-by-mr-sonobe-negate.png'
+  ], 'Diff item in third command has png files instead of jpg');
+});
+
 tape('filter directories recursively', function (test) {
   test.plan(1);
 
@@ -584,7 +625,6 @@ tape('output directory gets created when it does not exist', function (test) {
   test.ok(fs.existsSync(diffDir) === true, 'Output directory exists after execution');
 });
 
-
 tape('output directory gets created recursively when it does not exist', function (test) {
   test.plan(2);
 
@@ -601,3 +641,4 @@ tape('output directory gets created recursively when it does not exist', functio
   instance.exec();
   test.ok(fs.existsSync(diffDir + '/website') === true, 'Output child directory exists after execution');
 });
+

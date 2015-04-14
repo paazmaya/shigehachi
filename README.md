@@ -177,6 +177,8 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v2.2` (2015-04)
+    - Enforce all resulting images as PNG, instead of accidentally just assuming so
 * `v2.1.0` (2015-04-14)
     - Clean up command creation since they all are subcommands of `gm`
     - Fixed the image file order for `gm composite` command, changed image first
