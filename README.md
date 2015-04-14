@@ -53,11 +53,10 @@ Along with the "compare" image, there will also be a "negate" and "composite" im
 which should help to determine which metric algorithm is the most suitable for the given
 comparison.
 
-The tests of this project are using the following command:
-
 ## Comparison example
 
-By running the following command:
+By running the following command on two screenshots of
+[naginata.fi](http://naginata.fi/en/koryu) that were taken while adjusting paddings:
 
 ```sh
 shigehachi --current-dir tests/fixtures/curr/website \
@@ -67,14 +66,31 @@ shigehachi --current-dir tests/fixtures/curr/website \
  --metric rmse
 ```
 
-Would result these three images:
+...would result these three images, in the order of "difference", "negate", and "composite":
 
 [![naginata.fi koryu page difference](./naginata-koryu_thumb.png)](./tests/expected/website/naginata-koryu.png)
-
 [![naginata.fi koryu page negate](./naginata-koryu-negate_thumb.png)](./tests/expected/website/naginata-koryu-negate.png)
-
 [![naginata.fi koryu page composite](./naginata-koryu-composite_thumb.png)](./tests/expected/website/naginata-koryu-composite.png)
 
+The [previous](./tests/fixtures/prev/website/naginata-koryu.png) and
+[current](./tests/fixtures/curr/website/naginata-koryu.png) images are available at
+the `tests/fixtures` directory.
+
+Output after the command had executed looked like this:
+
+```json
+{
+  "tests/fixtures/curr/website/naginata-koryu.png": {
+    "metric": "PeakAbsoluteError",
+    "normalised": {
+      "red": "0.9725490196",
+      "green": "0.9333333333",
+      "blue": "0.9333333333",
+      "total": "0.9725490196"
+    }
+  }
+}
+```
 
 ## Command line options
 
@@ -194,8 +210,9 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
-* `v2.2` (2015-04)
+* `v2.2.0` (2015-04-14)
     - Enforce all resulting images as PNG, instead of accidentally just assuming so
+    - Output examples
 * `v2.1.0` (2015-04-14)
     - Clean up command creation since they all are subcommands of `gm`
     - Fixed the image file order for `gm composite` command, changed image first
