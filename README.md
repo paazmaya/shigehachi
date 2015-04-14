@@ -69,11 +69,11 @@ shigehachi --current-dir tests/fixtures/curr/website \
 
 Would result these three images:
 
-![naginata.fi koryu page difference](./tests/expected/website/naginata-koryu.png)
+[![naginata.fi koryu page difference](./naginata-koryu_thumb.png)](./tests/expected/website/naginata-koryu.png)
 
-![naginata.fi koryu page negate](./tests/expected/website/naginata-koryu-negate.png)
+[![naginata.fi koryu page negate](./naginata-koryu-negate_thumb.png)](./tests/expected/website/naginata-koryu-negate.png)
 
-![naginata.fi koryu page composite](./tests/expected/website/naginata-koryu-composite.png)
+[![naginata.fi koryu page composite](./naginata-koryu-composite_thumb.png)](./tests/expected/website/naginata-koryu-composite.png)
 
 
 ## Command line options
