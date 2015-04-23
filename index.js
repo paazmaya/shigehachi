@@ -335,11 +335,30 @@ Jikishin.prototype._createNegateCommand = function createNegateCommand(diffPictu
 };
 
 /**
+ * Generate the difference image file path for the given image file.
+ * It will parse any filename template and use 'png' as a suffix.
+ *
+ * @param {string} picture Basename of the image file
+ * @returns {string} Full path to the difference image
+ */
+Jikishin.prototype._diffFilename = function diffFilename(picture) {
+  var diffPicture = path.join(this.diffDir, picture);
+
+  // Make sure the diff image is a PNG
+  var suffix = '.png';
+  if (diffPicture.indexOf(suffix, diffPicture.length - suffix.length) === -1) {
+    var last = diffPicture.lastIndexOf('.');
+    diffPicture = diffPicture.substr(0, last !== -1 ? last : diffPicture.length) + suffix;
+  }
+
+  return diffPicture;
+};
+
+/**
  * Generate the difference images one by one
  * @returns {void}
  */
 Jikishin.prototype.exec = function exec() {
-
   var self = this;
 
   // List of image files in "previous directory"
@@ -356,13 +375,7 @@ Jikishin.prototype.exec = function exec() {
 
     var prevPicture = path.join(self.prevDir, picture);
     var currPicture = path.join(self.currDir, picture);
-    var diffPicture = path.join(self.diffDir, picture);
-
-    // Make sure the diff image is a PNG
-    var suffix = '.png';
-    if (diffPicture.indexOf(suffix, diffPicture.length - suffix.length) === -1) {
-      diffPicture = diffPicture.substr(0, diffPicture.lastIndexOf('.')) + suffix;
-    }
+    var diffPicture = self._diffFilename(picture);
 
     if (self.verbose) {
       console.log('Started command creation for ' + picture);
