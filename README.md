@@ -53,9 +53,13 @@ Along with the "compare" image, there will also be a "negate" and "composite" im
 which should help to determine which metric algorithm is the most suitable for the given
 comparison.
 
+The amount of supported metric algorithms, comparison styles and composition types depends
+of the GraphicsMagick version. Available options are listed in [the source file](./index.js) and
+in the [relevant GraphicsMagick documentation](http://www.graphicsmagick.org/compare.html).
+
 ## Comparison example
 
-By running the following command on two screenshots of
+By running the following command on two screen captures of
 [naginata.fi](http://naginata.fi/en/koryu) that were taken while adjusting paddings:
 
 ```sh
@@ -108,6 +112,7 @@ The output of `shigehachi -h` pretty much covers all the options:
 -s, --style         Style in which the difference images are created
 -p, --compose       Composition type used for creating a composite image
 -M, --match         Regular expression for matching files. Default '\.png$'
+-n, --name-methods  Include used metric, style and composition options in difference image file names
 -r, --recursive     Shall the previous and current directories be recursively searched and matched
 ```
 
@@ -195,6 +200,36 @@ but the functionality can be added with a suitable pull request.
 
 [More about JavaScript regular expressions.](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions)
 
+## Output image files and their naming
+
+It is possible to alter the naming scheme of the images that are produced by the comparison,
+negation and composition steps inside the single comparison of two image files.
+
+By default the comparison image will have the same basename as the two which are being compared.
+For example `prev/image.jpg` and `curr/image.jpg` will produce `diff/image.png`.
+Please note that the generated images are always in [png](http://www.w3.org/TR/PNG/)
+format, due to quality requirements.
+
+The negated image, which is generated from the comparison image, will have `-negate` appended
+to the basename, before the suffix. For example in the above case it would
+be `diff/image-negate.png`.
+
+The third image is a composition of the two images that are being compared. In many cases
+this is visually the most useful image, depending of the colours and composition method used.
+The basename is appended with `-composite`, thus in the example above `diff/image-composite.png`.
+
+These filenames can be altered via `nameMethods` boolean option. By default it is set to `false`
+and the filenames are created as explained above. In case it is set to `true`, the filenames
+will also be appended with the used `metric`, `style`, or `color`, depending of the relevance
+to the given method.
+
+For example while following the above example and setting the `nameMethods` to `true`, the
+generated three images would become with the default options:
+
+* `diff/image-pae-tint.png`
+* `diff/image-pae-tint-negate.png`
+* `diff/image-pae-tint-composite-difference.png`
+
 ## Contributing
 
 [Please refer to a GitHub blog post on how to create somewhat perfect pull request.](https://github.com/blog/1943-how-to-write-the-perfect-pull-request "How to write the perfect pull request")
@@ -210,6 +245,8 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v2.3.0` (2015-04-2)
+    - Output image file naming verbosity via `nameMethods` option
 * `v2.2.0` (2015-04-14)
     - Enforce all resulting images as PNG, instead of accidentally just assuming so
     - Output examples

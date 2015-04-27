@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": {

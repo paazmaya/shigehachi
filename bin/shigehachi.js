@@ -88,6 +88,12 @@ var opts = nomnom.script('shigehachi')
       default: '\\.png$',
       help: 'Regular expression for matching and filtering image files'
    })
+   .option('nameMethods', {
+      abbr: 'n',
+      full: 'name-methods',
+      flag: true,
+      help: 'Include used metric, style and composition options in difference image file names'
+   })
    .option('recursive', {
       abbr: 'r',
       flag: true,

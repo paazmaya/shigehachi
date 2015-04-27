@@ -116,6 +116,9 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   // Regular expression for matching image files
   this.match = typeof options.match === 'string' ? new RegExp(options.match) : /\.png$/;
 
+  // Output file name modifier for including used method/type
+  this.nameMethods = typeof options.nameMethods === 'boolean' ? options.nameMethods : false;
+
   // Directories
   this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
   this.currDir = typeof options.currentDir === 'string' ? options.currentDir : 'current';
@@ -299,7 +302,11 @@ Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPic
  * @see http://www.graphicsmagick.org/composite.html
  */
 Jikishin.prototype._createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
-  var compositeFile = diffPicture.replace(/\.png$/, '-composite.png');
+  var append = '-composite';
+  if (this.nameMethods) {
+    append += '-' + this.compose;
+  }
+  var compositeFile = diffPicture.replace(/\.png$/, append + '.png');
 
   var compositeArgs = [
     'composite',
@@ -349,6 +356,10 @@ Jikishin.prototype._diffFilename = function diffFilename(picture) {
   if (diffPicture.indexOf(suffix, diffPicture.length - suffix.length) === -1) {
     var last = diffPicture.lastIndexOf('.');
     diffPicture = diffPicture.substr(0, last !== -1 ? last : diffPicture.length) + suffix;
+  }
+
+  if (this.nameMethods) {
+    diffPicture = diffPicture.replace(/\.png$/, '-' + this.metric + '-' + this.style + '.png');
   }
 
   return diffPicture;
