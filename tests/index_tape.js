@@ -27,7 +27,7 @@ tape('default options gets set', function (test) {
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
-  test.ok(instance.nameMethods === false, 'NameMethods is boolean false');
+  test.ok(instance.longDiffName === false, 'longDiffName is boolean false');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
   test.equal(instance.diffDir, 'difference', 'Difference directory');
@@ -64,14 +64,14 @@ tape('other options gets set', function (test) {
   var instance = new Jikishin({
 		verbose: true,
 		match: '\\.(png|jpg|gif)$',
-    nameMethods: true,
+    longDiffName: true,
 		whenDone: function () {}
   });
 
   test.ok(instance.verbose === true, 'Verbosity is boolean true');
   test.ok(instance.match instanceof RegExp, 'Match is an Regular Expression');
   test.equal(instance.match.source, '\\.(png|jpg|gif)$', 'Matching regular expression');
-  test.ok(instance.nameMethods === true, 'NameMethods is boolean true');
+  test.ok(instance.longDiffName === true, 'longDiffName is boolean true');
   test.equal(typeof instance.whenDone, 'function', 'Callback is a function');
 });
 
@@ -89,7 +89,7 @@ tape('wrong type of options get ignored', function (test) {
 		differenceDir: {},
 		verbose: 'yes',
 		match: false,
-    nameMethods: 'hello there',
+    longDiffName: 'hello there',
 		whenDone: 'callback me not'
   });
 
@@ -100,7 +100,7 @@ tape('wrong type of options get ignored', function (test) {
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
-  test.ok(instance.nameMethods === false, 'NameMethods is boolean false');
+  test.ok(instance.longDiffName === false, 'longDiffName is boolean false');
   test.equal(instance.prevDir, 'previous', 'Previous directory');
   test.equal(instance.currDir, 'current', 'Current directory');
   test.equal(instance.diffDir, 'difference', 'Difference directory');
@@ -509,7 +509,7 @@ tape('create composite command', function (test) {
   ], 'Returned arguments are correct');
 });
 
-tape('create composite command uses nameMethods', function (test) {
+tape('create composite command uses longDiffName', function (test) {
   test.plan(2);
 
   var diff = 'difference.png';
@@ -520,7 +520,7 @@ tape('create composite command uses nameMethods', function (test) {
     style: 'assign',
     color: 'purple',
     compose: 'copycyan',
-    nameMethods: true
+    longDiffName: true
   });
   test.equal(instance.commandList.length, 0, 'Command list is initially empty');
   var args = instance._createCompositeCommand(diff, prev, curr);
@@ -617,11 +617,11 @@ tape('diffFilename enforces diff image as png even when it has no suffix', funct
   test.equal(result, 'difference/old-book-by-mr-sonobe.png', 'Resulting file is png');
 });
 
-tape('diffFilename gets more details when nameMethods used', function (test) {
+tape('diffFilename gets more details when longDiffName used', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
-    nameMethods: true
+    longDiffName: true
   });
 
   var result = instance._diffFilename('old-book-by-mr-sonobe');

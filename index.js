@@ -117,7 +117,7 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   this.match = typeof options.match === 'string' ? new RegExp(options.match) : /\.png$/;
 
   // Output file name modifier for including used method/type
-  this.nameMethods = typeof options.nameMethods === 'boolean' ? options.nameMethods : false;
+  this.longDiffName = typeof options.longDiffName === 'boolean' ? options.longDiffName : false;
 
   // Directories
   this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
@@ -222,9 +222,6 @@ Jikishin.prototype._successRan = function successRan(output, currFile) {
     var normalised;
 
     while ((normalised = expr.normalised.exec(output)) !== null) {
-      if (normalised.index === expr.normalised.lastIndex) {
-        expr.normalised.lastIndex++; // TODO: how to trigger for testing?
-      }
       norm[normalised[1].toLowerCase()] = normalised[2];
     }
 
@@ -303,7 +300,7 @@ Jikishin.prototype._createCompareCommand = function createCompareCommand(diffPic
  */
 Jikishin.prototype._createCompositeCommand = function createCompositeCommand(diffPicture, prevPicture, currPicture) {
   var append = '-composite';
-  if (this.nameMethods) {
+  if (this.longDiffName) {
     append += '-' + this.compose;
   }
   var compositeFile = diffPicture.replace(/\.png$/, append + '.png');
@@ -358,7 +355,7 @@ Jikishin.prototype._diffFilename = function diffFilename(picture) {
     diffPicture = diffPicture.substr(0, last !== -1 ? last : diffPicture.length) + suffix;
   }
 
-  if (this.nameMethods) {
+  if (this.longDiffName) {
     diffPicture = diffPicture.replace(/\.png$/, '-' + this.metric + '-' + this.style + '.png');
   }
 

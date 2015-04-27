@@ -101,19 +101,19 @@ Output after the command had executed looked like this:
 The output of `shigehachi -h` pretty much covers all the options:
 
 ```sh
--h, --help          Help and usage instructions
--V, --version       Version number, with verbosity also application name
--v, --verbose       Verbose output, will print which file is currently being processed
--P, --previous-dir  Directory in which the previous images are
--C, --current-dir   Directory in which the current image are, that should have same names as previous
--O, --output-dir    Directory in which the resulting difference images are stored
--c, --color         Color used in the output images, such as \#b10dc9 or purple
--m, --metric        Difference calculation Metric
--s, --style         Style in which the difference images are created
--p, --compose       Composition type used for creating a composite image
--M, --match         Regular expression for matching files. Default '\.png$'
--n, --name-methods  Include used metric, style and composition options in difference image file names
--r, --recursive     Shall the previous and current directories be recursively searched and matched
+-h, --help            Help and usage instructions
+-V, --version         Version number, with verbosity also application name
+-v, --verbose         Verbose output, will print which file is currently being processed
+-P, --previous-dir    Directory in which the previous images are
+-C, --current-dir     Directory in which the current image are, that should have same names as previous
+-O, --output-dir      Directory in which the resulting difference images are stored
+-c, --color           Color used in the output images, such as \#b10dc9 or purple
+-m, --metric          Difference calculation Metric
+-s, --style           Style in which the difference images are created
+-p, --compose         Composition type used for creating a composite image
+-M, --match           Regular expression for matching files. Default '\.png$'
+-l, --long-diff-name  Include used metric, style and composition options in difference image file names
+-r, --recursive       Shall the previous and current directories be recursively searched and matched
 ```
 
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
@@ -218,12 +218,12 @@ The third image is a composition of the two images that are being compared. In m
 this is visually the most useful image, depending of the colours and composition method used.
 The basename is appended with `-composite`, thus in the example above `diff/image-composite.png`.
 
-These filenames can be altered via `nameMethods` boolean option. By default it is set to `false`
+These filenames can be altered via `longDiffName` boolean option. By default it is set to `false`
 and the filenames are created as explained above. In case it is set to `true`, the filenames
 will also be appended with the used `metric`, `style`, or `color`, depending of the relevance
 to the given method.
 
-For example while following the above example and setting the `nameMethods` to `true`, the
+For example while following the above example and setting the `longDiffName` to `true`, the
 generated three images would become with the default options:
 
 * `diff/image-pae-tint.png`
@@ -245,8 +245,8 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
-* `v2.3.0` (2015-04-2)
-    - Output image file naming verbosity via `nameMethods` option
+* `v2.3.0` (2015-04-27)
+    - Output image file naming verbosity via `longDiffName` option
 * `v2.2.0` (2015-04-14)
     - Enforce all resulting images as PNG, instead of accidentally just assuming so
     - Output examples
