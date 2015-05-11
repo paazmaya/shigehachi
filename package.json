@@ -43,8 +43,8 @@
     "nomnom": "~1.8"
   },
   "devDependencies": {
-    "covert": "~1.0",
-    "eslint": "~0.20",
+    "covert": "~1.1",
+    "eslint": "~0.21",
     "tape": "~4.0"
   }
 }
