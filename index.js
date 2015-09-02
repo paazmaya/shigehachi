@@ -139,20 +139,20 @@ Jikishin.prototype._filterDir = function filterDir(basedir, parent) {
   parent = parent || '';
   var dirpath = path.join(basedir, parent);
   var dir = fs.readdirSync(dirpath);
-  var self = this;
+  var _self = this;
 
   var images = [];
 
   dir.forEach(function eachDir(item) {
     var filepath = path.join(dirpath, item); // full path
     var itempath = path.join(parent, item); // relative path to basedir
-    if (self.recursive) {
+    if (_self.recursive) {
       var stat = fs.statSync(filepath);
       if (stat.isDirectory()) {
-        images = images.concat(filterDir.call(self, basedir, itempath));
+        images = images.concat(filterDir.call(_self, basedir, itempath));
       }
     }
-    if (item.match(self.match)) {
+    if (item.match(_self.match)) {
       images.push(itempath);
     }
   });
@@ -189,16 +189,16 @@ Jikishin.prototype._runner = function runner(gmArgs) {
   if (this.verbose) {
     console.log('Command: gm ' + gmArgs.join(' '));
   }
-  var self = this;
+  var _self = this;
   execFile('gm', gmArgs, null, function childCallback(err, stdout) {
     if (err) {
       console.error(err.syscall, err.code);
     }
     else if (gmArgs[0] === 'compare') {
       var currFile = gmArgs.pop();
-      self._successRan(stdout, currFile);
+      _self._successRan(stdout, currFile);
     }
-    self._nextRun();
+    _self._nextRun();
   });
 };
 
@@ -367,7 +367,7 @@ Jikishin.prototype._diffFilename = function diffFilename(picture) {
  * @returns {void}
  */
 Jikishin.prototype.exec = function exec() {
-  var self = this;
+  var _self = this;
 
   // List of image files in "previous directory"
   this._readPrevDir(this.prevDir);
@@ -381,11 +381,11 @@ Jikishin.prototype.exec = function exec() {
 
   this.capturedPrev.forEach(function eachPicture(picture) {
 
-    var prevPicture = path.join(self.prevDir, picture);
-    var currPicture = path.join(self.currDir, picture);
-    var diffPicture = self._diffFilename(picture);
+    var prevPicture = path.join(_self.prevDir, picture);
+    var currPicture = path.join(_self.currDir, picture);
+    var diffPicture = _self._diffFilename(picture);
 
-    if (self.verbose) {
+    if (_self.verbose) {
       console.log('Started command creation for ' + picture);
     }
 
@@ -395,10 +395,10 @@ Jikishin.prototype.exec = function exec() {
       if (!fs.existsSync(dirname)) {
         fs.mkdirpSync(dirname);
       }
-      self.commandList.push(
-        self._createCompareCommand(diffPicture, prevPicture, currPicture),
-        self._createCompositeCommand(diffPicture, prevPicture, currPicture),
-        self._createNegateCommand(diffPicture)
+      _self.commandList.push(
+        _self._createCompareCommand(diffPicture, prevPicture, currPicture),
+        _self._createCompositeCommand(diffPicture, prevPicture, currPicture),
+        _self._createNegateCommand(diffPicture)
       );
     }
   });
