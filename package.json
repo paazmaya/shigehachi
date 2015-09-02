@@ -39,12 +39,12 @@
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
-    "fs-extra": "~0.18",
+    "fs-extra": "~0.24",
     "nomnom": "~1.8"
   },
   "devDependencies": {
     "covert": "~1.1",
-    "eslint": "~0.21",
-    "tape": "~4.0"
+    "eslint": "~1.3",
+    "tape": "~4.2"
   }
 }
