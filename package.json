@@ -37,6 +37,9 @@
   "bugs": {
     "url": "https://github.com/paazmaya/shigehachi/issues"
   },
+  "engines": {
+    "node": ">=0.12.0"
+  },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
     "fs-extra": "~0.24",
