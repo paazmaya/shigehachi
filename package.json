@@ -9,7 +9,7 @@
   "author": {
     "name": "Juga Paazmaya",
     "email": "paazmaya@yahoo.com",
-    "url": "http://paazmaya.divshot.io"
+    "url": "http://paazmaya.fi"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc index.js bin/shigehachi.js",

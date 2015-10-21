@@ -271,7 +271,7 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## License
 
-Copyright (c) [Juga Paazmaya](http://paazmaya.com)
+Copyright (c) [Juga Paazmaya](http://paazmaya.fi)
 
 Licensed under [the MIT license](./LICENSE).
 
