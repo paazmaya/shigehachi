@@ -245,6 +245,9 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v3.0.0` (2015-10-29)
+    - Require Long Term Supported Node.js version, namely minimum of `4.2.0`
+    - Start to use ES2015 features and enable ESLint to validate against those
 * `v2.3.0` (2015-04-27)
     - Output image file naming verbosity via `longDiffName` option
 * `v2.2.0` (2015-04-14)

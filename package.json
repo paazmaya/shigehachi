@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": {
@@ -38,16 +38,16 @@
     "url": "https://github.com/paazmaya/shigehachi/issues"
   },
   "engines": {
-    "node": ">=0.12.0"
+    "node": ">=4.2.0"
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
-    "fs-extra": "~0.24",
+    "fs-extra": "~0.26",
     "nomnom": "~1.8"
   },
   "devDependencies": {
     "covert": "~1.1",
-    "eslint": "~1.6",
+    "eslint": "~1.7",
     "tape": "~4.2"
   }
 }
