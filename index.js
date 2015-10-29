@@ -12,7 +12,7 @@
 
 'use strict';
 
-var fs = require('fs-extra'),
+const fs = require('fs-extra'),
   path = require('path'),
   execFile = require('child_process').execFile;
 
