@@ -102,7 +102,8 @@ var opts = nomnom.script('shigehachi')
    .parse();
 
 if (opts.version) {
-  var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  var json = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
+  var pkg = JSON.parse(json);
   console.log((opts.verbose ? pkg.name + ' v' : '') + pkg.version);
   process.exit();
 }
