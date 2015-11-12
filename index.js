@@ -6,7 +6,7 @@
  *
  * A lot has been inspired by https://github.com/stefanjudis/grunt-photobox/
  *
- * Copyright (c) Juga Paazmaya
+ * Copyright (c) Juga Paazmaya <paazmaya@yahoo.com> (http://paazmaya.fi)
  * Licensed under the MIT license
  */
 
