@@ -15,7 +15,7 @@
 const fs = require('fs'),
   path = require('path');
 
-const nomnom = require('nomnom');
+const optionator = require('optionator');
 const Jikishin = require('../index');
 
 var dateString = (function dateString(now) {
@@ -25,83 +25,110 @@ var dateString = (function dateString(now) {
   return s.join('-');
 })(new Date());
 
-var opts = nomnom.script('shigehachi')
-   .option('version', {
-     abbr: 'V',
-     flag: true,
-     help: 'Version number, with verbosity also application name'
-   })
-   .option('verbose', {
-     abbr: 'v',
-     flag: true,
-     help: 'Verbose output, will print which file is currently being processed'
-   })
-   .option('previousDir', {
-     abbr: 'P',
-     full: 'previous-dir',
-     type: 'string',
-     default: 'previous',
-     help: 'Directory in which the previous images are stored'
-   })
-   .option('currentDir', {
-     abbr: 'C',
-     full: 'current-dir',
-     type: 'string',
-     default: 'current',
-     help: 'Directory in which the current images are stored'
-   })
-   .option('differenceDir', {
-     abbr: 'O',
-     full: 'output-dir',
-     type: 'string',
-     default: 'diff-' + dateString,
-     help: 'Directory in which the resulting differentiation images are stored'
-   })
-   .option('color', {
-     abbr: 'c',
-     type: 'string',
-     default: 'pink',
-     help: 'Color used in the output images, such as \#b10dc9 or purple'
-   })
-   .option('metric', {
-     abbr: 'm',
-     type: 'string',
-     default: 'pae',
-     choices: Jikishin.prototype.metricTypes,
-     help: 'Difference calculation metric'
-   })
-   .option('style', {
-     abbr: 's',
-     type: 'string',
-     default: 'tint',
-     choices: Jikishin.prototype.styleTypes,
-     help: 'Style in which the differentiation image is created'
-   })
-   .option('compose', {
-     abbr: 'p',
-     type: 'string',
-     default: 'difference',
-     choices: Jikishin.prototype.composeTypes,
-     help: 'Composition type used for creating a composite image'
-   })
-   .option('match', {
-     abbr: 'M',
-     type: 'string',
-     default: '\\.png$',
-     help: 'Regular expression for matching and filtering image files'
-   })
-   .option('longDiffName', {
-     abbr: 'l',
-     full: 'long-diff-name',
-     flag: true,
-     help: 'Include used metric, style and composition options in difference image file names'
-   })
-   .option('recursive', {
-     abbr: 'r',
-     flag: true,
-     help: 'Recursive search of images in the previous and current directories'
-   })
-   .parse();
+var optsParser = optionator({
+  prepend: 'shigehachi [options]',
+  append: 'Version ',
+  options: [
+    {
+      option: 'version',
+      alias: 'V',
+      type: 'Boolean',
+      default: false,
+      description: 'Version number, with verbosity also application name',
+      example: '-vV'
+    },
+    {
+      option: 'verbose',
+      alias: 'v',
+      type: 'Boolean',
+      default: false,
+      description: 'Verbose output, will print which file is currently being processed'
+    },
+    {
+      option: 'previous-dir',
+      alias: 'P',
+      type: 'String',
+      default: 'previous',
+      description: 'Directory in which the previous images are stored'
+    },
+    {
+      option: 'current-dir',
+      alias: 'C',
+      type: 'String',
+      default: 'current',
+      description: 'Directory in which the current images are stored'
+    },
+    {
+      option: 'output-dir',
+      alias: 'O',
+      type: 'String',
+      default: 'diff-' + dateString,
+      description: 'Directory in which the resulting differentiation images are stored'
+    },
+    {
+      option: 'color',
+      alias: 'c',
+      type: 'String',
+      default: 'pink',
+      description: 'Color used in the output images, such as \#b10dc9 or purple'
+    },
+    {
+      option: 'metric',
+      alias: 'm',
+      type: 'String',
+      default: 'pae',
+      enum: Jikishin.prototype.metricTypes,
+      description: 'Difference calculation metric'
+    },
+    {
+      option: 'style',
+      alias: 's',
+      type: 'String',
+      default: 'tint',
+      enum: Jikishin.prototype.styleTypes,
+      description: 'Style in which the differentiation image is created'
+    },
+    {
+      option: 'compose',
+      alias: 'p',
+      type: 'String',
+      default: 'difference',
+      enum: Jikishin.prototype.composeTypes,
+      description: 'Composition type used for creating a composite image'
+    },
+    {
+      option: 'match',
+      alias: 'M',
+      type: 'String',
+      default: '\\.png$',
+      description: 'Regular expression for matching and filtering image files'
+    },
+    {
+      option: 'long-diff-name',
+      alias: 'l',
+      type: 'Boolean',
+      default: false,
+      description: 'Include used metric, style and composition options in difference image file names'
+    },
+    {
+      option: 'recursive',
+      alias: 'r',
+      type: 'Boolean',
+      default: false,
+      description: 'Recursive search of images in the previous and current directories'
+    }
+  ]
+});
+
+var opts;
+
+try {
+  opts = optsParser.parse(process.argv);
+}
+catch (error) {
+  console.error(error.message);
+  process.exit();
+}
 
 if (opts.version) {
   var json = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
@@ -111,12 +138,12 @@ if (opts.version) {
 }
 
 if (!fs.existsSync(opts.previousDir)) {
-  console.log('Sorry but the previously created image directory should exist');
+  console.log('Sorry but the previously created images directory should exist');
   process.exit();
 }
 
 if (!fs.existsSync(opts.currentDir)) {
-  console.log('Sorry but the currently created image directory should exist');
+  console.log('Sorry but the currently created images directory should exist');
   process.exit();
 }
 

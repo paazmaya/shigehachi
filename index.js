@@ -122,7 +122,7 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   // Directories
   this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
   this.currDir = typeof options.currentDir === 'string' ? options.currentDir : 'current';
-  this.diffDir = typeof options.differenceDir === 'string' ? options.differenceDir : 'difference';
+  this.diffDir = typeof options.outputDir === 'string' ? options.outputDir : 'difference';
 
   // Callback when all commands have been iterated, called with metrics
   this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;

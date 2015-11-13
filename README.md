@@ -245,6 +245,9 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v4.0.0` (2015-11-13)
+    - Switch to `optionator` from `nomnom` #6
+    - `differenceDir` changed to `outputDir`
 * `v3.0.0` (2015-10-29)
     - Require Long Term Supported Node.js version, namely minimum of `4.2.0`
     - Start to use ES2015 features and enable ESLint to validate against those
@@ -274,7 +277,7 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## License
 
-Copyright (c) [Juga Paazmaya <paazmaya@yahoo.com>](http://paazmaya.fi)
+Copyright (c) [Juga Paazmaya](http://paazmaya.fi) <paazmaya@yahoo.com>
 
 Licensed under [the MIT license](./LICENSE).
 
