@@ -101,19 +101,37 @@ Output after the command had executed looked like this:
 The output of `shigehachi -h` pretty much covers all the options:
 
 ```sh
--h, --help            Help and usage instructions
--V, --version         Version number, with verbosity also application name
--v, --verbose         Verbose output, will print which file is currently being processed
--P, --previous-dir    Directory in which the previous images are
--C, --current-dir     Directory in which the current image are, that should have same names as previous
--O, --output-dir      Directory in which the resulting difference images are stored
--c, --color           Color used in the output images, such as \#b10dc9 or purple
--m, --metric          Difference calculation Metric
--s, --style           Style in which the difference images are created
--p, --compose         Composition type used for creating a composite image
--M, --match           Regular expression for matching files. Default '\.png$'
--l, --long-diff-name  Include used metric, style and composition options in difference image file names
--r, --recursive       Shall the previous and current directories be recursively searched and matched
+shigehachi [options]
+
+  -h, --help                                        Help and usage instructions
+  -V, --version                                     Version number, with verbosity also application
+                                                    name
+  -v, --verbose                                     Verbose output, will print which file is
+                                                    currently being processed
+  -P, --previous-dir String                         Directory in which the previous images are
+                                                    stored - default: previous
+  -C, --current-dir String                          Directory in which the current images are
+                                                    stored - default: current
+  -O, --output-dir String                           Directory in which the resulting
+                                                    differentiation images are stored - default:
+                                                    diff-2015-11-16T11-16
+  -c, --color String                                Color used in the output images, such as
+                                                    \#b10dc9 or purple - default: pink
+  -m, --metric One of: mae, mse, pae, psnr, rmse    Difference calculation metric - default: pae
+  -s, --style One of: assign, threshold, tint, xor  Style in which the differentiation image is
+                                                    created - default: tint
+  -p, --compose One of: over, in, out, atop, xor, plus, minus, add, subtract, difference, divide,
+                multiply, bumpmap, copy, copyred, copygreen, copyblue, copyopacity, copycyan,
+                copymagenta, copyyellow, copyblack
+      Composition type used for creating a composite image - default: difference
+  -M, --match String                                Regular expression for matching and filtering
+                                                    image files - default: \.png$
+  -l, --long-diff-name                              Include used metric, style and composition
+                                                    options in difference image file names
+  -r, --recursive                                   Recursive search of images in the previous and
+                                                    current directories
+
+Version 4.0.0
 ```
 
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
@@ -245,9 +263,10 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
-* `v4.0.0` (2015-11-13)
+* `v4.0.0` (2015-11-16)
     - Switch to `optionator` from `nomnom` #6
     - `differenceDir` changed to `outputDir`
+    - Using `stderr` instead of `stdout` for error cases, `console.error()` versus `console.log()`
 * `v3.0.0` (2015-10-29)
     - Require Long Term Supported Node.js version, namely minimum of `4.2.0`
     - Start to use ES2015 features and enable ESLint to validate against those
