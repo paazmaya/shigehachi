@@ -45,7 +45,7 @@ tape('algorithm and directory options gets set', function (test) {
     recursive: true,
 		previousDir: '1',
 		currentDir: '2',
-		differenceDir: '3'
+		outputDir: '3'
   });
 
   test.equal(instance.metric, 'psnr', 'Metric becomes PeakSignalToNoiseRatio');
@@ -86,7 +86,7 @@ tape('wrong type of options get ignored', function (test) {
     recursive: 'yes please',
 		previousDir: 100,
 		currentDir: true,
-		differenceDir: {},
+		outputDir: {},
 		verbose: 'yes',
 		match: false,
     longDiffName: 'hello there',
@@ -592,7 +592,7 @@ tape('diffFilename uses configured diff directory', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
-    differenceDir: 'not-same'
+    outputDir: 'not-same'
   });
 
   var result = instance._diffFilename('old-book-by-mr-sonobe.png');
@@ -647,7 +647,7 @@ tape('output directory gets created when it does not exist', function (test) {
   var instance = new Jikishin({
     verbose: true,
     match: 'nothing$',
-    differenceDir: diffDir
+    outputDir: diffDir
   });
 
   test.ok(fs.existsSync(diffDir) === false, 'Output directory does not exist initially');
@@ -664,7 +664,7 @@ tape('output directory gets created recursively when it does not exist', functio
     recursive: true,
     previousDir: 'tests/fixtures/prev',
     currentDir: 'tests/fixtures/curr',
-    differenceDir: diffDir
+    outputDir: diffDir
   });
 
   test.ok(fs.existsSync(diffDir + '/website') === false, 'Output child directory does not exist initially');

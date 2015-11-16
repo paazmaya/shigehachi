@@ -25,10 +25,30 @@ var dateString = (function dateString(now) {
   return s.join('-');
 })(new Date());
 
+
+var pkg;
+
+try {
+  var packageJson = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
+  pkg = JSON.parse(packageJson);
+}
+catch (error) {
+  console.error('Could not read/parse "package.json", quite strange...');
+  console.error(error);
+  process.exit();
+}
+
 var optsParser = optionator({
   prepend: 'shigehachi [options]',
-  append: 'Version ',
+  append: `Version ${pkg.version}`,
   options: [
+    {
+      option: 'help',
+      alias: 'h',
+      type: 'Boolean',
+      default: false,
+      description: 'Help and usage instructions'
+    },
     {
       option: 'version',
       alias: 'V',
@@ -131,19 +151,22 @@ catch (error) {
 }
 
 if (opts.version) {
-  var json = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
-  var pkg = JSON.parse(json);
   console.log((opts.verbose ? pkg.name + ' v' : '') + pkg.version);
   process.exit();
 }
 
+if (opts.help) {
+  console.log(optsParser.generateHelp());
+  process.exit();
+}
+
 if (!fs.existsSync(opts.previousDir)) {
-  console.log('Sorry but the previously created images directory should exist');
+  console.error('Sorry but the previously created images directory should exist');
   process.exit();
 }
 
 if (!fs.existsSync(opts.currentDir)) {
-  console.log('Sorry but the currently created images directory should exist');
+  console.error('Sorry but the currently created images directory should exist');
   process.exit();
 }
 
@@ -159,6 +182,12 @@ var _whenDone = function whenDone(metrics) {
   console.log(JSON.stringify(metrics, null, '  '));
 };
 opts.whenDone = _whenDone;
+
+
+console.log('');
+console.log('Options used:');
+console.log(opts);
+console.log('');
 
 var kage = new Jikishin(opts);
 kage.exec();
