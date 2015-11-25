@@ -12,7 +12,7 @@
     "url": "http://paazmaya.fi"
   },
   "scripts": {
-    "lint": "eslint -c .eslintrc index.js bin/shigehachi.js",
+    "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js",
     "test": "node tests/index_tape.js && node tests/cli_tape.js && rm -rf tmp",
     "coverage": "covert tests/index_tape.js"
   },
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "covert": "^1.1.0",
-    "eslint": "^1.9.0",
+    "eslint": "^1.10.1",
     "tape": "^4.2.2"
   }
 }
