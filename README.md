@@ -5,6 +5,7 @@
 ![Mr Shigehachi Sonobe](./logo.png)
 
 [![Build Status](https://semaphoreapp.com/api/v1/projects/6e43cdad-b9fe-47a3-9b6c-97cd354353f3/331218/shields_badge.svg)](https://semaphoreapp.com/paazmaya/shigehachi)
+[![codecov.io](https://codecov.io/github/paazmaya/shigehachi/coverage.svg?branch=master)](https://codecov.io/github/paazmaya/shigehachi?branch=master)
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
 [![Dependency Status](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb)
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
@@ -265,6 +266,7 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 * `v4.0.1` (2015-12-04)
     - Using ES2015 arrow functions to reduce the amount of lines in code
+    - Code coverage results via codecov #7
 * `v4.0.0` (2015-11-16)
     - Switch to `optionator` from `nomnom` #6
     - `differenceDir` changed to `outputDir`

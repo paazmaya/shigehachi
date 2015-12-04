@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js",
     "test": "node tests/index_tape.js && node tests/cli_tape.js && rm -rf tmp",
-    "coverage": "covert tests/index_tape.js"
+    "coverage": "istanbul cover tests/index_tape.js && codecov"
   },
   "repository": {
     "type": "git",
@@ -47,8 +47,9 @@
     "optionator": "^0.6.0"
   },
   "devDependencies": {
-    "covert": "^1.1.0",
+    "codecov": "^1.0.1",
     "eslint": "^1.10.1",
+    "istanbul": "^0.4.1",
     "tape": "^4.2.2"
   }
 }
