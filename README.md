@@ -258,7 +258,7 @@ There should be no errors appearing after any JavaScript file changes.
 
 Unit tests are written with [tape]() and can be executed with `npm test`.
 
-Code coverage is inspected with [covert](https://github.com/substack/covert) and
+Code coverage is inspected with [Istanbul](https://github.com/gotwarlost/istanbul) and
 can be executed with `npm run coverage`. Please make sure it is 100% at all times.
 
 
