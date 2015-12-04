@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": {
@@ -25,7 +25,8 @@
     "comparison",
     "difference",
     "diff",
-    "graphicmagick"
+    "graphicmagick",
+    "imagemagick"
   ],
   "files": [
     "bin",

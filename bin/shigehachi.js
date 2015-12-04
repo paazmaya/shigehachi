@@ -16,9 +16,10 @@ const fs = require('fs'),
   path = require('path');
 
 const optionator = require('optionator');
+
 const Jikishin = require('../index');
 
-var dateString = (function dateString(now) {
+const dateString = (function dateString(now) {
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
   var s = now.toISOString().replace(/[\s:]/g, '-').split('-');
   s.pop();
@@ -26,20 +27,20 @@ var dateString = (function dateString(now) {
 })(new Date());
 
 
-var pkg;
+let pkg;
 
 try {
-  var packageJson = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
+  const packageJson = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
   pkg = JSON.parse(packageJson);
 }
 catch (error) {
   console.error('Could not read/parse "package.json", quite strange...');
   console.error(error);
-  process.exit();
+  process.exit(1);
 }
 
-var optsParser = optionator({
-  prepend: 'shigehachi [options]',
+const optsParser = optionator({
+  prepend: `${pkg.name} [options]`,
   append: `Version ${pkg.version}`,
   options: [
     {
@@ -140,14 +141,14 @@ var optsParser = optionator({
   ]
 });
 
-var opts;
+let opts;
 
 try {
   opts = optsParser.parse(process.argv);
 }
 catch (error) {
   console.error(error.message);
-  process.exit();
+  process.exit(1);
 }
 
 if (opts.version) {
@@ -162,12 +163,12 @@ if (opts.help) {
 
 if (!fs.existsSync(opts.previousDir)) {
   console.error('Sorry but the previously created images directory should exist');
-  process.exit();
+  process.exit(1);
 }
 
 if (!fs.existsSync(opts.currentDir)) {
   console.error('Sorry but the currently created images directory should exist');
-  process.exit();
+  process.exit(1);
 }
 
 /**
@@ -175,7 +176,7 @@ if (!fs.existsSync(opts.currentDir)) {
  * @param {Object} metrics Data of the comparison with numbers normalised
  * @returns {void}
  */
-var _whenDone = function whenDone(metrics) {
+const _whenDone = function whenDone(metrics) {
   if (opts.verbose) {
     console.log('Comparison finished. Result metrics:');
   }
@@ -189,5 +190,5 @@ console.log('Options used:');
 console.log(opts);
 console.log('');
 
-var kage = new Jikishin(opts);
+const kage = new Jikishin(opts);
 kage.exec();

@@ -137,22 +137,21 @@ Jikishin.prototype._readOptions = function readOptions(options) {
  */
 Jikishin.prototype._filterDir = function filterDir(basedir, parent) {
   parent = parent || '';
-  var dirpath = path.join(basedir, parent);
-  var dir = fs.readdirSync(dirpath);
-  var _self = this;
+  const dirpath = path.join(basedir, parent);
+  const dir = fs.readdirSync(dirpath);
 
-  var images = [];
+  let images = [];
 
-  dir.forEach(function eachDir(item) {
-    var filepath = path.join(dirpath, item); // full path
-    var itempath = path.join(parent, item); // relative path to basedir
-    if (_self.recursive) {
-      var stat = fs.statSync(filepath);
+  dir.forEach((item) => {
+    const filepath = path.join(dirpath, item); // full path
+    const itempath = path.join(parent, item); // relative path to basedir
+    if (this.recursive) {
+      const stat = fs.statSync(filepath);
       if (stat.isDirectory()) {
-        images = images.concat(filterDir.call(_self, basedir, itempath));
+        images = images.concat(filterDir.call(this, basedir, itempath));
       }
     }
-    if (item.match(_self.match)) {
+    if (item.match(this.match)) {
       images.push(itempath);
     }
   });
@@ -189,16 +188,15 @@ Jikishin.prototype._runner = function runner(gmArgs) {
   if (this.verbose) {
     console.log('Command: gm ' + gmArgs.join(' '));
   }
-  var _self = this;
-  execFile('gm', gmArgs, null, function childCallback(err, stdout) {
+  execFile('gm', gmArgs, null, (err, stdout) => {
     if (err) {
       console.error(err.syscall, err.code);
     }
     else if (gmArgs[0] === 'compare') {
-      var currFile = gmArgs.pop();
-      _self._successRan(stdout, currFile);
+      const currFile = gmArgs.pop();
+      this._successRan(stdout, currFile);
     }
-    _self._nextRun();
+    this._nextRun();
   });
 };
 
@@ -211,15 +209,15 @@ Jikishin.prototype._runner = function runner(gmArgs) {
 Jikishin.prototype._successRan = function successRan(output, currFile) {
 
   // Regular expressions for catching numbers from GM output
-  var expr = {
+  const expr = {
     metric: /^Image Difference\s+\((\w+)\):\s*?/gmi,
     normalised: /^\s+(\w+):\s+([\d\.]+)/gm
   };
 
-  var metric = expr.metric.exec(output);
+  const metric = expr.metric.exec(output);
   if (metric) {
-    var norm = {};
-    var normalised;
+    const norm = {};
+    let normalised;
 
     while ((normalised = expr.normalised.exec(output)) !== null) {
       norm[normalised[1].toLowerCase()] = normalised[2];
@@ -367,8 +365,6 @@ Jikishin.prototype._diffFilename = function diffFilename(picture) {
  * @returns {void}
  */
 Jikishin.prototype.exec = function exec() {
-  var _self = this;
-
   // List of image files in "previous directory"
   this._readPrevDir(this.prevDir);
 
@@ -379,13 +375,13 @@ Jikishin.prototype.exec = function exec() {
     fs.mkdirpSync(this.diffDir);
   }
 
-  this.capturedPrev.forEach(function eachPicture(picture) {
+  this.capturedPrev.forEach((picture) => {
 
-    var prevPicture = path.join(_self.prevDir, picture);
-    var currPicture = path.join(_self.currDir, picture);
-    var diffPicture = _self._diffFilename(picture);
+    var prevPicture = path.join(this.prevDir, picture);
+    var currPicture = path.join(this.currDir, picture);
+    var diffPicture = this._diffFilename(picture);
 
-    if (_self.verbose) {
+    if (this.verbose) {
       console.log('Started command creation for ' + picture);
     }
 
@@ -395,10 +391,10 @@ Jikishin.prototype.exec = function exec() {
       if (!fs.existsSync(dirname)) {
         fs.mkdirpSync(dirname);
       }
-      _self.commandList.push(
-        _self._createCompareCommand(diffPicture, prevPicture, currPicture),
-        _self._createCompositeCommand(diffPicture, prevPicture, currPicture),
-        _self._createNegateCommand(diffPicture)
+      this.commandList.push(
+        this._createCompareCommand(diffPicture, prevPicture, currPicture),
+        this._createCompositeCommand(diffPicture, prevPicture, currPicture),
+        this._createNegateCommand(diffPicture)
       );
     }
   });

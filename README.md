@@ -263,6 +263,8 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v4.0.1` (2015-12-04)
+    - Using ES2015 arrow functions to reduce the amount of lines in code
 * `v4.0.0` (2015-11-16)
     - Switch to `optionator` from `nomnom` #6
     - `differenceDir` changed to `outputDir`
