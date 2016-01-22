@@ -43,13 +43,13 @@
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
-    "fs-extra": "^0.26.2",
-    "optionator": "^0.6.0"
+    "fs-extra": "^0.26.4",
+    "optionator": "^0.8.1"
   },
   "devDependencies": {
     "codecov": "^1.0.1",
-    "eslint": "^1.10.1",
-    "istanbul": "^0.4.1",
-    "tape": "^4.2.2"
+    "eslint": "^1.10.3",
+    "istanbul": "^0.4.2",
+    "tape": "^4.4.0"
   }
 }

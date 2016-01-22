@@ -37,6 +37,9 @@ Elevated privileges might be needed via `sudo`, depending on the platform. In mo
 npm install --global shigehachi
 ```
 
+Please note that this tool requires the minimum [Node.js](https://nodejs.org/en/)
+version to be `4.2.0`, which is the Long Term Support (LTS) version.
+
 Run from the command line, for example getting the help output:
 
 ```sh
@@ -99,7 +102,7 @@ Output after the command had executed looked like this:
 
 ## Command line options
 
-The output of `shigehachi -h` pretty much covers all the options:
+The output of `shigehachi --help` pretty much covers all the options:
 
 ```sh
 shigehachi [options]
@@ -256,7 +259,7 @@ generated three images would become with the default options:
 Linting is done with [ESLint](http://eslint.org) and can be executed with `npm run lint`.
 There should be no errors appearing after any JavaScript file changes.
 
-Unit tests are written with [tape]() and can be executed with `npm test`.
+Unit tests are written with [tape](https://github.com/substack/tape) and can be executed with `npm test`.
 
 Code coverage is inspected with [Istanbul](https://github.com/gotwarlost/istanbul) and
 can be executed with `npm run coverage`. Please make sure it is 100% at all times.
