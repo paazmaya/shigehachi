@@ -38,14 +38,14 @@ tape('algorithm and directory options gets set', function (test) {
   test.plan(8);
 
   var instance = new Jikishin({
-		metric: 'psnr',
-		style: 'xor',
-		color: 'pink',
+    metric: 'psnr',
+    style: 'xor',
+    color: 'pink',
     compose: 'bumpmap',
     recursive: true,
-		previousDir: '1',
-		currentDir: '2',
-		outputDir: '3'
+    previousDir: '1',
+    currentDir: '2',
+    outputDir: '3'
   });
 
   test.equal(instance.metric, 'psnr', 'Metric becomes PeakSignalToNoiseRatio');
@@ -62,10 +62,10 @@ tape('other options gets set', function (test) {
   test.plan(5);
 
   var instance = new Jikishin({
-		verbose: true,
-		match: '\\.(png|jpg|gif)$',
+    verbose: true,
+    match: '\\.(png|jpg|gif)$',
     longDiffName: true,
-		whenDone: function () {}
+    whenDone: function () {}
   });
 
   test.ok(instance.verbose === true, 'Verbosity is boolean true');
@@ -79,18 +79,18 @@ tape('wrong type of options get ignored', function (test) {
   test.plan(12);
 
   var instance = new Jikishin({
-		metric: [],
-		style: 20,
-		color: {},
+    metric: [],
+    style: 20,
+    color: {},
     compose: 1234,
     recursive: 'yes please',
-		previousDir: 100,
-		currentDir: true,
-		outputDir: {},
-		verbose: 'yes',
-		match: false,
+    previousDir: 100,
+    currentDir: true,
+    outputDir: {},
+    verbose: 'yes',
+    match: false,
     longDiffName: 'hello there',
-		whenDone: 'callback me not'
+    whenDone: 'callback me not'
   });
 
   test.equal(instance.metric, 'pae', 'Metric is the default');
@@ -111,7 +111,7 @@ tape('metric option must be one of the predefined', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
-		metric: 'hoplaa'
+    metric: 'hoplaa'
   });
 
   test.equal(instance.metric, 'pae', 'Metric is the default');
@@ -141,10 +141,10 @@ tape('no files found when no matching expression', function (test) {
   test.plan(1);
 
   var instance = new Jikishin({
-		previousDir: 'tests/fixtures/prev/',
+    previousDir: 'tests/fixtures/prev/',
     match: '\\.(tiff|bmp)$'
   });
-	instance._readPrevDir(instance.prevDir);
+  instance._readPrevDir(instance.prevDir);
 
   test.equal(instance.capturedPrev.length, 0, 'Previous images list is empty');
 });

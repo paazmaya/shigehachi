@@ -99,6 +99,25 @@ Jikishin.prototype.composeTypes = [
 Jikishin.prototype._readOptions = function readOptions(options) {
   options = options || {};
 
+  this._readStringOptions(options);
+
+  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
+  this.recursive = typeof options.recursive === 'boolean' ? options.recursive : false;
+
+  // Output file name modifier for including used method/type
+  this.longDiffName = typeof options.longDiffName === 'boolean' ? options.longDiffName : false;
+
+  // Callback when all commands have been iterated, called with metrics
+  this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;
+};
+
+/**
+ * Read the string options and set defaults when not defined
+ * @param {object} options Options passed to the constructor
+ * @returns {void}
+ */
+Jikishin.prototype._readStringOptions = function readStringOptions(options) {
+
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
     this.metricTypes.indexOf(options.metric) !== -1 ? options.metric : 'pae';
@@ -110,22 +129,13 @@ Jikishin.prototype._readOptions = function readOptions(options) {
   this.compose = typeof options.compose === 'string' &&
     this.composeTypes.indexOf(options.compose) !== -1 ? options.compose : 'difference';
 
-  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
-  this.recursive = typeof options.recursive === 'boolean' ? options.recursive : false;
-
   // Regular expression for matching image files
   this.match = typeof options.match === 'string' ? new RegExp(options.match) : /\.png$/;
-
-  // Output file name modifier for including used method/type
-  this.longDiffName = typeof options.longDiffName === 'boolean' ? options.longDiffName : false;
 
   // Directories
   this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
   this.currDir = typeof options.currentDir === 'string' ? options.currentDir : 'current';
   this.diffDir = typeof options.outputDir === 'string' ? options.outputDir : 'difference';
-
-  // Callback when all commands have been iterated, called with metrics
-  this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;
 };
 
 /**

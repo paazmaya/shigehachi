@@ -21,8 +21,8 @@ var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')),
 tape('cli should output version number', function (test) {
   test.plan(1);
 
-	execFile('node', [cli, '-V'], null, function (err, stdout) {
-		test.equals(stdout.trim(), pkg.version, 'Version is the same as in package.json');
+  execFile('node', [cli, '-V'], null, function (err, stdout) {
+    test.equals(stdout.trim(), pkg.version, 'Version is the same as in package.json');
   });
 
 });
@@ -30,8 +30,8 @@ tape('cli should output version number', function (test) {
 tape('cli should output name and version number when verbose version', function (test) {
   test.plan(1);
 
-	execFile('node', [cli, '-Vv'], null, function (err, stdout) {
-		test.equals(stdout.trim(), pkg.name + ' v' + pkg.version, 'Name and version is the same as in package.json');
+  execFile('node', [cli, '-Vv'], null, function (err, stdout) {
+    test.equals(stdout.trim(), pkg.name + ' v' + pkg.version, 'Name and version is the same as in package.json');
   });
 
 });
