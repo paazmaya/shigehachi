@@ -4,7 +4,7 @@
 
 ![Mr Shigehachi Sonobe](./logo.png)
 
-[![Build Status](https://semaphoreapp.com/api/v1/projects/6e43cdad-b9fe-47a3-9b6c-97cd354353f3/331218/shields_badge.svg)](https://semaphoreapp.com/paazmaya/shigehachi)
+[![Build Status](https://semaphoreci.com/api/v1/paazmaya/shigehachi/branches/master/shields_badge.svg)](https://semaphoreci.com/paazmaya/shigehachi)
 [![codecov.io](https://codecov.io/github/paazmaya/shigehachi/coverage.svg?branch=master)](https://codecov.io/github/paazmaya/shigehachi?branch=master)
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
 [![Dependency Status](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb)

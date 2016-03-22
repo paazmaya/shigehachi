@@ -198,9 +198,10 @@ Jikishin.prototype._runner = function runner(gmArgs) {
   if (this.verbose) {
     console.log('Command: gm ' + gmArgs.join(' '));
   }
-  execFile('gm', gmArgs, null, (err, stdout) => {
-    if (err) {
-      console.error(err.syscall, err.code);
+  execFile('gm', gmArgs, null, (error, stdout) => {
+    if (error) {
+      console.log(error.syscall, error.code);
+      console.error(error.syscall, error.code);
     }
     else if (gmArgs[0] === 'compare') {
       const currFile = gmArgs.pop();

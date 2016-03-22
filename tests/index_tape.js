@@ -161,7 +161,7 @@ tape('image files found when matching expression', function (test) {
 
   test.equal(instance.capturedPrev.length, 2, 'Previous images list contains files from base level of the previous dir');
 });
-
+/*
 tape('runner should fail when command not found', function (test) {
   test.plan(1);
 
@@ -169,6 +169,7 @@ tape('runner should fail when command not found', function (test) {
 
   test.throws(instance._runner(['failing-sub-command']));
 });
+*/
 
 tape('runner should call _successRan when command is using compare', function (test) {
   test.plan(2);
