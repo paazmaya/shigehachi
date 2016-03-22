@@ -267,6 +267,8 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v4.0.2` (2016-03-22)
+    - Plenty of dependency updates
 * `v4.0.1` (2015-12-04)
     - Using ES2015 arrow functions to reduce the amount of lines in code
     - Code coverage results via codecov #7
