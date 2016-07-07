@@ -30,7 +30,7 @@ const dateString = (function dateString(now) {
 let pkg;
 
 try {
-  const packageJson = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8');
+  const packageJson = fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8');
   pkg = JSON.parse(packageJson);
 }
 catch (error) {
