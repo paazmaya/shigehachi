@@ -4,21 +4,21 @@
  *
  * Compare two sets of images and generate difference images
  *
- * Copyright (c) Juga Paazmaya <paazmaya@yahoo.com> (http://paazmaya.fi)
+ * Copyright (c) Juga Paazmaya <paazmaya@yahoo.com> (https://paazmaya.fi)
  * Licensed under the MIT license
  */
 
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var tape = require('tape'),
+const tape = require('tape'),
   Jikishin = require('../index');
 
 tape('default options gets set', function (test) {
   test.plan(12);
 
-  var instance = new Jikishin();
+  const instance = new Jikishin();
 
   test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
   test.equal(instance.style, 'tint', 'Style is tint');
@@ -37,7 +37,7 @@ tape('default options gets set', function (test) {
 tape('algorithm and directory options gets set', function (test) {
   test.plan(8);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     metric: 'psnr',
     style: 'xor',
     color: 'pink',
@@ -61,7 +61,7 @@ tape('algorithm and directory options gets set', function (test) {
 tape('other options gets set', function (test) {
   test.plan(5);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     verbose: true,
     match: '\\.(png|jpg|gif)$',
     longDiffName: true,
@@ -78,7 +78,7 @@ tape('other options gets set', function (test) {
 tape('wrong type of options get ignored', function (test) {
   test.plan(12);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     metric: [],
     style: 20,
     color: {},
@@ -110,7 +110,7 @@ tape('wrong type of options get ignored', function (test) {
 tape('metric option must be one of the predefined', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     metric: 'hoplaa'
   });
 
@@ -120,7 +120,7 @@ tape('metric option must be one of the predefined', function (test) {
 tape('style option must be one of the predefined', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     style: 'hoplaa'
   });
 
@@ -130,7 +130,7 @@ tape('style option must be one of the predefined', function (test) {
 tape('compose option must be one of the predefined', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     compose: 'otherkind'
   });
 
@@ -140,7 +140,7 @@ tape('compose option must be one of the predefined', function (test) {
 tape('no files found when no matching expression', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     previousDir: 'tests/fixtures/prev/',
     match: '\\.(tiff|bmp)$'
   });
@@ -152,7 +152,7 @@ tape('no files found when no matching expression', function (test) {
 tape('image files found when matching expression', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     previousDir: 'tests/fixtures/prev/',
     match: '\\.(png|gif)$',
     verbose: true
@@ -165,7 +165,7 @@ tape('image files found when matching expression', function (test) {
 tape('runner should fail when command not found', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin();
+  const instance = new Jikishin();
 
   test.throws(instance._runner(['failing-sub-command']));
 });
@@ -174,7 +174,7 @@ tape('runner should fail when command not found', function (test) {
 tape('runner should call _successRan when command is using compare', function (test) {
   test.plan(2);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     verbose: true
   });
 
@@ -187,238 +187,19 @@ tape('runner should call _successRan when command is using compare', function (t
   instance._runner(['compare', 'tests/fixtures/prev/young-girl.gif', 'tests/fixtures/curr/young-girl.gif']);
 });
 
-tape('gm output gets parsed meaningfully with mae metric', function (test) {
-  test.plan(5);
-
-  var output = [
-    'Image Difference (MeanAbsoluteError):',
-    '           Normalized    Absolute',
-    '          ============  ==========',
-    '     Red: 0.0135227820        3.4',
-    '   Green: 0.0771904810       19.7',
-    '    Blue: 0.0779529725       19.9',
-    ' Opacity: 0.0982667803       25.1',
-    '   Total: 0.0667332540       17.0'
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin({
-    metric: 'mae'
-  });
-  instance._successRan(output, filepath);
-
-  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
-
-  var res = instance.results[filepath];
-
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
-  test.equal(res.metric, 'MeanAbsoluteError', 'Metric recorded correctly');
-
-  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
-  test.equal(res.normalised.total, '0.0667332540', 'Normalised value for total recorded correctly');
-});
-
-tape('gm output gets parsed meaningfully with mse metric', function (test) {
-  test.plan(5);
-
-  var output = [
-    'Image Difference (MeanSquaredError):',
-    '           Normalized    Absolute',
-    '          ============  ==========',
-    '     Red: 0.0016826921        0.4',
-    '   Green: 0.0602237442       15.4',
-    '    Blue: 0.0614397708       15.7',
-    ' Opacity: 0.0982667803       25.1',
-    '   Total: 0.0554032469       14.1'
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin({
-    metric: 'mse'
-  });
-  instance._successRan(output, filepath);
-
-  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
-
-  var res = instance.results[filepath];
-
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
-  test.equal(res.metric, 'MeanSquaredError', 'Metric recorded correctly');
-
-  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
-  test.equal(res.normalised.total, '0.0554032469', 'Normalised value for total recorded correctly');
-});
-
-tape('gm output gets parsed meaningfully with pae metric', function (test) {
-  test.plan(5);
-
-  var output = [
-    'Image Difference (PeakAbsoluteError):',
-    '           Normalized    Absolute ',
-    '          ============  ==========',
-    '     Red: 0.1411764706       36.0 ',
-    '   Green: 0.7882352941      201.0 ',
-    '    Blue: 0.7960784314      203.0 ',
-    ' Opacity: 1.0000000000      255.0 ',
-    '   Total: 1.0000000000      255.0 '
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin({
-    metric: 'pae'
-  });
-  instance._successRan(output, filepath);
-
-  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
-
-  var res = instance.results[filepath];
-
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
-  test.equal(res.metric, 'PeakAbsoluteError', 'Metric recorded correctly');
-
-  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
-  test.equal(res.normalised.total, '1.0000000000', 'Normalised value for total recorded correctly');
-});
-
-tape('gm output gets parsed meaningfully with psnr metric', function (test) {
-  test.plan(5);
-
-  var output = [
-    'Image Difference (PeakSignalToNoiseRatio):',
-    '           PSNR',
-    '          ======',
-    '     Red: 27.74',
-    '   Green: 12.20',
-    '    Blue: 12.12',
-    ' Opacity: 10.08',
-    '   Total: 12.56'
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin({
-    metric: 'psnr'
-  });
-  instance._successRan(output, filepath);
-
-  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
-
-  var res = instance.results[filepath];
-
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
-  test.equal(res.metric, 'PeakSignalToNoiseRatio', 'Metric recorded correctly');
-
-  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
-  test.equal(res.normalised.total, '12.56', 'Normalised value for total recorded correctly');
-});
-
-tape('gm output gets parsed meaningfully with rmse metric', function (test) {
-  test.plan(5);
-
-  var output = [
-    'Image Difference (RootMeanSquaredError):',
-    '           Normalized    Absolute',
-    '          ============  ==========',
-    '     Red: 0.0410206303       10.5',
-    '   Green: 0.2454052653       62.6',
-    '    Blue: 0.2478704718       63.2',
-    ' Opacity: 0.3134753265       79.9',
-    '   Total: 0.2353789431       60.0'
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin({
-    metric: 'rmse'
-  });
-  instance._successRan(output, filepath);
-
-  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
-
-  var res = instance.results[filepath];
-
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
-  test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
-
-  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
-  test.equal(res.normalised.total, '0.2353789431', 'Normalised value for total recorded correctly');
-});
-tape('gm output gets parsed meaningfully with double output from rmse metric', function (test) {
-  test.plan(5);
-
-  var output = [
-    'Image Difference (RootMeanSquaredError):',
-    '           Normalized    Absolute',
-    '          ============  ==========',
-    '     Red: 0.0410206303       10.5',
-    '   Green: 0.2454052653       62.6',
-    '    Blue: 0.2478704718       63.2',
-    ' Opacity: 0.3134753265       79.9',
-    '   Total: 0.2353789431       60.0',
-    '',
-    'Image Difference (RootMeanSquaredError):',
-    '           Normalized    Absolute',
-    '          ============  ==========',
-    '     Red: 0.0420206303       10.5',
-    '   Green: 0.2464052653       62.6',
-    '    Blue: 0.2488704718       63.2',
-    ' Opacity: 0.3144753265       79.9',
-    '   Total: 0.2393789431       60.0'
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin({
-    metric: 'rmse'
-  });
-  instance._successRan(output, filepath);
-
-  test.ok(instance.results.hasOwnProperty(filepath), 'Results were added');
-
-  var res = instance.results[filepath];
-
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
-  test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
-
-  test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
-  test.equal(res.normalised.total, '0.2393789431', 'Normalised value for total from the latter values');
-});
-
 tape('gm output with version info', function (test) {
   test.plan(1);
 
-  var output = [
+  const output = [
     'GraphicsMagick 1.3.21 2015-02-28 Q8 http://www.GraphicsMagick.org/',
     'Copyright (C) 2002-2014 GraphicsMagick Group.',
     'Additional copyrights and licenses apply to this software.',
     'See http://www.GraphicsMagick.org/www/Copyright.html for details.'
   ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
+  const filepath = 'tests/fixtures/curr/postcss.png';
 
-  var instance = new Jikishin();
+  const instance = new Jikishin();
   instance._successRan(output, filepath);
-
-  test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
-});
-
-tape('gm output with messy things', function (test) {
-  test.plan(1);
-
-  var output = [
-    'Image Difference (RootMeanSquaredError):',
-    'GraphicsMagick 1.3.21 2015-02-28 Q8 http://www.GraphicsMagick.org/',
-    '          ============  ==========',
-    '     Red: 0.0410206303       10.5',
-    '    Blue: 0.2478704718       63.2',
-    'Copyright (C) 2002-2014 GraphicsMagick Group.',
-    'Additional copyrights and licenses apply to this software.',
-    '          ======',
-    '   Green: 12.20',
-    'See http://www.GraphicsMagick.org/www/Copyright.html for details.'
-  ].join('\n');
-  var filepath = 'tests/fixtures/curr/postcss.png';
-
-  var instance = new Jikishin();
-  instance._successRan(output, filepath);
-
-  console.log(JSON.stringify(instance.results, null, '  '));
 
   test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
 });
@@ -426,7 +207,7 @@ tape('gm output with messy things', function (test) {
 tape('next runner calls runner', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     verbose: true
   });
   instance.commandList = [['version']];
@@ -441,7 +222,7 @@ tape('next runner calls runner', function (test) {
 tape('next runner calls callback when no more command queued', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     verbose: true,
     whenDone: function (res) {
       test.deepEqual(res, {
@@ -456,110 +237,11 @@ tape('next runner calls callback when no more command queued', function (test) {
   instance._nextRun();
 });
 
-tape('create compare command', function (test) {
-  test.plan(2);
-
-  var diff = 'difference.png';
-  var prev = 'previous.png';
-  var curr = 'current.png';
-  var instance = new Jikishin({
-    metric: 'psnr',
-    style: 'assign',
-    color: 'purple'
-  });
-  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  var args = instance._createCompareCommand(diff, prev, curr);
-
-  test.deepEqual(args, [
-    'compare',
-    '-metric',
-    'psnr',
-    '-highlight-color',
-    '"purple"',
-    '-highlight-style',
-    'assign',
-    '-file',
-    diff,
-    prev,
-    curr
-  ], 'Returned arguments are correct');
-});
-
-tape('create composite command', function (test) {
-  test.plan(2);
-
-  var diff = 'difference.png';
-  var prev = 'previous.png';
-  var curr = 'current.png';
-  var instance = new Jikishin({
-    metric: 'psnr',
-    style: 'assign',
-    color: 'purple',
-    compose: 'copycyan'
-  });
-  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  var args = instance._createCompositeCommand(diff, prev, curr);
-
-  test.deepEqual(args, [
-    'composite',
-    curr,
-    prev,
-    '-compose',
-    'copycyan',
-    'difference-composite.png'
-  ], 'Returned arguments are correct');
-});
-
-tape('create composite command uses longDiffName', function (test) {
-  test.plan(2);
-
-  var diff = 'difference.png';
-  var prev = 'previous.png';
-  var curr = 'current.png';
-  var instance = new Jikishin({
-    metric: 'psnr',
-    style: 'assign',
-    color: 'purple',
-    compose: 'copycyan',
-    longDiffName: true
-  });
-  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  var args = instance._createCompositeCommand(diff, prev, curr);
-
-  test.deepEqual(args, [
-    'composite',
-    curr,
-    prev,
-    '-compose',
-    'copycyan',
-    'difference-composite-copycyan.png'
-  ], 'Returned arguments are correct');
-});
-
-tape('create negate command', function (test) {
-  test.plan(2);
-
-  var diff = 'difference.png';
-  var instance = new Jikishin({
-    metric: 'psnr',
-    style: 'assign',
-    color: 'purple'
-  });
-  test.equal(instance.commandList.length, 0, 'Command list is initially empty');
-  var args = instance._createNegateCommand(diff);
-
-  test.deepEqual(args, [
-    'convert',
-    '-negate',
-    diff,
-    'difference-negate.png'
-  ], 'Returned arguments are correct');
-});
 
 tape('exec should not create commands when no files, but call next runner', function (test) {
   test.plan(2);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     verbose: true
   });
 
@@ -574,7 +256,7 @@ tape('exec should not create commands when no files, but call next runner', func
 tape('exec creates commands and calls next runner', function (test) {
   test.plan(2);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     verbose: true,
     previousDir: 'tests/fixtures/prev',
     currentDir: 'tests/fixtures/curr',
@@ -592,60 +274,48 @@ tape('exec creates commands and calls next runner', function (test) {
 tape('diffFilename uses configured diff directory', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     outputDir: 'not-same'
   });
 
-  var result = instance._diffFilename('old-book-by-mr-sonobe.png');
+  const result = instance._diffFilename('old-book-by-mr-sonobe.png');
   test.equal(result, 'not-same/old-book-by-mr-sonobe.png', 'Resulting file is png');
 });
 
 tape('diffFilename enforces diff image as png', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin();
+  const instance = new Jikishin();
 
-  var result = instance._diffFilename('old-book-by-mr-sonobe.jpg');
+  const result = instance._diffFilename('old-book-by-mr-sonobe.jpg');
   test.equal(result, 'difference/old-book-by-mr-sonobe.png', 'Resulting file is png');
 });
 
 tape('diffFilename enforces diff image as png even when it has no suffix', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin();
+  const instance = new Jikishin();
 
-  var result = instance._diffFilename('old-book-by-mr-sonobe');
+  const result = instance._diffFilename('old-book-by-mr-sonobe');
   test.equal(result, 'difference/old-book-by-mr-sonobe.png', 'Resulting file is png');
 });
 
 tape('diffFilename gets more details when longDiffName used', function (test) {
   test.plan(1);
 
-  var instance = new Jikishin({
+  const instance = new Jikishin({
     longDiffName: true
   });
 
-  var result = instance._diffFilename('old-book-by-mr-sonobe');
+  const result = instance._diffFilename('old-book-by-mr-sonobe');
   test.equal(result, 'difference/old-book-by-mr-sonobe-pae-tint.png', 'Resulting file contains default metric');
-});
-
-tape('filter directories recursively', function (test) {
-  test.plan(1);
-
-  var instance = new Jikishin({
-    recursive: true
-  });
-
-  var images = instance._filterDir('tests/fixtures/curr');
-
-  test.equal(images.length, 2, 'Both png images were found');
 });
 
 tape('output directory gets created when it does not exist', function (test) {
   test.plan(2);
 
-  var diffDir = 'tmp/diff-' + (new Date).getTime();
-  var instance = new Jikishin({
+  const diffDir = 'tmp/diff-' + (new Date).getTime();
+  const instance = new Jikishin({
     verbose: true,
     match: 'nothing$',
     outputDir: diffDir
@@ -659,8 +329,8 @@ tape('output directory gets created when it does not exist', function (test) {
 tape('output directory gets created recursively when it does not exist', function (test) {
   test.plan(2);
 
-  var diffDir = 'tmp/diff-' + (new Date).getTime();
-  var instance = new Jikishin({
+  const diffDir = 'tmp/diff-' + (new Date).getTime();
+  const instance = new Jikishin({
     verbose: true,
     recursive: true,
     previousDir: 'tests/fixtures/prev',

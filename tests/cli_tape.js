@@ -4,18 +4,18 @@
  *
  * Compare two sets of images and generate difference images
  *
- * Copyright (c) Juga Paazmaya <paazmaya@yahoo.com> (http://paazmaya.fi)
+ * Copyright (c) Juga Paazmaya <paazmaya@yahoo.com> (https://paazmaya.fi)
  * Licensed under the MIT license
  */
 
 'use strict';
 
-var fs = require('fs'),
+const fs = require('fs'),
   execFile = require('child_process').execFile;
 
-var tape = require('tape');
+const tape = require('tape');
 
-var pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')),
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')),
   cli = 'bin/shigehachi.js';
 
 tape('cli should output version number', function (test) {
@@ -40,7 +40,7 @@ tape('cli help output', function (test) {
   test.plan(1);
 
   execFile('node', [cli, '--help'], null, function (err, stdout) {
-    var count = (stdout.match(/differentiation/g) || []).length;
+    const count = (stdout.match(/differentiation/g) || []).length;
     test.equals(count, 2, 'Word "differentiation" is found several times');
   });
 

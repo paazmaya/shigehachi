@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": {
@@ -9,12 +9,12 @@
   "author": {
     "name": "Juga Paazmaya",
     "email": "paazmaya@yahoo.com",
-    "url": "http://paazmaya.fi"
+    "url": "https://paazmaya.fi"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js",
-    "test": "node tests/index_tape.js && node tests/cli_tape.js && rm -rf tmp",
-    "coverage": "istanbul cover tests/index_tape.js && codecov"
+    "test": "tape tests/*_tape.js && rm -rf tmp",
+    "coverage": "istanbul cover tests/*_tape.js && codecov"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   ],
   "files": [
     "bin",
+    "lib",
     "LICENSE",
     "index.js",
     "README.md"
@@ -48,8 +49,8 @@
   },
   "devDependencies": {
     "codecov": "^1.0.1",
-    "eslint": "^3.0.0",
-    "eslint-config-paazmaya": "^2.2.0",
+    "eslint": "^3.0.1",
+    "eslint-config-paazmaya": "^2.3.0",
     "istanbul": "^0.4.4",
     "tape": "^4.6.0"
   }

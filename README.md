@@ -267,6 +267,9 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## Version history
 
+* `v4.0.3` (2016-07-11)
+    - There is always room for dependency updates
+    - Functionality split in to different files
 * `v4.0.2` (2016-03-22)
     - Plenty of dependency updates
 * `v4.0.1` (2015-12-04)
@@ -305,7 +308,7 @@ can be executed with `npm run coverage`. Please make sure it is 100% at all time
 
 ## License
 
-Copyright (c) [Juga Paazmaya](http://paazmaya.fi) <paazmaya@yahoo.com>
+Copyright (c) [Juga Paazmaya](https://paazmaya.fi) <paazmaya@yahoo.com>
 
 Licensed under [the MIT license](./LICENSE).
 
