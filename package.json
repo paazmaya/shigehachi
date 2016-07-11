@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js",
     "test": "tape tests/*_tape.js && rm -rf tmp",
-    "coverage": "istanbul cover tests/*_tape.js && codecov"
+    "coverage": "istanbul cover tape -- tests/*_tape.js && codecov"
   },
   "repository": {
     "type": "git",
