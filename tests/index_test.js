@@ -10,7 +10,8 @@
 
 'use strict';
 
-const fs = require('fs');
+const fs = require('fs'),
+  path = require('path');
 
 const tape = require('tape'),
   Jikishin = require('../index');
@@ -279,7 +280,7 @@ tape('diffFilename uses configured diff directory', function (test) {
   });
 
   const result = instance._diffFilename('old-book-by-mr-sonobe.png');
-  test.equal(result, 'not-same/old-book-by-mr-sonobe.png', 'Resulting file is png');
+  test.equal(result, path.join('not-same', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
 });
 
 tape('diffFilename enforces diff image as png', function (test) {
@@ -288,7 +289,7 @@ tape('diffFilename enforces diff image as png', function (test) {
   const instance = new Jikishin();
 
   const result = instance._diffFilename('old-book-by-mr-sonobe.jpg');
-  test.equal(result, 'difference/old-book-by-mr-sonobe.png', 'Resulting file is png');
+  test.equal(result, path.join('difference', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
 });
 
 tape('diffFilename enforces diff image as png even when it has no suffix', function (test) {
@@ -297,7 +298,7 @@ tape('diffFilename enforces diff image as png even when it has no suffix', funct
   const instance = new Jikishin();
 
   const result = instance._diffFilename('old-book-by-mr-sonobe');
-  test.equal(result, 'difference/old-book-by-mr-sonobe.png', 'Resulting file is png');
+  test.equal(result, path.join('difference', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
 });
 
 tape('diffFilename gets more details when longDiffName used', function (test) {
@@ -308,7 +309,7 @@ tape('diffFilename gets more details when longDiffName used', function (test) {
   });
 
   const result = instance._diffFilename('old-book-by-mr-sonobe');
-  test.equal(result, 'difference/old-book-by-mr-sonobe-pae-tint.png', 'Resulting file contains default metric');
+  test.equal(result, path.join('difference', 'old-book-by-mr-sonobe-pae-tint.png'), 'Resulting file contains default metric');
 });
 
 tape('output directory gets created when it does not exist', function (test) {
