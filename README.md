@@ -260,14 +260,15 @@ generated three images would become with the default options:
 Linting is done with [ESLint](http://eslint.org) and can be executed with `npm run lint`.
 There should be no errors appearing after any JavaScript file changes.
 
-Unit tests are written with [tape](https://github.com/substack/tape) and can be executed with `npm test`.
-
-Code coverage is inspected with [Istanbul](https://github.com/gotwarlost/istanbul) and
-can be executed with `npm run coverage`. Please make sure it is 100% at all times.
-
+Unit tests are written with [`tape`](https://github.com/substack/tape) and can be executed with `npm test`.
+Code coverage is inspected with [`nyc`](https://github.com/istanbuljs/nyc) and
+can be executed with `npm run coverage` after running `npm test`.
+Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v4.0.4` (2016-08-08)
+    - Move code coverage from `instanbul` to `nyc`
 * `v4.0.3` (2016-07-11)
     - There is always room for dependency updates
     - Functionality split in to different files

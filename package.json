@@ -3,9 +3,7 @@
   "version": "4.0.3",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
-  "bin": {
-    "shigehachi": "bin/shigehachi.js"
-  },
+  "bin": "bin/shigehachi.js",
   "author": {
     "name": "Juga Paazmaya",
     "email": "paazmaya@yahoo.com",
@@ -13,8 +11,8 @@
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js",
-    "test": "tape tests/*_tape.js && rm -rf tmp",
-    "coverage": "istanbul cover tape -- tests/*_tape.js && codecov"
+    "test": "nyc tape tests/*_test.js && rm -rf tmp",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
@@ -51,7 +49,7 @@
     "codecov": "^1.0.1",
     "eslint": "^3.2.2",
     "eslint-config-paazmaya": "^2.3.1",
-    "istanbul": "^0.4.4",
+    "nyc": "^7.1.0",
     "tape": "^4.6.0"
   }
 }

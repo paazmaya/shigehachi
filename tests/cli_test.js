@@ -11,17 +11,17 @@
 'use strict';
 
 const fs = require('fs'),
+  path = require('path'),
   execFile = require('child_process').execFile;
 
 const tape = require('tape');
 
-const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')),
-  cli = 'bin/shigehachi.js';
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
 
 tape('cli should output version number', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-V'], null, function (err, stdout) {
+  execFile('node', [pkg.bin, '-V'], null, function (err, stdout) {
     test.equals(stdout.trim(), pkg.version, 'Version is the same as in package.json');
   });
 
@@ -30,7 +30,7 @@ tape('cli should output version number', function (test) {
 tape('cli should output name and version number when verbose version', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-Vv'], null, function (err, stdout) {
+  execFile('node', [pkg.bin, '-Vv'], null, function (err, stdout) {
     test.equals(stdout.trim(), pkg.name + ' v' + pkg.version, 'Name and version is the same as in package.json');
   });
 
@@ -39,7 +39,7 @@ tape('cli should output name and version number when verbose version', function 
 tape('cli help output', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '--help'], null, function (err, stdout) {
+  execFile('node', [pkg.bin, '--help'], null, function (err, stdout) {
     const count = (stdout.match(/differentiation/g) || []).length;
     test.equals(count, 2, 'Word "differentiation" is found several times');
   });
@@ -49,7 +49,7 @@ tape('cli help output', function (test) {
 tape('cli does not allow to use wrong metric', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-m', 'hoplaa'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-m', 'hoplaa'], null, function (err, stdout, stderr) {
     test.ok(stderr.indexOf('psnr,') !== -1, 'Metric options listed');
   });
 
@@ -58,7 +58,7 @@ tape('cli does not allow to use wrong metric', function (test) {
 tape('cli does not allow to use wrong style', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-s', 'hoplaa'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-s', 'hoplaa'], null, function (err, stdout, stderr) {
     test.ok(stderr.indexOf('threshold,') !== -1, 'Style options listed');
   });
 
@@ -67,7 +67,7 @@ tape('cli does not allow to use wrong style', function (test) {
 tape('cli does not allow to use wrong compose', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-p', 'hoplaa'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-p', 'hoplaa'], null, function (err, stdout, stderr) {
     test.ok(stderr.indexOf('copymagenta,') !== -1, 'Compose options listed');
   });
 
@@ -76,7 +76,7 @@ tape('cli does not allow to use wrong compose', function (test) {
 tape('cli should fail when previous directory does not exist', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-P', 'not-around-here'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-P', 'not-around-here'], null, function (err, stdout, stderr) {
     test.equals(stderr.trim(), 'Sorry but the previously created images directory should exist', 'Error message');
   });
 
@@ -85,7 +85,7 @@ tape('cli should fail when previous directory does not exist', function (test) {
 tape('cli should fail when current directory does not exist', function (test) {
   test.plan(1);
 
-  execFile('node', [cli, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
     test.equals(stderr.trim(), 'Sorry but the currently created images directory should exist', 'Error message');
   });
 
