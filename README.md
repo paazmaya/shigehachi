@@ -269,6 +269,8 @@ Please make sure it is over 90% at all times.
 
 * `v4.0.4` (2016-08-08)
     - Move code coverage from `instanbul` to `nyc`
+    - Test also in Windows, at [AppVeyor](https://ci.appveyor.com/project/paazmaya/shigehachi)
+    - Lint lib folder contents too
 * `v4.0.3` (2016-07-11)
     - There is always room for dependency updates
     - Functionality split in to different files

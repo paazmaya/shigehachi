@@ -10,7 +10,7 @@
     "url": "https://paazmaya.fi"
   },
   "scripts": {
-    "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js",
+    "lint": "eslint -c .eslintrc.json index.js bin/shigehachi.js lib",
     "test": "nyc tape tests/*_test.js && rm -rf tmp",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
