@@ -33,7 +33,7 @@ tape('create composite command', function (test) {
     prev,
     '-compose',
     'copycyan',
-    '"difference-composite.png"'
+    'difference-composite.png'
   ], 'Returned arguments are correct');
 });
 
@@ -58,7 +58,7 @@ tape('create composite command uses longDiffName', function (test) {
     prev,
     '-compose',
     'copycyan',
-    '"difference-composite-copycyan.png"'
+    'difference-composite-copycyan.png'
   ], 'Returned arguments are correct');
 });
 
@@ -84,9 +84,9 @@ tape('create compare command', function (test) {
     '-highlight-style',
     'assign',
     '-file',
-    '"difference image.png"',
-    '"previous image.png"',
-    '"current image.png"'
+    'difference image.png',
+    'previous image.png',
+    'current image.png'
   ], 'Returned arguments are correct');
 });
 
@@ -99,7 +99,7 @@ tape('create negate command', function (test) {
   test.deepEqual(args, [
     'convert',
     '-negate',
-    '"difference.png"',
-    '"difference-negate.png"'
+    'difference.png',
+    'difference-negate.png'
   ], 'Returned arguments are correct');
 });

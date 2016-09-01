@@ -176,8 +176,8 @@ Jikishin.prototype._runner = function runner(gmArgs) {
   }
   execFile('gm', gmArgs, null, (error, stdout) => {
     if (error) {
-      console.log(error.syscall, error.code);
-      console.error(error.syscall, error.code);
+      console.error('Error occurred when running GraphicsMagick command');
+      console.error(error);
     }
     else if (gmArgs[0] === 'compare') {
       const currFile = gmArgs.pop();
