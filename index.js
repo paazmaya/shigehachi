@@ -128,7 +128,7 @@ Jikishin.prototype._readStringOptions = function readStringOptions(options) {
   this.style = typeof options.style === 'string' &&
     this.styleTypes.indexOf(options.style) !== -1 ? options.style : 'tint';
   // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
-  this.color = typeof options.color === 'string' ? options.color : '#85144b';
+  this.color = typeof options.color === 'string' ? options.color : 'pink';
 
   this.compose = typeof options.compose === 'string' &&
     this.composeTypes.indexOf(options.compose) !== -1 ? options.compose : 'difference';

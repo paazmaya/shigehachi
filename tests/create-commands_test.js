@@ -33,7 +33,7 @@ tape('create composite command', function (test) {
     prev,
     '-compose',
     'copycyan',
-    'difference-composite.png'
+    '"difference-composite.png"'
   ], 'Returned arguments are correct');
 });
 
@@ -58,16 +58,16 @@ tape('create composite command uses longDiffName', function (test) {
     prev,
     '-compose',
     'copycyan',
-    'difference-composite-copycyan.png'
+    '"difference-composite-copycyan.png"'
   ], 'Returned arguments are correct');
 });
 
 tape('create compare command', function (test) {
   test.plan(1);
 
-  const diff = 'difference.png';
-  const prev = 'previous.png';
-  const curr = 'current.png';
+  const diff = 'difference image.png';
+  const prev = 'previous image.png';
+  const curr = 'current image.png';
   const settings = {
     metric: 'psnr',
     style: 'assign',
@@ -80,13 +80,13 @@ tape('create compare command', function (test) {
     '-metric',
     'psnr',
     '-highlight-color',
-    '"purple"',
+    'purple',
     '-highlight-style',
     'assign',
     '-file',
-    diff,
-    prev,
-    curr
+    '"difference image.png"',
+    '"previous image.png"',
+    '"current image.png"'
   ], 'Returned arguments are correct');
 });
 
@@ -94,17 +94,12 @@ tape('create negate command', function (test) {
   test.plan(1);
 
   const diff = 'difference.png';
-  const settings = {
-    metric: 'psnr',
-    style: 'assign',
-    color: 'purple'
-  };
   const args = createCommands.negate(diff);
 
   test.deepEqual(args, [
     'convert',
     '-negate',
-    diff,
-    'difference-negate.png'
+    '"difference.png"',
+    '"difference-negate.png"'
   ], 'Returned arguments are correct');
 });

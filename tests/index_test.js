@@ -23,7 +23,7 @@ tape('default options gets set', function (test) {
 
   test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
   test.equal(instance.style, 'tint', 'Style is tint');
-  test.equal(instance.color, '#85144b', 'Color is something in hex');
+  test.equal(instance.color, 'pink', 'Color is pink, nothing else');
   test.equal(instance.compose, 'difference', 'Compose is difference');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');
@@ -41,7 +41,7 @@ tape('algorithm and directory options gets set', function (test) {
   const instance = new Jikishin({
     metric: 'psnr',
     style: 'xor',
-    color: 'pink',
+    color: 'purple',
     compose: 'bumpmap',
     recursive: true,
     previousDir: '1',
@@ -51,7 +51,7 @@ tape('algorithm and directory options gets set', function (test) {
 
   test.equal(instance.metric, 'psnr', 'Metric becomes PeakSignalToNoiseRatio');
   test.equal(instance.style, 'xor', 'Style is xor');
-  test.equal(instance.color, 'pink', 'Color is pink');
+  test.equal(instance.color, 'purple', 'Color is purple');
   test.equal(instance.compose, 'bumpmap', 'Compose is bumpmap');
   test.ok(instance.recursive === true, 'Recursive is boolean true');
   test.equal(instance.prevDir, '1', 'Previous directory');
@@ -96,7 +96,7 @@ tape('wrong type of options get ignored', function (test) {
 
   test.equal(instance.metric, 'pae', 'Metric is the default');
   test.equal(instance.style, 'tint', 'Style is the default');
-  test.equal(instance.color, '#85144b', 'Color is something in hex');
+  test.equal(instance.color, 'pink', 'Color is pink, nothing else');
   test.equal(instance.compose, 'difference', 'Compose is difference');
   test.ok(instance.verbose === false, 'Verbosity is boolean false');
   test.ok(instance.recursive === false, 'Recursive is boolean false');

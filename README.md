@@ -156,15 +156,27 @@ npm install --save shigehachi
 First include this module in your script:
 
 ```js
-var Jikishin = require('shigehachi');
+const Jikishin = require('shigehachi');
 ```
 
-Defined the options, which follow the same convention as the command line options, with the
-exception of being camelCased from the long versions:
+Define the options, which follow the same convention as the command line options, with the
+exception of being camelCased from the long versions. Below is an example of all configuration
+options by using their default values:
 
 ```js
-var options = {
-  differenceDir: ''
+const options = {
+  color: 'pink',
+  compose: 'difference',
+  currentDir: 'current',
+  longDiffName: false,
+  match: '\.png$',
+  metric: 'pae',
+  outputDir: 'diff-2016-09-01T11-16', // based on the current date and time
+  previousDir: 'previous',
+  recursive: false,
+  style: 'tint',
+  verbose: false,
+  whenDone: null
 };
 ```
 
@@ -172,7 +184,7 @@ Initialise an instance with the above `options` object and call `exec()` method
 to generate the images:
 
 ```js
-var kage = new Jikishin(options);
+const kage = new Jikishin(options);
 kage.exec();
 ```
 
@@ -181,13 +193,13 @@ called when the execution has been done. It gets passed one argument, which is t
 collection object of metrics, indexed by the current image file path.
 
 ```js
-var opts = {
+const options = {
   whenDone: function (metrics) {
     console.log(JSON.stringify(metrics, null, '  '));
   }
 };
 
-var kage = new Jikishin(opts);
+const kage = new Jikishin(options);
 kage.exec();
 ```
 
@@ -267,6 +279,10 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v4.0.5` (2016-09-01)
+    - Color was no applied when supposed to due to additional quotes #10
+    - Fixing documentation to match implementation
+    - While programmatically used, the default color was not `pink`. Now it is, as documented
 * `v4.0.4` (2016-08-08)
     - Move code coverage from `instanbul` to `nyc`
     - Test also in Windows, at [AppVeyor](https://ci.appveyor.com/project/paazmaya/shigehachi)

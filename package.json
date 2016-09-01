@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": "bin/shigehachi.js",
@@ -47,9 +47,9 @@
   },
   "devDependencies": {
     "codecov": "^1.0.1",
-    "eslint": "^3.2.2",
+    "eslint": "^3.4.0",
     "eslint-config-paazmaya": "^2.3.1",
-    "nyc": "^7.1.0",
+    "nyc": "^8.1.0",
     "tape": "^4.6.0"
   }
 }
