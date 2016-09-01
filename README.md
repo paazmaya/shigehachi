@@ -279,6 +279,8 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v4.0.6` (2016-09-01)
+    - Remove the quotes around filenames added in `v4.0.5` as they were trouble like :neckbeard: to :princess:
 * `v4.0.5` (2016-09-01)
     - Color was no applied when supposed to due to additional quotes #10
     - Fixing documentation to match implementation
