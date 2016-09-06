@@ -18,6 +18,7 @@ const fs = require('fs-extra'),
 
 const filterDir = require('./lib/filter-dir'),
   createCommands = require('./lib/create-commands'),
+  types = require('./lib/types'),
   parseMetrics = require('./lib/parse-metrics');
 
 /**
@@ -40,60 +41,6 @@ const Jikishin = function Jikishin(options) {
   this.currentIndex = 0;
 };
 
-/**
- * Acceptable metric values
- * @var {array}
- * @see http://www.graphicsmagick.org/compare.html
- */
-Jikishin.prototype.metricTypes = [
-  'mae', // MeanAbsoluteError
-  'mse', // MeanSquaredError
-  'pae', // PeakAbsoluteError
-  'psnr', // PeakSignalToNoiseRatio
-  'rmse' // RootMeanSquaredError
-];
-
-/**
- * Acceptable style values
- * @var {array}
- * @see http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-style
- */
-Jikishin.prototype.styleTypes = [
-  'assign',
-  'threshold',
-  'tint',
-  'xor'
-];
-
-/**
- * Acceptable composition values
- * @var {array}
- * @see http://www.graphicsmagick.org/GraphicsMagick.html#details-compose
- */
-Jikishin.prototype.composeTypes = [
-  'over',
-  'in',
-  'out',
-  'atop',
-  'xor',
-  'plus',
-  'minus',
-  'add',
-  'subtract',
-  'difference',
-  'divide',
-  'multiply',
-  'bumpmap',
-  'copy',
-  'copyred',
-  'copygreen',
-  'copyblue',
-  'copyopacity',
-  'copycyan',
-  'copymagenta',
-  'copyyellow',
-  'copyblack'
-];
 
 /**
  * Read the options and set defaults when not defined
@@ -124,14 +71,14 @@ Jikishin.prototype._readStringOptions = function readStringOptions(options) {
 
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
-    this.metricTypes.indexOf(options.metric) !== -1 ? options.metric : 'pae';
+    types.metric.indexOf(options.metric) !== -1 ? options.metric : 'pae';
   this.style = typeof options.style === 'string' &&
-    this.styleTypes.indexOf(options.style) !== -1 ? options.style : 'tint';
+    types.style.indexOf(options.style) !== -1 ? options.style : 'tint';
   // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
   this.color = typeof options.color === 'string' ? options.color : 'pink';
 
   this.compose = typeof options.compose === 'string' &&
-    this.composeTypes.indexOf(options.compose) !== -1 ? options.compose : 'difference';
+    types.compose.indexOf(options.compose) !== -1 ? options.compose : 'difference';
 
   // Regular expression for matching image files
   this.match = typeof options.match === 'string' ? new RegExp(options.match) : /\.png$/;

@@ -17,7 +17,8 @@ const fs = require('fs'),
 
 const optionator = require('optionator');
 
-const Jikishin = require('../index');
+const Jikishin = require('../index'),
+  types = require('../lib/types');
 
 const dateString = (function dateString(now) {
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
@@ -98,7 +99,7 @@ const optsParser = optionator({
       alias: 'm',
       type: 'String',
       default: 'pae',
-      enum: Jikishin.prototype.metricTypes,
+      enum: types.metric,
       description: 'Difference calculation metric'
     },
     {
@@ -106,7 +107,7 @@ const optsParser = optionator({
       alias: 's',
       type: 'String',
       default: 'tint',
-      enum: Jikishin.prototype.styleTypes,
+      enum: types.style,
       description: 'Style in which the differentiation image is created'
     },
     {
@@ -114,7 +115,7 @@ const optsParser = optionator({
       alias: 'p',
       type: 'String',
       default: 'difference',
-      enum: Jikishin.prototype.composeTypes,
+      enum: types.compose,
       description: 'Composition type used for creating a composite image'
     },
     {
