@@ -24,6 +24,7 @@ const dateString = (function dateString(now) {
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
   const s = now.toISOString().replace(/[\s:]/g, '-').split('-');
   s.pop();
+
   return s.join('-');
 })(new Date());
 
@@ -92,7 +93,7 @@ const optsParser = optionator({
       alias: 'c',
       type: 'String',
       default: 'pink',
-      description: 'Color used in the output images, such as \#b10dc9 or purple'
+      description: 'Color used in the output images, such as #b10dc9 or purple'
     },
     {
       option: 'metric',
@@ -153,7 +154,9 @@ catch (error) {
 }
 
 if (opts.version) {
-  console.log((opts.verbose ? pkg.name + ' v' : '') + pkg.version);
+  console.log((opts.verbose ?
+    pkg.name + ' v' :
+    '') + pkg.version);
   process.exit();
 }
 

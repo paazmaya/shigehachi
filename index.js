@@ -52,14 +52,22 @@ Jikishin.prototype._readOptions = function readOptions(options) {
 
   this._readStringOptions(options);
 
-  this.verbose = typeof options.verbose === 'boolean' ? options.verbose : false;
-  this.recursive = typeof options.recursive === 'boolean' ? options.recursive : false;
+  this.verbose = typeof options.verbose === 'boolean' ?
+    options.verbose :
+    false;
+  this.recursive = typeof options.recursive === 'boolean' ?
+    options.recursive :
+    false;
 
   // Output file name modifier for including used method/type
-  this.longDiffName = typeof options.longDiffName === 'boolean' ? options.longDiffName : false;
+  this.longDiffName = typeof options.longDiffName === 'boolean' ?
+    options.longDiffName :
+    false;
 
   // Callback when all commands have been iterated, called with metrics
-  this.whenDone = typeof options.whenDone === 'function' ? options.whenDone : null;
+  this.whenDone = typeof options.whenDone === 'function' ?
+    options.whenDone :
+    null;
 };
 
 /**
@@ -71,22 +79,38 @@ Jikishin.prototype._readStringOptions = function readStringOptions(options) {
 
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
-    types.metric.indexOf(options.metric) !== -1 ? options.metric : 'pae';
+    types.metric.indexOf(options.metric) !== -1 ?
+      options.metric :
+      'pae';
   this.style = typeof options.style === 'string' &&
-    types.style.indexOf(options.style) !== -1 ? options.style : 'tint';
+    types.style.indexOf(options.style) !== -1 ?
+      options.style :
+      'tint';
   // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
-  this.color = typeof options.color === 'string' ? options.color : 'pink';
+  this.color = typeof options.color === 'string' ?
+    options.color :
+    'pink';
 
   this.compose = typeof options.compose === 'string' &&
-    types.compose.indexOf(options.compose) !== -1 ? options.compose : 'difference';
+    types.compose.indexOf(options.compose) !== -1 ?
+    options.compose :
+    'difference';
 
   // Regular expression for matching image files
-  this.match = typeof options.match === 'string' ? new RegExp(options.match) : /\.png$/;
+  this.match = typeof options.match === 'string' ?
+    new RegExp(options.match) :
+    /\.png$/;
 
   // Directories
-  this.prevDir = typeof options.previousDir === 'string' ? options.previousDir : 'previous';
-  this.currDir = typeof options.currentDir === 'string' ? options.currentDir : 'current';
-  this.diffDir = typeof options.outputDir === 'string' ? options.outputDir : 'difference';
+  this.prevDir = typeof options.previousDir === 'string' ?
+    options.previousDir :
+    'previous';
+  this.currDir = typeof options.currentDir === 'string' ?
+    options.currentDir :
+    'current';
+  this.diffDir = typeof options.outputDir === 'string' ?
+    options.outputDir :
+    'difference';
 };
 
 /**
@@ -99,6 +123,7 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
     if (this.verbose) {
       console.error('Previous image directory did not exists');
     }
+
     return;
   }
 
@@ -159,6 +184,7 @@ Jikishin.prototype._nextRun = function nextRun() {
     if (typeof this.whenDone === 'function') {
       this.whenDone.call(this, this.results);
     }
+
     return;
   }
 
@@ -186,7 +212,9 @@ Jikishin.prototype._diffFilename = function diffFilename(picture) {
   const suffix = '.png';
   if (diffPicture.indexOf(suffix, diffPicture.length - suffix.length) === -1) {
     const last = diffPicture.lastIndexOf('.');
-    diffPicture = diffPicture.substr(0, last !== -1 ? last : diffPicture.length) + suffix;
+    diffPicture = diffPicture.substr(0, last !== -1 ?
+      last :
+      diffPicture.length) + suffix;
   }
 
   if (this.longDiffName) {
