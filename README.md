@@ -31,6 +31,8 @@ the following command which should provide plenty of information when successful
 gm version
 ```
 
+The version tested of GraphicMagick is `1.3`.
+
 Install the `sakugawa` command line utility globally with [npm](https://www.npmjs.com/).
 Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
 
@@ -335,4 +337,3 @@ Please make sure it is over 90% at all times.
 Copyright (c) [Juga Paazmaya](https://paazmaya.fi) <paazmaya@yahoo.com>
 
 Licensed under [the MIT license](./LICENSE).
-
