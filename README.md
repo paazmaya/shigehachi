@@ -41,7 +41,7 @@ npm install --global shigehachi
 ```
 
 Please note that this tool requires the minimum [Node.js](https://nodejs.org/en/)
-version to be `4.2.0`, which is the Long Term Support (LTS) version.
+version to be `6.9.5`, which is the Long Term Support (LTS) version.
 
 Run from the command line, for example getting the help output:
 
@@ -283,6 +283,8 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v5.0.0` (2017)
+    - Minimum supported Node.js version is now `6.9.5`
 * `v4.0.6` (2016-09-01)
     - Remove the quotes around filenames added in `v4.0.5` as they were trouble like :neckbeard: to :princess:
 * `v4.0.5` (2016-09-01)
