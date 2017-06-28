@@ -15,6 +15,8 @@ This tool reads a folder, searching for images and then tries to find matching o
 from another folder. These pairs are compared and an image is created to a third folder,
 which visualises the differences of the first two.
 
+## Background for the name
+
 The name of the project is for honouring the legacy of Mr Sonobe Shigehachi (園部 繁八),
 who was the 16th head master of
 [Jikishinkageryu Naginatajutsu (直心影流薙刀術)](http://naginata.fi/en/koryu),
