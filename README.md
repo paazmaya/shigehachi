@@ -10,6 +10,7 @@
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
 [![Dependency Status](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb)
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=paazmaya&repoName=shigehachi&branch=master&pipelineName=shigehachi&accountName=paazmaya&type=cf-1)]( https://g.codefresh.io/repositories/paazmaya/shigehachi/builds?filter=trigger:build;branch:master;service:59538fa0992df200015320e5~shigehachi)
 
 This tool reads a folder, searching for images and then tries to find matching ones
 from another folder. These pairs are compared and an image is created to a third folder,
