@@ -80,12 +80,12 @@ Jikishin.prototype._readStringOptions = function readStringOptions(options) {
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
     types.metric.indexOf(options.metric) !== -1 ?
-      options.metric :
-      'pae';
+    options.metric :
+    'pae';
   this.style = typeof options.style === 'string' &&
     types.style.indexOf(options.style) !== -1 ?
-      options.style :
-      'tint';
+    options.style :
+    'tint';
   // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
   this.color = typeof options.color === 'string' ?
     options.color :
@@ -119,7 +119,11 @@ Jikishin.prototype._readStringOptions = function readStringOptions(options) {
  * @returns {void}
  */
 Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
-  if (!fs.existsSync(dirpath)) {
+
+  try {
+    fs.accessSync(dirpath);
+  }
+  catch (error) {
     if (this.verbose) {
       console.error('Previous image directory did not exists');
     }
@@ -232,7 +236,10 @@ Jikishin.prototype.exec = function exec() {
   // List of image files in "previous directory"
   this._readPrevDir(this.prevDir);
 
-  if (!fs.existsSync(this.diffDir)) {
+  try {
+    fs.accessSync(this.diffDir);
+  }
+  catch (error) {
     if (this.verbose) {
       console.log('Output directory for differentiation images did not exist, thus creating it');
     }
@@ -249,10 +256,26 @@ Jikishin.prototype.exec = function exec() {
       console.log('Started command creation for ' + picture);
     }
 
-    if (fs.existsSync(prevPicture) && fs.existsSync(currPicture)) {
+    let bothExist = false;
+
+    try {
+      fs.accessSync(prevPicture);
+      fs.accessSync(currPicture);
+      bothExist = true;
+    }
+    catch (error) {
+      console.error(`Missing "${prevPicture}" and/or "${currPicture}"`);
+      console.error(error.message);
+    }
+
+    if (bothExist) {
       // Make sure the directory structure is created
       const dirname = path.dirname(diffPicture);
-      if (!fs.existsSync(dirname)) {
+
+      try {
+        fs.accessSync(dirname);
+      }
+      catch (error) {
         fs.mkdirpSync(dirname);
       }
       this.commandList.push(
