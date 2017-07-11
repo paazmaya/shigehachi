@@ -286,56 +286,56 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
-* `v5.0.0` (2017)
-    - Minimum supported Node.js version is now `6.9.5`
+* `v5.0.0` (2017-07)
+  - Minimum Node.js version lifted from `4.2.0` to `6.9.5`
 * `v4.0.6` (2016-09-01)
-    - Remove the quotes around filenames added in `v4.0.5` as they were trouble like :neckbeard: to :princess:
+  - Remove the quotes around filenames added in `v4.0.5` as they were trouble like :neckbeard: to :princess:
 * `v4.0.5` (2016-09-01)
-    - Color was no applied when supposed to due to additional quotes #10
-    - Fixing documentation to match implementation
-    - While programmatically used, the default color was not `pink`. Now it is, as documented
+  - Color was no applied when supposed to due to additional quotes #10
+  - Fixing documentation to match implementation
+  - While programmatically used, the default color was not `pink`. Now it is, as documented
 * `v4.0.4` (2016-08-08)
-    - Move code coverage from `instanbul` to `nyc`
-    - Test also in Windows, at [AppVeyor](https://ci.appveyor.com/project/paazmaya/shigehachi)
-    - Lint lib folder contents too
+  - Move code coverage from `instanbul` to `nyc`
+  - Test also in Windows, at [AppVeyor](https://ci.appveyor.com/project/paazmaya/shigehachi)
+  - Lint lib folder contents too
 * `v4.0.3` (2016-07-11)
-    - There is always room for dependency updates
-    - Functionality split in to different files
+  - There is always room for dependency updates
+  - Functionality split in to different files
 * `v4.0.2` (2016-03-22)
-    - Plenty of dependency updates
+  - Plenty of dependency updates
 * `v4.0.1` (2015-12-04)
-    - Using ES2015 arrow functions to reduce the amount of lines in code
-    - Code coverage results via codecov #7
+  - Using ES2015 arrow functions to reduce the amount of lines in code
+  - Code coverage results via codecov #7
 * `v4.0.0` (2015-11-16)
-    - Switch to `optionator` from `nomnom` #6
-    - `differenceDir` changed to `outputDir`
-    - Using `stderr` instead of `stdout` for error cases, `console.error()` versus `console.log()`
+  - Switch to `optionator` from `nomnom` #6
+  - `differenceDir` changed to `outputDir`
+  - Using `stderr` instead of `stdout` for error cases, `console.error()` versus `console.log()`
 * `v3.0.0` (2015-10-29)
-    - Require Long Term Supported Node.js version, namely minimum of `4.2.0`
-    - Start to use ES2015 features and enable ESLint to validate against those
+  - Require Long Term Supported Node.js version, namely minimum of `4.2.0`
+  - Start to use ES2015 features and enable ESLint to validate against those
 * `v2.3.0` (2015-04-27)
-    - Output image file naming verbosity via `longDiffName` option
+  - Output image file naming verbosity via `longDiffName` option
 * `v2.2.0` (2015-04-14)
-    - Enforce all resulting images as PNG, instead of accidentally just assuming so
-    - Output examples
+  - Enforce all resulting images as PNG, instead of accidentally just assuming so
+  - Output examples
 * `v2.1.0` (2015-04-14)
-    - Clean up command creation since they all are subcommands of `gm`
-    - Fixed the image file order for `gm composite` command, changed image first
-    - New option `compose` for setting composition type,
-      defaults to `'difference'` which was hard coded previously
+  - Clean up command creation since they all are subcommands of `gm`
+  - Fixed the image file order for `gm composite` command, changed image first
+  - New option `compose` for setting composition type,
+    defaults to `'difference'` which was hard coded previously
 * `v2.0.1` (2015-04-14)
-    - ImageMagick was still used in two of the three commands
+  - ImageMagick was still used in two of the three commands
 * `v2.0.0` (2015-04-08)
-    - Ability to filter files with regular expression matching
-    - Removed suffix option, in favour of matching with a regular expression
+  - Ability to filter files with regular expression matching
+  - Removed suffix option, in favour of matching with a regular expression
 * `v1.1.0` (2015-04-07)
-    - Added the ability to filter directories recursively
-    - Make sure all target directories exist
+  - Added the ability to filter directories recursively
+  - Make sure all target directories exist
 * `v1.0.0` (2015-04-02)
-    - Project initiated and script imported from `nanbudo.fi` test script collection
-    - Dependency status via Versioneye #3
-    - Unit tests with tape and code coverage with covert #4
-    - Automated tests via Semaphore #2
+  - Project initiated and script imported from `nanbudo.fi` test script collection
+  - Dependency status via Versioneye #3
+  - Unit tests with tape and code coverage with covert #4
+  - Automated tests via Semaphore #2
 
 ## License
 
