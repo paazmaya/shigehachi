@@ -43,8 +43,7 @@ Elevated privileges might be needed via `sudo`, depending on the platform. In mo
 npm install --global shigehachi
 ```
 
-Please note that this tool requires the minimum [Node.js](https://nodejs.org/en/)
-version to be `6.9.5`, which is the Long Term Support (LTS) version.
+Please note that the minimum supported version of [Node.js](https://nodejs.org/en/) is `6.9.5`, which is [the Long Term Support (LTS) version](https://github.com/nodejs/LTS#lts-schedule1).
 
 Run from the command line, for example getting the help output:
 
