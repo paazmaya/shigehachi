@@ -47,7 +47,7 @@ const Jikishin = function Jikishin(options) {
  * @param {object} options Options passed to the constructor
  * @returns {void}
  */
-Jikishin.prototype._readOptions = function readOptions(options) {
+Jikishin.prototype._readOptions = function _readOptions(options) {
   options = options || {};
 
   this._readStringOptions(options);
@@ -75,7 +75,7 @@ Jikishin.prototype._readOptions = function readOptions(options) {
  * @param {object} options Options passed to the constructor
  * @returns {void}
  */
-Jikishin.prototype._readStringOptions = function readStringOptions(options) {
+Jikishin.prototype._readStringOptions = function _readStringOptions(options) {
 
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
@@ -118,7 +118,7 @@ Jikishin.prototype._readStringOptions = function readStringOptions(options) {
  * @param {string} dirpath Directory which will be searched for image files
  * @returns {void}
  */
-Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
+Jikishin.prototype._readPrevDir = function _readPrevDir(dirpath) {
 
   try {
     fs.accessSync(dirpath);
@@ -146,7 +146,7 @@ Jikishin.prototype._readPrevDir = function readPrevDir(dirpath) {
  * @param {array} gmArgs List of arguments passed to the binary command
  * @returns {void}
  */
-Jikishin.prototype._runner = function runner(gmArgs) {
+Jikishin.prototype._runner = function _runner(gmArgs) {
   if (this.verbose) {
     console.log('Command: gm ' + gmArgs.join(' '));
   }
@@ -169,7 +169,7 @@ Jikishin.prototype._runner = function runner(gmArgs) {
  * @param {string} currFile Path to the current image file
  * @returns {void}
  */
-Jikishin.prototype._successRan = function successRan(output, currFile) {
+Jikishin.prototype._successRan = function _successRan(output, currFile) {
 
   const metrics = parseMetrics(output);
   if (metrics) {
@@ -209,7 +209,7 @@ Jikishin.prototype._nextRun = function nextRun() {
  * @param {string} picture Basename of the image file
  * @returns {string} Full path to the difference image
  */
-Jikishin.prototype._diffFilename = function diffFilename(picture) {
+Jikishin.prototype._diffFilename = function _diffFilename(picture) {
   let diffPicture = path.join(this.diffDir, picture);
 
   // Make sure the diff image is a PNG
