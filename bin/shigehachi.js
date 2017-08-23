@@ -180,7 +180,7 @@ if (!fs.existsSync(opts.currentDir)) {
  * @param {Object} metrics Data of the comparison with numbers normalised
  * @returns {void}
  */
-const _whenDone = function whenDone(metrics) {
+const _whenDone = function _whenDone(metrics) {
   if (opts.verbose) {
     console.log('Comparison finished. Result metrics:');
   }

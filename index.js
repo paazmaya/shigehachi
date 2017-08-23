@@ -181,7 +181,7 @@ Jikishin.prototype._successRan = function _successRan(output, currFile) {
  * Iterates to the next command, if such exists in the command list
  * @returns {void}
  */
-Jikishin.prototype._nextRun = function nextRun() {
+Jikishin.prototype._nextRun = function _nextRun() {
   const len = this.commandList.length;
 
   if (this.currentIndex === len) {
