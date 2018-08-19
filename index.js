@@ -99,7 +99,7 @@ Jikishin.prototype._readStringOptions = function _readStringOptions(options) {
   // Regular expression for matching image files
   this.match = typeof options.match === 'string' ?
     new RegExp(options.match) :
-    /\.png$/;
+    /\.png$/u;
 
   // Directories
   this.prevDir = typeof options.previousDir === 'string' ?
@@ -222,7 +222,7 @@ Jikishin.prototype._diffFilename = function _diffFilename(picture) {
   }
 
   if (this.longDiffName) {
-    diffPicture = diffPicture.replace(/\.png$/, '-' + this.metric + '-' + this.style + '.png');
+    diffPicture = diffPicture.replace(/\.png$/u, '-' + this.metric + '-' + this.style + '.png');
   }
 
   return diffPicture;

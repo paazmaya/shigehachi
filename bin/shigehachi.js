@@ -22,7 +22,7 @@ const Jikishin = require('../index'),
 
 const dateString = (function dateString(now) {
   now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
-  const s = now.toISOString().replace(/[\s:]/g, '-').split('-');
+  const s = now.toISOString().replace(/[\s:]/gu, '-').split('-');
   s.pop();
 
   return s.join('-');
