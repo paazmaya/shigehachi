@@ -98,7 +98,7 @@ Jikishin.prototype._readStringOptions = function _readStringOptions(options) {
 
   // Regular expression for matching image files
   this.match = typeof options.match === 'string' ?
-    new RegExp(options.match) :
+    new RegExp(options.match, 'u') :
     /\.png$/u;
 
   // Directories
