@@ -8,7 +8,7 @@
 [![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/master?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/master)
 [![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/master/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
-[![Dependency Status](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54db51cec1bbbda0130002eb)
+[![dependencies Status](https://david-dm.org/paazmaya/shigehachi/status.svg)](https://david-dm.org/paazmaya/shigehachi)
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
 [![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=paazmaya&repoName=shigehachi&branch=master&pipelineName=shigehachi&accountName=paazmaya&type=cf-1)]( https://g.codefresh.io/repositories/paazmaya/shigehachi/builds?filter=trigger:build;branch:master;service:59538fa0992df200015320e5~shigehachi)
 
