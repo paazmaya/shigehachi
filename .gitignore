@@ -34,4 +34,4 @@ flow
 *.cpuprofile
 *.heapsnapshot
 memwatch.*
-package-lock.json
+
