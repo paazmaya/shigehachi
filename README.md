@@ -34,7 +34,7 @@ the following command which should provide plenty of information when successful
 gm version
 ```
 
-The version tested of GraphicMagick is `1.3`.
+The version tested of GraphicMagick is `1.3.26`.
 
 Install the `sakugawa` command line utility globally with [npm](https://www.npmjs.com/).
 Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
@@ -285,8 +285,9 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
-* `v5.0.0` (2017-07)
-  - Minimum Node.js version lifted from `4.2.0` to `6.9.5`
+* `v5.0.0` (2018-09-16)
+  - Minimum Node.js version lifted from `4.2.0` to `8.11.1`
+  - Dependencies up to :tophat: since it has been two years since previous release
 * `v4.0.6` (2016-09-01)
   - Remove the quotes around filenames added in `v4.0.5` as they were trouble like :neckbeard: to :princess:
 * `v4.0.5` (2016-09-01)
