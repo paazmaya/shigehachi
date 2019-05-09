@@ -287,6 +287,7 @@ Please make sure it is over 90% at all times.
 
 * `v5.1.0` (2019-05-09)
   - Use [`npm-shrinkwrap.json`](https://docs.npmjs.com/files/shrinkwrap.json) for locking the working set of 3rd party dependencies
+  - There were dependencies with `npm audit` issues, which were fixed by simply updating 3rd party dependencies
 * `v5.0.0` (2018-09-16)
   - Minimum Node.js version lifted from `4.2.0` to `8.11.1`
   - Dependencies up to :tophat: since it has been two years since previous release

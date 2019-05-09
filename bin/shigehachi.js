@@ -188,7 +188,6 @@ const _whenDone = function _whenDone(metrics) {
 };
 opts.whenDone = _whenDone;
 
-
 console.log('');
 console.log('Options used:');
 console.log(opts);
