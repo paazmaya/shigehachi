@@ -146,7 +146,7 @@ Version 4.0.0
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
 of the application in addition to the version number.
 
-## Application programming interface
+## Using in a Node.js script
 
 Best example of the usage inside another application is inside the script that is used
 for the command line interface, `bin/shigehachi.js`.
@@ -160,7 +160,7 @@ npm install --save shigehachi
 First include this module in your script:
 
 ```js
-const Jikishin = require('shigehachi');
+const Shigehachi = require('shigehachi');
 ```
 
 Define the options, which follow the same convention as the command line options, with the
@@ -188,8 +188,8 @@ Initialise an instance with the above `options` object and call `exec()` method
 to generate the images:
 
 ```js
-const kage = new Jikishin(options);
-kage.exec();
+const hachi = new Shigehachi(options);
+hachi.exec();
 ```
 
 In addition to the options used for command line, there is also a callback which gets
@@ -203,8 +203,8 @@ const options = {
   }
 };
 
-const kage = new Jikishin(options);
-kage.exec();
+const hachi = new Shigehachi(options);
+hachi.exec();
 ```
 
 The metrics output could look something similar to:

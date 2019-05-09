@@ -25,7 +25,7 @@ const filterDir = require('./lib/filter-dir'),
  * @param {object} options Configuration options
  * @returns {void}
  */
-const Jikishin = function Jikishin(options) {
+const Shigehachi = function Shigehachi(options) {
   this._readOptions(options);
 
   // Array of arrays, gm command arguments
@@ -47,7 +47,7 @@ const Jikishin = function Jikishin(options) {
  * @param {object} options Options passed to the constructor
  * @returns {void}
  */
-Jikishin.prototype._readOptions = function _readOptions(options) {
+Shigehachi.prototype._readOptions = function _readOptions(options) {
   options = options || {};
 
   this._readStringOptions(options);
@@ -75,7 +75,7 @@ Jikishin.prototype._readOptions = function _readOptions(options) {
  * @param {object} options Options passed to the constructor
  * @returns {void}
  */
-Jikishin.prototype._readStringOptions = function _readStringOptions(options) {
+Shigehachi.prototype._readStringOptions = function _readStringOptions(options) {
 
   // Difference calculation algorithm
   this.metric = typeof options.metric === 'string' &&
@@ -118,7 +118,7 @@ Jikishin.prototype._readStringOptions = function _readStringOptions(options) {
  * @param {string} dirpath Directory which will be searched for image files
  * @returns {void}
  */
-Jikishin.prototype._readPrevDir = function _readPrevDir(dirpath) {
+Shigehachi.prototype._readPrevDir = function _readPrevDir(dirpath) {
 
   try {
     fs.accessSync(dirpath);
@@ -146,7 +146,7 @@ Jikishin.prototype._readPrevDir = function _readPrevDir(dirpath) {
  * @param {array} gmArgs List of arguments passed to the binary command
  * @returns {void}
  */
-Jikishin.prototype._runner = function _runner(gmArgs) {
+Shigehachi.prototype._runner = function _runner(gmArgs) {
   if (this.verbose) {
     console.log('Command: gm ' + gmArgs.join(' '));
   }
@@ -169,7 +169,7 @@ Jikishin.prototype._runner = function _runner(gmArgs) {
  * @param {string} currFile Path to the current image file
  * @returns {void}
  */
-Jikishin.prototype._successRan = function _successRan(output, currFile) {
+Shigehachi.prototype._successRan = function _successRan(output, currFile) {
 
   const metrics = parseMetrics(output);
   if (metrics) {
@@ -181,7 +181,7 @@ Jikishin.prototype._successRan = function _successRan(output, currFile) {
  * Iterates to the next command, if such exists in the command list
  * @returns {void}
  */
-Jikishin.prototype._nextRun = function _nextRun() {
+Shigehachi.prototype._nextRun = function _nextRun() {
   const len = this.commandList.length;
 
   if (this.currentIndex === len) {
@@ -209,7 +209,7 @@ Jikishin.prototype._nextRun = function _nextRun() {
  * @param {string} picture Basename of the image file
  * @returns {string} Full path to the difference image
  */
-Jikishin.prototype._diffFilename = function _diffFilename(picture) {
+Shigehachi.prototype._diffFilename = function _diffFilename(picture) {
   let diffPicture = path.join(this.diffDir, picture);
 
   // Make sure the diff image is a PNG
@@ -232,7 +232,7 @@ Jikishin.prototype._diffFilename = function _diffFilename(picture) {
  * Generate the difference images one by one
  * @returns {void}
  */
-Jikishin.prototype.exec = function exec() {
+Shigehachi.prototype.exec = function exec() {
   // List of image files in "previous directory"
   this._readPrevDir(this.prevDir);
 
@@ -298,4 +298,4 @@ Jikishin.prototype.exec = function exec() {
   this._nextRun();
 };
 
-module.exports = Jikishin;
+module.exports = Shigehachi;

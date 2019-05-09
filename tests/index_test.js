@@ -14,12 +14,12 @@ const fs = require('fs'),
   path = require('path');
 
 const tape = require('tape'),
-  Jikishin = require('../index');
+  Shigehachi = require('../index');
 
 tape('default options gets set', function (test) {
   test.plan(12);
 
-  const instance = new Jikishin();
+  const instance = new Shigehachi();
 
   test.equal(instance.metric, 'pae', 'Metric is PeakAbsoluteError');
   test.equal(instance.style, 'tint', 'Style is tint');
@@ -38,7 +38,7 @@ tape('default options gets set', function (test) {
 tape('algorithm and directory options gets set', function (test) {
   test.plan(8);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     metric: 'psnr',
     style: 'xor',
     color: 'purple',
@@ -62,7 +62,7 @@ tape('algorithm and directory options gets set', function (test) {
 tape('other options gets set', function (test) {
   test.plan(5);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true,
     match: '\\.(png|jpg|gif)$',
     longDiffName: true,
@@ -79,7 +79,7 @@ tape('other options gets set', function (test) {
 tape('wrong type of options get ignored', function (test) {
   test.plan(12);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     metric: [],
     style: 20,
     color: {},
@@ -111,7 +111,7 @@ tape('wrong type of options get ignored', function (test) {
 tape('metric option must be one of the predefined', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     metric: 'hoplaa'
   });
 
@@ -121,7 +121,7 @@ tape('metric option must be one of the predefined', function (test) {
 tape('style option must be one of the predefined', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     style: 'hoplaa'
   });
 
@@ -131,7 +131,7 @@ tape('style option must be one of the predefined', function (test) {
 tape('compose option must be one of the predefined', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     compose: 'otherkind'
   });
 
@@ -141,7 +141,7 @@ tape('compose option must be one of the predefined', function (test) {
 tape('no files found when no matching expression', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     previousDir: 'tests/fixtures/prev/',
     match: '\\.(tiff|bmp)$'
   });
@@ -153,7 +153,7 @@ tape('no files found when no matching expression', function (test) {
 tape('image files found when matching expression', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     previousDir: 'tests/fixtures/prev/',
     match: '\\.(png|gif)$',
     verbose: true
@@ -166,7 +166,7 @@ tape('image files found when matching expression', function (test) {
 tape('runner should fail when command not found', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin();
+  const instance = new Shigehachi();
 
   test.throws(instance._runner(['failing-sub-command']));
 });
@@ -175,7 +175,7 @@ tape('runner should fail when command not found', function (test) {
 tape('runner should call _successRan when command is using compare', function (test) {
   test.plan(2);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true
   });
 
@@ -199,7 +199,7 @@ tape('gm output with version info', function (test) {
   ].join('\n');
   const filepath = 'tests/fixtures/curr/postcss.png';
 
-  const instance = new Jikishin();
+  const instance = new Shigehachi();
   instance._successRan(output, filepath);
 
   test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
@@ -208,7 +208,7 @@ tape('gm output with version info', function (test) {
 tape('next runner calls runner', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true
   });
   instance.commandList = [['version']];
@@ -223,7 +223,7 @@ tape('next runner calls runner', function (test) {
 tape('next runner calls callback when no more command queued', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true,
     whenDone: function (res) {
       test.deepEqual(res, {
@@ -242,7 +242,7 @@ tape('next runner calls callback when no more command queued', function (test) {
 tape('exec should not create commands when no files, but call next runner', function (test) {
   test.plan(2);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true
   });
 
@@ -257,7 +257,7 @@ tape('exec should not create commands when no files, but call next runner', func
 tape('exec creates commands and calls next runner', function (test) {
   test.plan(2);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true,
     previousDir: 'tests/fixtures/prev',
     currentDir: 'tests/fixtures/curr',
@@ -275,7 +275,7 @@ tape('exec creates commands and calls next runner', function (test) {
 tape('diffFilename uses configured diff directory', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     outputDir: 'not-same'
   });
 
@@ -286,7 +286,7 @@ tape('diffFilename uses configured diff directory', function (test) {
 tape('diffFilename enforces diff image as png', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin();
+  const instance = new Shigehachi();
 
   const result = instance._diffFilename('old-book-by-mr-sonobe.jpg');
   test.equal(result, path.join('difference', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
@@ -295,7 +295,7 @@ tape('diffFilename enforces diff image as png', function (test) {
 tape('diffFilename enforces diff image as png even when it has no suffix', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin();
+  const instance = new Shigehachi();
 
   const result = instance._diffFilename('old-book-by-mr-sonobe');
   test.equal(result, path.join('difference', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
@@ -304,7 +304,7 @@ tape('diffFilename enforces diff image as png even when it has no suffix', funct
 tape('diffFilename gets more details when longDiffName used', function (test) {
   test.plan(1);
 
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     longDiffName: true
   });
 
@@ -316,7 +316,7 @@ tape('output directory gets created when it does not exist', function (test) {
   test.plan(2);
 
   const diffDir = 'tmp/diff-' + (new Date).getTime();
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true,
     match: 'nothing$',
     outputDir: diffDir
@@ -331,7 +331,7 @@ tape('output directory gets created recursively when it does not exist', functio
   test.plan(2);
 
   const diffDir = 'tmp/diff-' + (new Date).getTime();
-  const instance = new Jikishin({
+  const instance = new Shigehachi({
     verbose: true,
     recursive: true,
     previousDir: 'tests/fixtures/prev',
@@ -343,4 +343,3 @@ tape('output directory gets created recursively when it does not exist', functio
   instance.exec();
   test.ok(fs.existsSync(diffDir + '/website') === true, 'Output child directory exists after execution');
 });
-

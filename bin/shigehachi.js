@@ -17,7 +17,7 @@ const fs = require('fs'),
 
 const optionator = require('optionator');
 
-const Jikishin = require('../index'),
+const Shigehachi = require('../index'),
   types = require('../lib/types');
 
 const dateString = (function dateString(now) {
@@ -194,5 +194,5 @@ console.log('Options used:');
 console.log(opts);
 console.log('');
 
-const kage = new Jikishin(opts);
-kage.exec();
+const hachi = new Shigehachi(opts);
+hachi.exec();
