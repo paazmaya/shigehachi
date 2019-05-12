@@ -315,7 +315,7 @@ tape('diffFilename gets more details when longDiffName used', function (test) {
 tape('output directory gets created when it does not exist', function (test) {
   test.plan(2);
 
-  const diffDir = 'tmp/diff-' + (new Date).getTime();
+  const diffDir = 'tmp/diff-' + (new Date()).getTime();
   const instance = new Shigehachi({
     verbose: true,
     match: 'nothing$',
@@ -330,7 +330,7 @@ tape('output directory gets created when it does not exist', function (test) {
 tape('output directory gets created recursively when it does not exist', function (test) {
   test.plan(2);
 
-  const diffDir = 'tmp/diff-' + (new Date).getTime();
+  const diffDir = 'tmp/diff-' + (new Date()).getTime();
   const instance = new Shigehachi({
     verbose: true,
     recursive: true,

@@ -14,7 +14,9 @@
 
 const fs = require('fs-extra'),
   path = require('path'),
-  execFile = require('child_process').execFile;
+  {
+    execFile
+  } = require('child_process');
 
 const filterDir = require('./lib/filter-dir'),
   createCommands = require('./lib/create-commands'),
