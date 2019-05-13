@@ -105,6 +105,25 @@ Output after the command had executed looked like this:
 }
 ```
 
+Version 6 changes the output, which will be then something similar to:
+
+```json
+{
+  "16bf19e046e752c8a14df3799befa102d8a30a0e": {
+    "A": "tests/fixtures/prev/postcss.png",
+    "B": "tests/fixtures/curr/postcss.png",
+    "metric": "PeakAbsoluteError",
+    "normalised": {
+      "red": "0.1411764706",
+      "green": "0.7882352941",
+      "blue": "0.7960784314",
+      "opacity": "1.0000000000",
+      "total": "1.0000000000"
+    }
+  }
+}
+```
+
 ## Command line options
 
 The output of `shigehachi --help` pretty much covers all the options:
