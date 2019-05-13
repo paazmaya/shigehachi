@@ -285,6 +285,8 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v5.0.2` (2019-05-13)
+  - `npm-shrinkwrap.json` was not included in the published package
 * `v5.0.1` (2019-05-10)
   - Use [`npm-shrinkwrap.json`](https://docs.npmjs.com/files/shrinkwrap.json) for locking the working set of 3rd party dependencies
   - There were dependencies with `npm audit` issues, which were fixed by simply updating 3rd party dependencies

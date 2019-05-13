@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "bin": "bin/shigehachi.js",
@@ -31,6 +31,7 @@
     "lib",
     "LICENSE",
     "index.js",
+    "npm-shrinkwrap.json",
     "README.md"
   ],
   "license": "MIT",
@@ -42,7 +43,7 @@
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
-    "fs-extra": "^8.0.0",
+    "fs-extra": "^8.0.1",
     "optionator": "^0.8.2"
   },
   "devDependencies": {
