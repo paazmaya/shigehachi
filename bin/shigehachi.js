@@ -198,12 +198,6 @@ const hachi = new Shigehachi({
   verbose: typeof opts.verbose === 'boolean' ?
     opts.verbose :
     false,
-  recursive: typeof opts.recursive === 'boolean' ?
-    opts.recursive :
-    false,
-  longDiffName: typeof opts.longDiffName === 'boolean' ?
-    opts.longDiffName :
-    false,
   prevDir: typeof opts.previousDir === 'string' ?
     opts.previousDir :
     'previous',
@@ -213,6 +207,33 @@ const hachi = new Shigehachi({
   diffDir: typeof opts.outputDir === 'string' ?
     opts.outputDir :
     'difference',
+  color: typeof opts.color === 'string' ?
+    opts.color :
+    'pink',
+  metric: typeof opts.metric === 'string' &&
+    types.metric.indexOf(opts.metric) !== -1 ?
+    opts.metric :
+    'pae',
+  style: typeof opts.style === 'string' &&
+    types.style.indexOf(opts.style) !== -1 ?
+    opts.style :
+    'tint',
+  compose: typeof opts.compose === 'string' &&
+    types.compose.indexOf(opts.compose) !== -1 ?
+    opts.compose :
+    'difference',
+  allVariations: typeof opts.allVariations === 'boolean' ?
+    opts.allVariations :
+    false,
+  match: typeof opts.match === 'string' ?
+    new RegExp(opts.match, 'u') :
+    /\.png$/u,
+  longDiffName: typeof opts.longDiffName === 'boolean' ?
+    opts.longDiffName :
+    false,
+  recursive: typeof opts.recursive === 'boolean' ?
+    opts.recursive :
+    false,
   whenDone: _whenDone
 });
 hachi.exec();
