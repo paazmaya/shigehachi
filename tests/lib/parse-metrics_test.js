@@ -13,7 +13,7 @@
 const fs = require('fs');
 
 const tape = require('tape'),
-  parseMetrics = require('../lib/parse-metrics');
+  parseMetrics = require('../../lib/parse-metrics');
 
 tape('gm output gets parsed meaningfully with mae metric', function (test) {
   test.plan(4);

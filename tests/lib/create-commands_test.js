@@ -11,7 +11,7 @@
 'use strict';
 
 const tape = require('tape'),
-  createCommands = require('../lib/create-commands');
+  createCommands = require('../../lib/create-commands');
 
 tape('create composite command', function (test) {
   test.plan(1);

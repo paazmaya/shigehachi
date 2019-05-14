@@ -120,6 +120,13 @@ const optsParser = optionator({
       description: 'Composition type used for creating a composite image'
     },
     {
+      option: 'all-variations',
+      alias: 'A',
+      type: 'Boolean',
+      default: false,
+      description: 'Generate diff image variations for all alternatives of metric and compose options'
+    },
+    {
       option: 'match',
       alias: 'M',
       type: 'String',
@@ -186,12 +193,26 @@ const _whenDone = function _whenDone(metrics) {
   }
   console.log(JSON.stringify(metrics, null, '  '));
 };
-opts.whenDone = _whenDone;
 
-console.log('');
-console.log('Options used:');
-console.log(opts);
-console.log('');
-
-const hachi = new Shigehachi(opts);
+const hachi = new Shigehachi({
+  verbose: typeof opts.verbose === 'boolean' ?
+    opts.verbose :
+    false,
+  recursive: typeof opts.recursive === 'boolean' ?
+    opts.recursive :
+    false,
+  longDiffName: typeof opts.longDiffName === 'boolean' ?
+    opts.longDiffName :
+    false,
+  prevDir: typeof opts.previousDir === 'string' ?
+    opts.previousDir :
+    'previous',
+  currDir: typeof opts.currentDir === 'string' ?
+    opts.currentDir :
+    'current',
+  diffDir: typeof opts.outputDir === 'string' ?
+    opts.outputDir :
+    'difference',
+  whenDone: _whenDone
+});
 hachi.exec();

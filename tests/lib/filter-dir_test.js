@@ -13,7 +13,7 @@
 const fs = require('fs');
 
 const tape = require('tape'),
-  filterDir = require('../lib/filter-dir');
+  filterDir = require('../../lib/filter-dir');
 
 tape('filter directories recursively', function (test) {
   test.plan(1);

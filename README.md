@@ -10,7 +10,6 @@
 [![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
 [![dependencies Status](https://david-dm.org/paazmaya/shigehachi/status.svg)](https://david-dm.org/paazmaya/shigehachi)
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
-[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=paazmaya&repoName=shigehachi&branch=master&pipelineName=shigehachi&accountName=paazmaya&type=cf-1)]( https://g.codefresh.io/repositories/paazmaya/shigehachi/builds?filter=trigger:build;branch:master;service:59538fa0992df200015320e5~shigehachi)
 
 This tool reads a folder, searching for images and then tries to find matching ones
 from another folder. These pairs are compared and an image is created to a third folder,
@@ -304,6 +303,8 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v6.0.0` (2019-05)
+  - Added command option `--all-variations` for generating diff images with all possible metric and compose alternatives
 * `v5.0.2` (2019-05-13)
   - `npm-shrinkwrap.json` was not included in the published package
 * `v5.0.1` (2019-05-10)
