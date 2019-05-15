@@ -21,6 +21,7 @@ const fs = require('fs-extra'),
 const filterDir = require('./lib/filter-dir'),
   createCommands = require('./lib/create-commands'),
   types = require('./lib/types'),
+  allVariationCommands = require('./lib/all-variation-commands'),
   ensureDirectory = require('./lib/ensure-directory'),
   diffImageFilename = require('./lib/diff-image-filename'),
   parseMetrics = require('./lib/parse-metrics');
@@ -241,7 +242,6 @@ class Shigehachi {
 
       const prevPicture = path.join(this.previousDir, picture);
       const currPicture = path.join(this.currentDir, picture);
-      const diffPicture = diffImageFilename(picture, this.options);
 
       if (this.verbose) {
         console.log('Started command creation for ' + picture);
@@ -260,21 +260,27 @@ class Shigehachi {
       }
 
       if (bothExist) {
-        ensureDirectory(path.dirname(diffPicture));
+        if (this.allVariations) {
+          this.commandList.push(...allVariationCommands(picture, prevPicture, currPicture, this.options));
+        }
+        else {
+          const diffPicture = diffImageFilename(picture, this.options);
+          ensureDirectory(path.dirname(diffPicture));
 
-        this.commandList.push(
-          createCommands.compare(diffPicture, prevPicture, currPicture, {
-            metric: this.metric,
-            color: this.color,
-            style: this.style
-          }),
-          createCommands.composite(diffPicture, prevPicture, currPicture, {
-            longDiffName: this.longDiffName,
-            compose: this.compose,
-            style: this.style
-          }),
-          createCommands.negate(diffPicture)
-        );
+          this.commandList.push(
+            createCommands.compare(diffPicture, prevPicture, currPicture, {
+              metric: this.metric,
+              color: this.color,
+              style: this.style
+            }),
+            createCommands.composite(diffPicture, prevPicture, currPicture, {
+              longDiffName: this.longDiffName || this.allVariations,
+              compose: this.compose,
+              style: this.style
+            }),
+            createCommands.negate(diffPicture)
+          );
+        }
       }
     });
 
