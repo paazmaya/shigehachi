@@ -18,6 +18,8 @@ const fs = require('fs-extra'),
     execFile
   } = require('child_process');
 
+const crypto = require('crypto');
+
 const filterDir = require('./lib/filter-dir'),
   createCommands = require('./lib/create-commands'),
   types = require('./lib/types'),
@@ -82,6 +84,9 @@ class Shigehachi {
       false;
     this.recursive = typeof options.recursive === 'boolean' ?
       options.recursive :
+      false;
+    this.allVariations = typeof options.allVariations === 'boolean' ?
+      options.allVariations :
       false;
 
     // Output file name modifier for including used method/type
@@ -172,8 +177,9 @@ class Shigehachi {
    * @returns {void}
    */
   _runner(gmArgs) {
+    const command = 'gm ' + gmArgs.join(' ');
     if (this.verbose) {
-      console.log('Command: gm ' + gmArgs.join(' '));
+      console.log('Command: ' + command);
     }
     execFile('gm', gmArgs, null, (error, stdout) => {
       if (error) {
@@ -181,24 +187,30 @@ class Shigehachi {
         console.error(error);
       }
       else if (gmArgs[0] === 'compare') {
-        const currFile = gmArgs.pop();
-        this._successRan(stdout, currFile);
+        //const currFile = gmArgs.pop();
+        this._successRan(stdout, this._hash(command));
       }
       this._nextRun();
     });
   }
 
+  _hash(input) {
+    const hash = crypto.createHash('md5');
+    hash.update(input);
+
+    return hash.digest('hex');
+  }
+
   /**
    * Called when the given 'gm compare' command has not failed and parses the output
    * @param {string} output Output from a 'gm compare' command
-   * @param {string} currFile Path to the current image file
+   * @param {string} key    Identifier for the test case, simply md5 of the GraphicMagick command used
    * @returns {void}
    */
-  _successRan(output, currFile) {
-
+  _successRan(output, key) {
     const metrics = parseMetrics(output);
     if (metrics) {
-      this.results[currFile] = metrics;
+      this.results[key] = metrics;
     }
   }
 

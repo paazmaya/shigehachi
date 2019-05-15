@@ -88,23 +88,7 @@ The [previous](./tests/fixtures/prev/website/naginata-koryu.png) and
 [current](./tests/fixtures/curr/website/naginata-koryu.png) images are available at
 the `tests/fixtures` directory.
 
-Output after the command had executed looked like this:
-
-```json
-{
-  "tests/fixtures/curr/website/naginata-koryu.png": {
-    "metric": "PeakAbsoluteError",
-    "normalised": {
-      "red": "0.9725490196",
-      "green": "0.9333333333",
-      "blue": "0.9333333333",
-      "total": "0.9725490196"
-    }
-  }
-}
-```
-
-Version 6 changes the output, which will be then something similar to:
+The file `shigehachi.json` generated to the output directory, looks something similar to this:
 
 ```json
 {
@@ -130,36 +114,26 @@ The output of `shigehachi --help` pretty much covers all the options:
 ```sh
 shigehachi [options]
 
-  -h, --help                                        Help and usage instructions
-  -V, --version                                     Version number, with verbosity also application
-                                                    name
-  -v, --verbose                                     Verbose output, will print which file is
-                                                    currently being processed
-  -P, --previous-dir String                         Directory in which the previous images are
-                                                    stored - default: previous
-  -C, --current-dir String                          Directory in which the current images are
-                                                    stored - default: current
-  -O, --output-dir String                           Directory in which the resulting
-                                                    differentiation images are stored - default:
-                                                    diff-2015-11-16T11-16
-  -c, --color String                                Color used in the output images, such as
-                                                    \#b10dc9 or purple - default: pink
-  -m, --metric One of: mae, mse, pae, psnr, rmse    Difference calculation metric - default: pae
-  -s, --style One of: assign, threshold, tint, xor  Style in which the differentiation image is
-                                                    created - default: tint
-  -p, --compose One of: over, in, out, atop, xor, plus, minus, add, subtract, difference, divide,
-                multiply, bumpmap, copy, copyred, copygreen, copyblue, copyopacity, copycyan,
-                copymagenta, copyyellow, copyblack
-      Composition type used for creating a composite image - default: difference
-  -M, --match String                                Regular expression for matching and filtering
-                                                    image files - default: \.png$
-  -l, --long-diff-name                              Include used metric, style and composition
-                                                    options in difference image file names
-  -r, --recursive                                   Recursive search of images in the previous and
-                                                    current directories
+  -h, --help                 Help and usage instructions
+  -V, --version              Version number, with verbosity also application name
+  -v, --verbose              Verbose output, will print which file is currently being processed
+  -P, --previous-dir String  Directory in which the previous images are stored - default: previous
+  -C, --current-dir String   Directory in which the current images are stored - default: current
+  -O, --output-dir String    Directory in which the resulting differentiation images are stored - default: diff-2019-05-15T15-22
+  -c, --color String         Color used in the output images, such as #b10dc9 or purple - default: pink
+  -m, --metric String        Difference calculation metric - either: mae, mse, pae, psnr, or rmse - default: pae
+  -s, --style String         Style in which the differentiation image is created - either: assign, threshold, tint, or xor - default: tint
+  -p, --compose String       Composition type used for creating a composite image - either: over, in, out, atop, xor, plus, minus, add, subtract, difference, divide, multiply,
+                             bumpmap, copy, copyred, copygreen, copyblue, copyopacity, copycyan, copymagenta, copyyellow, or copyblack - default: difference
+  -A, --all-variations       Generate diff image variations for all alternatives of metric and compose options
+  -M, --match String         Regular expression for matching and filtering image files - default: \.png$
+  -l, --long-diff-name       Include used metric, style and composition options in difference image file names
+  -r, --recursive            Recursive search of images in the previous and current directories
 
-Version 4.0.0
+Version 6.0.0
 ```
+
+Be aware of using the `--all-variations` option, since it will execute about 330 commands per single image comparison pair.
 
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
 of the application in addition to the version number.
@@ -196,6 +170,7 @@ const options = {
   outputDir: 'diff-2016-09-01T11-16', // based on the current date and time
   previousDir: 'previous',
   recursive: false,
+  allVariations: false,
   style: 'tint',
   verbose: false,
   whenDone: null
@@ -225,11 +200,13 @@ const hachi = new Shigehachi(options);
 hachi.exec();
 ```
 
-The metrics output could look something similar to:
+The metrics output looks something similar to:
 
 ```json
 {
-  "tests/fixtures/curr/postcss.png": {
+  "16bf19e046e752c8a14df3799befa102d8a30a0e": {
+    "A": "tests/fixtures/prev/postcss.png",
+    "B": "tests/fixtures/curr/postcss.png",
     "metric": "PeakAbsoluteError",
     "normalised": {
       "red": "0.1411764706",

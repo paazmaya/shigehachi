@@ -188,12 +188,12 @@ if (!fs.existsSync(opts.currentDir)) {
  * @returns {void}
  */
 const _whenDone = function _whenDone(metrics) {
-  if (opts.verbose) {
-    console.log('Comparison finished. Result metrics:');
-  }
   const output = JSON.stringify(metrics, null, '  ');
-  fs.writeFileSync(path.join(opts.outputDir, pkg.name + '.json'), output, 'uft8');
-  console.log(output);
+  const filepath = path.join(opts.outputDir, pkg.name + '.json');
+  fs.writeFileSync(filepath, output, 'utf8');
+  if (opts.verbose) {
+    console.log('Comparison finished. Result saved to: ' + filepath);
+  }
 };
 
 const hachi = new Shigehachi({

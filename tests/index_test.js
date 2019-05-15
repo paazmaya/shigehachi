@@ -179,8 +179,8 @@ tape('index - runner should call _successRan when command is using compare', fun
     verbose: true
   });
 
-  instance._successRan = function (stdout, currFile) {
-    test.equal(currFile, 'tests/fixtures/curr/young-girl.gif', 'Callback called with the given filename');
+  instance._successRan = function (stdout, key) {
+    test.equal(key.length, 32, 'Callback called with the MD5 hash key');
   };
   instance._nextRun = function () {
     test.pass('Next iteration got called');
