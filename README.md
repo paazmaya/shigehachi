@@ -92,17 +92,25 @@ The file `shigehachi.json` generated to the output directory, looks something si
 
 ```json
 {
-  "16bf19e046e752c8a14df3799befa102d8a30a0e": {
+  "a0db9e2b1dec76cd4964bbac45daa719": {
+    "metric": "MeanAbsoluteError",
+    "normalized": {
+      "red": "0.0135227820",
+      "green": "0.0771904810",
+      "blue": "0.0779529725",
+      "opacity": "0.0982667803",
+      "total": "0.0667332540"
+    },
+    "absolute": {
+      "red": "886.2",
+      "green": "5058.7",
+      "blue": "5108.6",
+      "opacity": "6439.9",
+      "total": "4373.4"
+    },
     "A": "tests/fixtures/prev/postcss.png",
     "B": "tests/fixtures/curr/postcss.png",
-    "metric": "PeakAbsoluteError",
-    "normalised": {
-      "red": "0.1411764706",
-      "green": "0.7882352941",
-      "blue": "0.7960784314",
-      "opacity": "1.0000000000",
-      "total": "1.0000000000"
-    }
+    "diff": "tests/fixtures/output/postcss-mae-tint.png"
   }
 }
 ```
@@ -204,17 +212,25 @@ The metrics output looks something similar to:
 
 ```json
 {
-  "16bf19e046e752c8a14df3799befa102d8a30a0e": {
+  "a0db9e2b1dec76cd4964bbac45daa719": {
+    "metric": "MeanAbsoluteError",
+    "normalized": {
+      "red": "0.0135227820",
+      "green": "0.0771904810",
+      "blue": "0.0779529725",
+      "opacity": "0.0982667803",
+      "total": "0.0667332540"
+    },
+    "absolute": {
+      "red": "886.2",
+      "green": "5058.7",
+      "blue": "5108.6",
+      "opacity": "6439.9",
+      "total": "4373.4"
+    },
     "A": "tests/fixtures/prev/postcss.png",
     "B": "tests/fixtures/curr/postcss.png",
-    "metric": "PeakAbsoluteError",
-    "normalised": {
-      "red": "0.1411764706",
-      "green": "0.7882352941",
-      "blue": "0.7960784314",
-      "opacity": "1.0000000000",
-      "total": "1.0000000000"
-    }
+    "diff": "tests/fixtures/output/postcss-mae-tint.png"
   }
 }
 ```

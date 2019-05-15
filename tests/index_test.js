@@ -172,39 +172,6 @@ tape('index - runner should fail when command not found', function (test) {
 });
 */
 
-tape('index - runner should call _successRan when command is using compare', function (test) {
-  test.plan(2);
-
-  const instance = new Shigehachi({
-    verbose: true
-  });
-
-  instance._successRan = function (stdout, key) {
-    test.equal(key.length, 32, 'Callback called with the MD5 hash key');
-  };
-  instance._nextRun = function () {
-    test.pass('Next iteration got called');
-  };
-  instance._runner(['compare', 'tests/fixtures/prev/young-girl.gif', 'tests/fixtures/curr/young-girl.gif']);
-});
-
-tape('index - gm output with version info', function (test) {
-  test.plan(1);
-
-  const output = [
-    'GraphicsMagick 1.3.21 2015-02-28 Q8 http://www.GraphicsMagick.org/',
-    'Copyright (C) 2002-2014 GraphicsMagick Group.',
-    'Additional copyrights and licenses apply to this software.',
-    'See http://www.GraphicsMagick.org/www/Copyright.html for details.'
-  ].join('\n');
-  const filepath = 'tests/fixtures/curr/postcss.png';
-
-  const instance = new Shigehachi();
-  instance._successRan(output, filepath);
-
-  test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
-});
-
 tape('index - next runner calls runner', function (test) {
   test.plan(1);
 

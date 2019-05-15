@@ -171,6 +171,13 @@ class Shigehachi {
     }
   }
 
+  _hash(input) {
+    const hash = crypto.createHash('md5');
+    hash.update(input);
+
+    return hash.digest('hex');
+  }
+
   /**
    * Execute a command with 'gm'
    * @param {array} gmArgs List of arguments passed to the binary command
@@ -187,31 +194,23 @@ class Shigehachi {
         console.error(error);
       }
       else if (gmArgs[0] === 'compare') {
-        //const currFile = gmArgs.pop();
-        this._successRan(stdout, this._hash(command));
+        const currPicture = gmArgs.pop();
+        const prevPicture = gmArgs.pop();
+        const diffPicture = gmArgs.pop();
+
+        // Identifier for the test case, simply md5 of the GraphicMagick command used
+        const key = this._hash(command);
+
+        const metrics = parseMetrics(stdout);
+        if (metrics) {
+          metrics.A = prevPicture;
+          metrics.B = currPicture;
+          metrics.diff = diffPicture;
+          this.results[key] = metrics;
+        }
       }
       this._nextRun();
     });
-  }
-
-  _hash(input) {
-    const hash = crypto.createHash('md5');
-    hash.update(input);
-
-    return hash.digest('hex');
-  }
-
-  /**
-   * Called when the given 'gm compare' command has not failed and parses the output
-   * @param {string} output Output from a 'gm compare' command
-   * @param {string} key    Identifier for the test case, simply md5 of the GraphicMagick command used
-   * @returns {void}
-   */
-  _successRan(output, key) {
-    const metrics = parseMetrics(output);
-    if (metrics) {
-      this.results[key] = metrics;
-    }
   }
 
   /**

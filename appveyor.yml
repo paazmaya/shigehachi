@@ -24,11 +24,18 @@ install:
   - set PATH=%CD%\gm;%PATH%
   - npm install
 
-test_script:
+before_test:
   - node --version
   - npm --version
   - gm version
+
+test_script:
   - npm run lint
   - npm test
+
+after_test:
+  - node bin/shigehachi.js -P tests/fixtures/prev/ -C tests/fixtures/curr/ -O tests/fixtures/output -A -v
+  - ls -lh tests/fixtures/output
+  - cat tests/fixtures/output/shigehachi.json
 
 build: off
