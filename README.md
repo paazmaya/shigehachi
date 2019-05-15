@@ -141,7 +141,7 @@ shigehachi [options]
 Version 6.0.0
 ```
 
-Be aware of using the `--all-variations` option, since it will execute about 330 commands per single image comparison pair.
+Be aware of using the `--all-variations` option, since it will execute about 1320 commands per single image comparison pair.
 
 Combining `--version` and `--verbose` (or using `-Vv`) the output will also contain the name
 of the application in addition to the version number.
@@ -297,7 +297,7 @@ Please make sure it is over 90% at all times.
 ## Version history
 
 * `v6.0.0` (2019-05)
-  - Added command option `--all-variations` for generating diff images with all possible metric and compose alternatives
+  - Added command option `--all-variations` for generating diff images with all possible metric, compose, and style alternatives. This will run about 1320 GraphicMagick commands more per image comparison pair
   - Command line tool now saves the metrics data as `shigehachi.json` in the `output-dir` directory
 * `v5.0.2` (2019-05-13)
   - `npm-shrinkwrap.json` was not included in the published package
