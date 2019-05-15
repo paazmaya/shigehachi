@@ -296,9 +296,10 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
-* `v6.0.0` (2019-05)
+* `v6.0.0` (2019-05-15)
   - Added command option `--all-variations` for generating diff images with all possible metric, compose, and style alternatives. This will run about 1320 GraphicMagick commands more per image comparison pair
   - Command line tool now saves the metrics data as `shigehachi.json` in the `output-dir` directory
+  - Metrics data file structure slightly changed, make sure to have a look
 * `v5.0.2` (2019-05-13)
   - `npm-shrinkwrap.json` was not included in the published package
 * `v5.0.1` (2019-05-10)
