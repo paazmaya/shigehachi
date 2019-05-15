@@ -15,7 +15,7 @@ const fs = require('fs');
 const tape = require('tape'),
   filterDir = require('../../lib/filter-dir');
 
-tape('filter directories recursively', function (test) {
+tape('filterDir - filter directories recursively', function (test) {
   test.plan(1);
 
   const images = filterDir('tests/fixtures/curr', null, {
@@ -25,7 +25,7 @@ tape('filter directories recursively', function (test) {
   test.equal(images.length, 2, 'Both png images were found');
 });
 
-tape('filter directories does not complain with missing settings', function (test) {
+tape('filterDir - filter directories does not complain with missing settings', function (test) {
   test.plan(1);
 
   const images = filterDir('tests/fixtures/curr');

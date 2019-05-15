@@ -16,7 +16,7 @@ const fs = require('fs'),
 const tape = require('tape'),
   Shigehachi = require('../index');
 
-tape('default options gets set', function (test) {
+tape('index - default options gets set', function (test) {
   test.plan(12);
 
   const instance = new Shigehachi();
@@ -29,13 +29,13 @@ tape('default options gets set', function (test) {
   test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
   test.ok(instance.longDiffName === false, 'longDiffName is boolean false');
-  test.equal(instance.prevDir, 'previous', 'Previous directory');
-  test.equal(instance.currDir, 'current', 'Current directory');
-  test.equal(instance.diffDir, 'difference', 'Difference directory');
+  test.equal(instance.previousDir, 'previous', 'Previous directory');
+  test.equal(instance.currentDir, 'current', 'Current directory');
+  test.equal(instance.outputDir, 'difference', 'Difference directory');
   test.equal(instance.whenDone, null, 'Callback is null');
 });
 
-tape('algorithm and directory options gets set', function (test) {
+tape('index - algorithm and directory options gets set', function (test) {
   test.plan(8);
 
   const instance = new Shigehachi({
@@ -54,12 +54,12 @@ tape('algorithm and directory options gets set', function (test) {
   test.equal(instance.color, 'purple', 'Color is purple');
   test.equal(instance.compose, 'bumpmap', 'Compose is bumpmap');
   test.ok(instance.recursive === true, 'Recursive is boolean true');
-  test.equal(instance.prevDir, '1', 'Previous directory');
-  test.equal(instance.currDir, '2', 'Current directory');
-  test.equal(instance.diffDir, '3', 'Difference directory');
+  test.equal(instance.previousDir, '1', 'Previous directory');
+  test.equal(instance.currentDir, '2', 'Current directory');
+  test.equal(instance.outputDir, '3', 'Difference directory');
 });
 
-tape('other options gets set', function (test) {
+tape('index - other options gets set', function (test) {
   test.plan(5);
 
   const instance = new Shigehachi({
@@ -76,7 +76,7 @@ tape('other options gets set', function (test) {
   test.equal(typeof instance.whenDone, 'function', 'Callback is a function');
 });
 
-tape('wrong type of options get ignored', function (test) {
+tape('index - wrong type of options get ignored', function (test) {
   test.plan(12);
 
   const instance = new Shigehachi({
@@ -102,13 +102,13 @@ tape('wrong type of options get ignored', function (test) {
   test.ok(instance.recursive === false, 'Recursive is boolean false');
   test.equal(instance.match.source, '\\.png$', 'Matching regular expression');
   test.ok(instance.longDiffName === false, 'longDiffName is boolean false');
-  test.equal(instance.prevDir, 'previous', 'Previous directory');
-  test.equal(instance.currDir, 'current', 'Current directory');
-  test.equal(instance.diffDir, 'difference', 'Difference directory');
+  test.equal(instance.previousDir, 'previous', 'Previous directory');
+  test.equal(instance.currentDir, 'current', 'Current directory');
+  test.equal(instance.outputDir, 'difference', 'Difference directory');
   test.equal(instance.whenDone, null, 'Callback is null');
 });
 
-tape('metric option must be one of the predefined', function (test) {
+tape('index - metric option must be one of the predefined', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
@@ -118,7 +118,7 @@ tape('metric option must be one of the predefined', function (test) {
   test.equal(instance.metric, 'pae', 'Metric is the default');
 });
 
-tape('style option must be one of the predefined', function (test) {
+tape('index - style option must be one of the predefined', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
@@ -128,7 +128,7 @@ tape('style option must be one of the predefined', function (test) {
   test.equal(instance.style, 'tint', 'Style is the default');
 });
 
-tape('compose option must be one of the predefined', function (test) {
+tape('index - compose option must be one of the predefined', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
@@ -138,19 +138,19 @@ tape('compose option must be one of the predefined', function (test) {
   test.equal(instance.compose, 'difference', 'Compose is the default');
 });
 
-tape('no files found when no matching expression', function (test) {
+tape('index - no files found when no matching expression', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
     previousDir: 'tests/fixtures/prev/',
     match: '\\.(tiff|bmp)$'
   });
-  instance._readPrevDir(instance.prevDir);
+  instance._readPrevDir(instance.previousDir);
 
   test.equal(instance.capturedPrev.length, 0, 'Previous images list is empty');
 });
 
-tape('image files found when matching expression', function (test) {
+tape('index - image files found when matching expression', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
@@ -158,12 +158,12 @@ tape('image files found when matching expression', function (test) {
     match: '\\.(png|gif)$',
     verbose: true
   });
-  instance._readPrevDir(instance.prevDir);
+  instance._readPrevDir(instance.previousDir);
 
   test.equal(instance.capturedPrev.length, 2, 'Previous images list contains files from base level of the previous dir');
 });
 /*
-tape('runner should fail when command not found', function (test) {
+tape('index - runner should fail when command not found', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi();
@@ -172,7 +172,7 @@ tape('runner should fail when command not found', function (test) {
 });
 */
 
-tape('runner should call _successRan when command is using compare', function (test) {
+tape('index - runner should call _successRan when command is using compare', function (test) {
   test.plan(2);
 
   const instance = new Shigehachi({
@@ -188,7 +188,7 @@ tape('runner should call _successRan when command is using compare', function (t
   instance._runner(['compare', 'tests/fixtures/prev/young-girl.gif', 'tests/fixtures/curr/young-girl.gif']);
 });
 
-tape('gm output with version info', function (test) {
+tape('index - gm output with version info', function (test) {
   test.plan(1);
 
   const output = [
@@ -205,7 +205,7 @@ tape('gm output with version info', function (test) {
   test.notOk(instance.results.hasOwnProperty(filepath), 'Results were not added');
 });
 
-tape('next runner calls runner', function (test) {
+tape('index - next runner calls runner', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
@@ -220,7 +220,7 @@ tape('next runner calls runner', function (test) {
   instance._nextRun();
 });
 
-tape('next runner calls callback when no more command queued', function (test) {
+tape('index - next runner calls callback when no more command queued', function (test) {
   test.plan(1);
 
   const instance = new Shigehachi({
@@ -238,8 +238,7 @@ tape('next runner calls callback when no more command queued', function (test) {
   instance._nextRun();
 });
 
-
-tape('exec should not create commands when no files, but call next runner', function (test) {
+tape('index - exec should not create commands when no files, but call next runner', function (test) {
   test.plan(2);
 
   const instance = new Shigehachi({
@@ -254,92 +253,34 @@ tape('exec should not create commands when no files, but call next runner', func
   test.equal(instance.commandList.length, 0, 'Command list is empty');
 });
 
-tape('exec creates commands and calls next runner', function (test) {
+tape('index - output directory gets created when it does not exist', function (test) {
   test.plan(2);
 
-  const instance = new Shigehachi({
-    verbose: true,
-    previousDir: 'tests/fixtures/prev',
-    currentDir: 'tests/fixtures/curr',
-    match: '\\.gif$'
-  });
-
-  instance._nextRun = function () {
-    test.pass('Next iteration got called');
-  };
-  instance.exec();
-
-  test.equal(instance.commandList.length, 3, 'Command list contains items');
-});
-
-tape('diffFilename uses configured diff directory', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi({
-    outputDir: 'not-same'
-  });
-
-  const result = instance._diffFilename('old-book-by-mr-sonobe.png');
-  test.equal(result, path.join('not-same', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
-});
-
-tape('diffFilename enforces diff image as png', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi();
-
-  const result = instance._diffFilename('old-book-by-mr-sonobe.jpg');
-  test.equal(result, path.join('difference', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
-});
-
-tape('diffFilename enforces diff image as png even when it has no suffix', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi();
-
-  const result = instance._diffFilename('old-book-by-mr-sonobe');
-  test.equal(result, path.join('difference', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
-});
-
-tape('diffFilename gets more details when longDiffName used', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi({
-    longDiffName: true
-  });
-
-  const result = instance._diffFilename('old-book-by-mr-sonobe');
-  test.equal(result, path.join('difference', 'old-book-by-mr-sonobe-pae-tint.png'), 'Resulting file contains default metric');
-});
-
-tape('output directory gets created when it does not exist', function (test) {
-  test.plan(2);
-
-  const diffDir = 'tmp/diff-' + (new Date()).getTime();
+  const outputDir = 'tmp/diff-' + (new Date()).getTime();
   const instance = new Shigehachi({
     verbose: true,
     match: 'nothing$',
-    outputDir: diffDir
+    outputDir: outputDir
   });
 
-  test.ok(fs.existsSync(diffDir) === false, 'Output directory does not exist initially');
+  test.ok(fs.existsSync(outputDir) === false, 'Output directory does not exist initially');
   instance.exec();
-  test.ok(fs.existsSync(diffDir) === true, 'Output directory exists after execution');
+  test.ok(fs.existsSync(outputDir) === true, 'Output directory exists after execution');
 });
 
-tape('output directory gets created recursively when it does not exist', function (test) {
+tape('index - output directory gets created recursively when it does not exist', function (test) {
   test.plan(2);
 
-  const diffDir = 'tmp/diff-' + (new Date()).getTime();
+  const outputDir = 'tmp/diff-' + (new Date()).getTime();
   const instance = new Shigehachi({
     verbose: true,
     recursive: true,
     previousDir: 'tests/fixtures/prev',
     currentDir: 'tests/fixtures/curr',
-    outputDir: diffDir
+    outputDir: outputDir
   });
 
-  test.ok(fs.existsSync(diffDir + '/website') === false, 'Output child directory does not exist initially');
+  test.ok(fs.existsSync(outputDir + '/website') === false, 'Output child directory does not exist initially');
   instance.exec();
-  test.ok(fs.existsSync(diffDir + '/website') === true, 'Output child directory exists after execution');
+  test.ok(fs.existsSync(outputDir + '/website') === true, 'Output child directory exists after execution');
 });

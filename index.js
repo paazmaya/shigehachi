@@ -21,6 +21,8 @@ const fs = require('fs-extra'),
 const filterDir = require('./lib/filter-dir'),
   createCommands = require('./lib/create-commands'),
   types = require('./lib/types'),
+  ensureDirectory = require('./lib/ensure-directory'),
+  diffImageFilename = require('./lib/diff-image-filename'),
   parseMetrics = require('./lib/parse-metrics');
 
 /**
@@ -29,8 +31,31 @@ const filterDir = require('./lib/filter-dir'),
  */
 class Shigehachi {
 
+  /**
+   * Generate the difference image file path for the given image file.
+   * It will parse any filename template and use 'png' as a suffix.
+   *
+   * @param {string}   picture Basename of the image file
+   * @param {object}   options Configuration options
+   * @param {boolean}  options.verbose More information to the console
+   * @param {string}   options.previousDir Image directory A
+   * @param {string}   options.currentDir Image directory A
+   * @param {string}   options.outputDir Difference images are generated here
+   * @param {string}   options.color   Differences are highlighted with this color
+   * @param {string}   options.metric  Metric algorithm used by GraphicsMagick
+   * @param {string}   options.style   Style in which the differentiation image is created
+   * @param {string}   options.compose Composition type used for creating a composite image
+   * @param {boolean}  options.allVariations Shall all the possible metric and compose variations generated. Applies longDiffName
+   * @param {RegExp}   options.match Input file matcher
+   * @param {boolean}  options.longDiffName Use longer difference image file name
+   * @param {boolean}  options.recursive Recursively find images from previousDir
+   * @param {Function} options.whenDone Callback function which is called when all comparisons have finished
+   * @returns {string} Full path to the difference image
+   */
   constructor (options) {
-    this._readOptions(options);
+    this.options = options || {};
+    this._readStringOptions(this.options);
+    this._readOptions(this.options);
 
     // Array of arrays, gm command arguments
     this.commandList = [];
@@ -51,10 +76,6 @@ class Shigehachi {
    * @returns {void}
    */
   _readOptions(options) {
-    options = options || {};
-
-    this._readStringOptions(options);
-
     this.verbose = typeof options.verbose === 'boolean' ?
       options.verbose :
       false;
@@ -82,11 +103,11 @@ class Shigehachi {
 
     // Difference calculation algorithm
     this.metric = typeof options.metric === 'string' &&
-      types.metric.indexOf(options.metric) !== -1 ?
+      types.METRIC.indexOf(options.metric) !== -1 ?
       options.metric :
       'pae';
     this.style = typeof options.style === 'string' &&
-      types.style.indexOf(options.style) !== -1 ?
+      types.STYLE.indexOf(options.style) !== -1 ?
       options.style :
       'tint';
     // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
@@ -95,7 +116,7 @@ class Shigehachi {
       'pink';
 
     this.compose = typeof options.compose === 'string' &&
-      types.compose.indexOf(options.compose) !== -1 ?
+      types.COMPOSE.indexOf(options.compose) !== -1 ?
       options.compose :
       'difference';
 
@@ -105,13 +126,13 @@ class Shigehachi {
       /\.png$/u;
 
     // Directories
-    this.prevDir = typeof options.previousDir === 'string' ?
+    this.previousDir = typeof options.previousDir === 'string' ?
       options.previousDir :
       'previous';
-    this.currDir = typeof options.currentDir === 'string' ?
+    this.currentDir = typeof options.currentDir === 'string' ?
       options.currentDir :
       'current';
-    this.diffDir = typeof options.outputDir === 'string' ?
+    this.outputDir = typeof options.outputDir === 'string' ?
       options.outputDir :
       'difference';
   }
@@ -204,56 +225,23 @@ class Shigehachi {
     this._runner(command);
   }
 
-
-  /**
-   * Generate the difference image file path for the given image file.
-   * It will parse any filename template and use 'png' as a suffix.
-   *
-   * @param {string} picture Basename of the image file
-   * @returns {string} Full path to the difference image
-   */
-  _diffFilename(picture) {
-    let diffPicture = path.join(this.diffDir, picture);
-
-    // Make sure the diff image is a PNG
-    const suffix = '.png';
-    if (diffPicture.indexOf(suffix, diffPicture.length - suffix.length) === -1) {
-      const last = diffPicture.lastIndexOf('.');
-      diffPicture = diffPicture.substr(0, last !== -1 ?
-        last :
-        diffPicture.length) + suffix;
-    }
-
-    if (this.longDiffName) {
-      diffPicture = diffPicture.replace(/\.png$/u, '-' + this.metric + '-' + this.style + '.png');
-    }
-
-    return diffPicture;
-  }
-
   /**
    * Generate the difference images one by one
    * @returns {void}
    */
   exec() {
     // List of image files in "previous directory"
-    this._readPrevDir(this.prevDir);
+    this._readPrevDir(this.previousDir);
 
-    try {
-      fs.accessSync(this.diffDir);
-    }
-    catch (error) {
-      if (this.verbose) {
-        console.log('Output directory for differentiation images did not exist, thus creating it');
-      }
-      fs.mkdirpSync(this.diffDir);
+    if (ensureDirectory(this.outputDir) && this.verbose) {
+      console.log('Output directory for differentiation images did not exist, thus creating it');
     }
 
     this.capturedPrev.forEach((picture) => {
 
-      const prevPicture = path.join(this.prevDir, picture);
-      const currPicture = path.join(this.currDir, picture);
-      const diffPicture = this._diffFilename(picture);
+      const prevPicture = path.join(this.previousDir, picture);
+      const currPicture = path.join(this.currentDir, picture);
+      const diffPicture = diffImageFilename(picture, this.options);
 
       if (this.verbose) {
         console.log('Started command creation for ' + picture);
@@ -272,15 +260,8 @@ class Shigehachi {
       }
 
       if (bothExist) {
-        // Make sure the directory structure is created
-        const dirname = path.dirname(diffPicture);
+        ensureDirectory(path.dirname(diffPicture));
 
-        try {
-          fs.accessSync(dirname);
-        }
-        catch (error) {
-          fs.mkdirpSync(dirname);
-        }
         this.commandList.push(
           createCommands.compare(diffPicture, prevPicture, currPicture, {
             metric: this.metric,

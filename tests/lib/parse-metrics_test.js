@@ -15,7 +15,7 @@ const fs = require('fs');
 const tape = require('tape'),
   parseMetrics = require('../../lib/parse-metrics');
 
-tape('gm output gets parsed meaningfully with mae metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with mae metric', function (test) {
   test.plan(4);
 
   const output = [
@@ -38,7 +38,7 @@ tape('gm output gets parsed meaningfully with mae metric', function (test) {
   test.equal(res.normalised.total, '0.0667332540', 'Normalised value for total recorded correctly');
 });
 
-tape('gm output gets parsed meaningfully with mse metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with mse metric', function (test) {
   test.plan(4);
 
   const output = [
@@ -61,7 +61,7 @@ tape('gm output gets parsed meaningfully with mse metric', function (test) {
   test.equal(res.normalised.total, '0.0554032469', 'Normalised value for total recorded correctly');
 });
 
-tape('gm output gets parsed meaningfully with pae metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with pae metric', function (test) {
   test.plan(4);
 
   const output = [
@@ -84,7 +84,7 @@ tape('gm output gets parsed meaningfully with pae metric', function (test) {
   test.equal(res.normalised.total, '1.0000000000', 'Normalised value for total recorded correctly');
 });
 
-tape('gm output gets parsed meaningfully with psnr metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with psnr metric', function (test) {
   test.plan(4);
 
   const output = [
@@ -107,7 +107,7 @@ tape('gm output gets parsed meaningfully with psnr metric', function (test) {
   test.equal(res.normalised.total, '12.56', 'Normalised value for total recorded correctly');
 });
 
-tape('gm output gets parsed meaningfully with rmse metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with rmse metric', function (test) {
   test.plan(4);
 
   const output = [
@@ -129,7 +129,8 @@ tape('gm output gets parsed meaningfully with rmse metric', function (test) {
   test.ok(res.hasOwnProperty('normalised'), 'normalised key found');
   test.equal(res.normalised.total, '0.2353789431', 'Normalised value for total recorded correctly');
 });
-tape('gm output gets parsed meaningfully with double output from rmse metric', function (test) {
+
+tape('parseMetrics - gm output gets parsed meaningfully with double output from rmse metric', function (test) {
   test.plan(4);
 
   const output = [
@@ -161,7 +162,7 @@ tape('gm output gets parsed meaningfully with double output from rmse metric', f
   test.equal(res.normalised.total, '0.2393789431', 'Normalised value for total from the latter values');
 });
 
-tape('gm output with messy things', function (test) {
+tape('parseMetrics - gm output with messy things', function (test) {
   test.plan(1);
 
   const output = [

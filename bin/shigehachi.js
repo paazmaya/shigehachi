@@ -100,7 +100,7 @@ const optsParser = optionator({
       alias: 'm',
       type: 'String',
       default: 'pae',
-      enum: types.metric,
+      enum: types.METRIC,
       description: 'Difference calculation metric'
     },
     {
@@ -108,7 +108,7 @@ const optsParser = optionator({
       alias: 's',
       type: 'String',
       default: 'tint',
-      enum: types.style,
+      enum: types.STYLE,
       description: 'Style in which the differentiation image is created'
     },
     {
@@ -116,7 +116,7 @@ const optsParser = optionator({
       alias: 'p',
       type: 'String',
       default: 'difference',
-      enum: types.compose,
+      enum: types.COMPOSE,
       description: 'Composition type used for creating a composite image'
     },
     {
@@ -191,35 +191,37 @@ const _whenDone = function _whenDone(metrics) {
   if (opts.verbose) {
     console.log('Comparison finished. Result metrics:');
   }
-  console.log(JSON.stringify(metrics, null, '  '));
+  const output = JSON.stringify(metrics, null, '  ');
+  fs.writeFileSync(path.join(opts.outputDir, pkg.name + '.json'), output, 'uft8');
+  console.log(output);
 };
 
 const hachi = new Shigehachi({
   verbose: typeof opts.verbose === 'boolean' ?
     opts.verbose :
     false,
-  prevDir: typeof opts.previousDir === 'string' ?
+  previousDir: typeof opts.previousDir === 'string' ?
     opts.previousDir :
     'previous',
-  currDir: typeof opts.currentDir === 'string' ?
+  currentDir: typeof opts.currentDir === 'string' ?
     opts.currentDir :
     'current',
-  diffDir: typeof opts.outputDir === 'string' ?
+  outputDir: typeof opts.outputDir === 'string' ?
     opts.outputDir :
     'difference',
   color: typeof opts.color === 'string' ?
     opts.color :
     'pink',
   metric: typeof opts.metric === 'string' &&
-    types.metric.indexOf(opts.metric) !== -1 ?
+    types.METRIC.indexOf(opts.metric) !== -1 ?
     opts.metric :
     'pae',
   style: typeof opts.style === 'string' &&
-    types.style.indexOf(opts.style) !== -1 ?
+    types.STYLE.indexOf(opts.style) !== -1 ?
     opts.style :
     'tint',
   compose: typeof opts.compose === 'string' &&
-    types.compose.indexOf(opts.compose) !== -1 ?
+    types.COMPOSE.indexOf(opts.compose) !== -1 ?
     opts.compose :
     'difference',
   allVariations: typeof opts.allVariations === 'boolean' ?

@@ -13,7 +13,7 @@
 const tape = require('tape'),
   createCommands = require('../../lib/create-commands');
 
-tape('create composite command', function (test) {
+tape('createCommands - create composite command', function (test) {
   test.plan(1);
 
   const diff = 'difference.png';
@@ -37,7 +37,7 @@ tape('create composite command', function (test) {
   ], 'Returned arguments are correct');
 });
 
-tape('create composite command uses longDiffName', function (test) {
+tape('createCommands - create composite command uses longDiffName', function (test) {
   test.plan(1);
 
   const diff = 'difference.png';
@@ -62,7 +62,7 @@ tape('create composite command uses longDiffName', function (test) {
   ], 'Returned arguments are correct');
 });
 
-tape('create compare command', function (test) {
+tape('createCommands - create compare command', function (test) {
   test.plan(1);
 
   const diff = 'difference image.png';
@@ -90,7 +90,7 @@ tape('create compare command', function (test) {
   ], 'Returned arguments are correct');
 });
 
-tape('create negate command', function (test) {
+tape('createCommands - create negate command', function (test) {
   test.plan(1);
 
   const diff = 'difference.png';

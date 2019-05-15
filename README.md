@@ -305,6 +305,7 @@ Please make sure it is over 90% at all times.
 
 * `v6.0.0` (2019-05)
   - Added command option `--all-variations` for generating diff images with all possible metric and compose alternatives
+  - Command line tool now saves the metrics data as `shigehachi.json` in the `output-dir` directory
 * `v5.0.2` (2019-05-13)
   - `npm-shrinkwrap.json` was not included in the published package
 * `v5.0.1` (2019-05-10)

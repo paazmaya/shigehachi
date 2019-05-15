@@ -20,7 +20,7 @@ const tape = require('tape');
 
 const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
 
-tape('cli should output version number', function (test) {
+tape('cli - should output version number', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-V'], null, function (err, stdout) {
@@ -29,7 +29,7 @@ tape('cli should output version number', function (test) {
 
 });
 
-tape('cli should output name and version number when verbose version', function (test) {
+tape('cli - should output name and version number when verbose version', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-Vv'], null, function (err, stdout) {
@@ -38,7 +38,7 @@ tape('cli should output name and version number when verbose version', function 
 
 });
 
-tape('cli help output', function (test) {
+tape('cli - help output', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '--help'], null, function (err, stdout) {
@@ -48,7 +48,7 @@ tape('cli help output', function (test) {
 
 });
 
-tape('cli does not allow to use wrong metric', function (test) {
+tape('cli - does not allow to use wrong metric', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-m', 'hoplaa'], null, function (err, stdout, stderr) {
@@ -57,7 +57,7 @@ tape('cli does not allow to use wrong metric', function (test) {
 
 });
 
-tape('cli does not allow to use wrong style', function (test) {
+tape('cli - does not allow to use wrong style', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-s', 'hoplaa'], null, function (err, stdout, stderr) {
@@ -66,7 +66,7 @@ tape('cli does not allow to use wrong style', function (test) {
 
 });
 
-tape('cli does not allow to use wrong compose', function (test) {
+tape('cli - does not allow to use wrong compose', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-p', 'hoplaa'], null, function (err, stdout, stderr) {
@@ -75,7 +75,7 @@ tape('cli does not allow to use wrong compose', function (test) {
 
 });
 
-tape('cli should fail when previous directory does not exist', function (test) {
+tape('cli - should fail when previous directory does not exist', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'not-around-here'], null, function (err, stdout, stderr) {
@@ -84,7 +84,7 @@ tape('cli should fail when previous directory does not exist', function (test) {
 
 });
 
-tape('cli should fail when current directory does not exist', function (test) {
+tape('cli - should fail when current directory does not exist', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
@@ -92,5 +92,3 @@ tape('cli should fail when current directory does not exist', function (test) {
   });
 
 });
-
-
