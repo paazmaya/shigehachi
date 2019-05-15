@@ -10,8 +10,6 @@
 
 'use strict';
 
-const fs = require('fs');
-
 const tape = require('tape'),
   filterDir = require('../../lib/filter-dir');
 

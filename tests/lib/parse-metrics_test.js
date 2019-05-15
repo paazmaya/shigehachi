@@ -10,8 +10,6 @@
 
 'use strict';
 
-const fs = require('fs');
-
 const tape = require('tape'),
   parseMetrics = require('../../lib/parse-metrics');
 
@@ -31,10 +29,10 @@ tape('parseMetrics - gm output gets parsed meaningfully with mae metric', functi
 
   const res = parseMetrics(output);
 
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.ok(Reflect.has(res, 'metric'), 'metric key found');
   test.equal(res.metric, 'MeanAbsoluteError', 'Metric recorded correctly');
 
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
   test.equal(res.normalized.total, '0.0667332540', 'Normalized value for total recorded correctly');
 });
 
@@ -54,10 +52,10 @@ tape('parseMetrics - gm output gets parsed meaningfully with mse metric', functi
 
   const res = parseMetrics(output);
 
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.ok(Reflect.has(res, 'metric'), 'metric key found');
   test.equal(res.metric, 'MeanSquaredError', 'Metric recorded correctly');
 
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
   test.equal(res.normalized.total, '0.0554032469', 'Normalized value for total recorded correctly');
 });
 
@@ -77,10 +75,10 @@ tape('parseMetrics - gm output gets parsed meaningfully with pae metric', functi
 
   const res = parseMetrics(output);
 
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.ok(Reflect.has(res, 'metric'), 'metric key found');
   test.equal(res.metric, 'PeakAbsoluteError', 'Metric recorded correctly');
 
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
   test.equal(res.normalized.total, '1.0000000000', 'Normalized value for total recorded correctly');
 });
 
@@ -100,10 +98,10 @@ tape('parseMetrics - gm output gets parsed meaningfully with psnr metric', funct
 
   const res = parseMetrics(output);
 
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.ok(Reflect.has(res, 'metric'), 'metric key found');
   test.equal(res.metric, 'PeakSignalToNoiseRatio', 'Metric recorded correctly');
 
-  test.ok(res.hasOwnProperty('psnr'), 'psnr key found');
+  test.ok(Reflect.has(res, 'psnr'), 'psnr key found');
   test.equal(res.psnr.total, '12.56', 'psnr value for total recorded correctly');
 });
 
@@ -123,10 +121,10 @@ tape('parseMetrics - gm output gets parsed meaningfully with rmse metric', funct
 
   const res = parseMetrics(output);
 
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.ok(Reflect.has(res, 'metric'), 'metric key found');
   test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
 
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
   test.equal(res.normalized.total, '0.2353789431', 'Normalized value for total recorded correctly');
 });
 
@@ -155,10 +153,10 @@ tape('parseMetrics - gm output gets parsed meaningfully with double output from 
 
   const res = parseMetrics(output);
 
-  test.ok(res.hasOwnProperty('metric'), 'metric key found');
+  test.ok(Reflect.has(res, 'metric'), 'metric key found');
   test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
 
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
   test.equal(res.normalized.total, '0.2393789431', 'Normalized value for total from the latter values');
 });
 
@@ -184,9 +182,7 @@ tape('parseMetrics - gm output with messy things', function (test) {
 });
 
 
-
-
-tape('parseMetrics - MeanSquaredError', function (test) {
+tape('parseMetrics - MeanSquaredError succesfull parsing', function (test) {
   test.plan(5);
 
   const output = `Image Difference (MeanSquaredError):
@@ -201,13 +197,13 @@ tape('parseMetrics - MeanSquaredError', function (test) {
   const res = parseMetrics(output);
 
   test.equal(res.metric, 'MeanSquaredError', 'Metric recorded correctly');
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
-  test.ok(res.hasOwnProperty('absolute'), 'absolute key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'absolute'), 'absolute key found');
   test.equal(res.normalized.blue, '0.0614397708', 'Normalized value for blue is correct');
   test.equal(res.absolute.green, '3946.8', 'Absolute value for green is correct');
 });
 
-tape('parseMetrics - PeakAbsoluteError', function (test) {
+tape('parseMetrics - PeakAbsoluteError succesfull parsing', function (test) {
   test.plan(5);
 
   const output = `Image Difference (PeakAbsoluteError):
@@ -222,13 +218,13 @@ tape('parseMetrics - PeakAbsoluteError', function (test) {
   const res = parseMetrics(output);
 
   test.equal(res.metric, 'PeakAbsoluteError', 'Metric recorded correctly');
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
-  test.ok(res.hasOwnProperty('absolute'), 'absolute key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'absolute'), 'absolute key found');
   test.equal(res.normalized.blue, '0.7960784314', 'Normalized value for blue is correct');
   test.equal(res.absolute.green, '51657.0', 'Absolute value for green is correct');
 });
 
-tape('parseMetrics - PeakSignalToNoiseRatio', function (test) {
+tape('parseMetrics - PeakSignalToNoiseRatio succesfull parsing', function (test) {
   test.plan(5);
 
   const output = `Image Difference (PeakSignalToNoiseRatio):
@@ -243,13 +239,13 @@ tape('parseMetrics - PeakSignalToNoiseRatio', function (test) {
   const res = parseMetrics(output);
 
   test.equal(res.metric, 'PeakSignalToNoiseRatio', 'Metric recorded correctly');
-  test.ok(res.hasOwnProperty('psnr'), 'psnr key found');
-  test.notOk(res.hasOwnProperty('absolute'), 'absolute key not found');
+  test.ok(Reflect.has(res, 'psnr'), 'psnr key found');
+  test.notOk(Reflect.has(res, 'absolute'), 'absolute key not found');
   test.equal(res.psnr.blue, '12.12', 'psnr value for blue is correct');
   test.equal(res.psnr.green, '12.20', 'psnr value for green is correct');
 });
 
-tape('parseMetrics - RootMeanSquaredError', function (test) {
+tape('parseMetrics - RootMeanSquaredError succesfull parsing', function (test) {
   test.plan(5);
 
   const output = `Image Difference (RootMeanSquaredError):
@@ -264,8 +260,46 @@ tape('parseMetrics - RootMeanSquaredError', function (test) {
   const res = parseMetrics(output);
 
   test.equal(res.metric, 'RootMeanSquaredError', 'Metric recorded correctly');
-  test.ok(res.hasOwnProperty('normalized'), 'normalized key found');
-  test.ok(res.hasOwnProperty('absolute'), 'absolute key found');
+  test.ok(Reflect.has(res, 'normalized'), 'normalized key found');
+  test.ok(Reflect.has(res, 'absolute'), 'absolute key found');
   test.equal(res.normalized.blue, '0.2478704718', 'Normalized value for blue is correct');
   test.equal(res.absolute.green, '16082.6', 'Absolute value for green is correct');
+});
+
+tape('parseMetrics - ignore parsing of version output', function (test) {
+  test.plan(1);
+
+  const output = `GraphicsMagick 1.3.31 2018-11-17 Q16 http://www.GraphicsMagick.org/
+Copyright (C) 2002-2018 GraphicsMagick Group.
+Additional copyrights and licenses apply to this software.
+See http://www.GraphicsMagick.org/www/Copyright.html for details.
+
+Feature Support:
+  Native Thread Safe       yes
+  Large Files (> 32 bit)   yes
+  Large Memory (> 32 bit)  yes
+  BZIP                     yes
+  DPS                      no
+  FlashPix                 no
+  FreeType                 yes
+  Ghostscript (Library)    no
+  JBIG                     no
+  JPEG-2000                yes
+  JPEG                     yes
+  Little CMS               no
+  Loadable Modules         yes
+  OpenMP                   no
+  PNG                      yes
+  TIFF                     yes
+  TRIO                     no
+  UMEM                     no
+  WebP                     no
+  WMF                      no
+  X11                      no
+  XML                      yes
+  ZLIB                     yes
+`;
+  const res = parseMetrics(output);
+
+  test.notOk(res, 'returns false');
 });

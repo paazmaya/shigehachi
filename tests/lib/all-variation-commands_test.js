@@ -24,6 +24,6 @@ tape('allVariationCommands - huge number of commands', function (test) {
     style: 'xor'
   });
 
-  test.equal(list.length, 330, 'Many commands');
+  test.equal(list.length, 1320, 'Many commands');
 
 });

@@ -29,6 +29,20 @@ tape('cli - should output version number', function (test) {
 
 });
 
+tape('cli - should complain when package.json is gone', function (test) {
+  test.plan(1);
+
+  const original = 'package.json',
+    temporary = 'cabbage';
+
+  fs.renameSync(original, temporary);
+  execFile('node', [pkg.bin, '-V'], null, function (err, stdout, stderr) {
+    test.ok(stderr.trim().indexOf('Could not read/parse "package.json", quite strange...') === 0);
+    fs.renameSync(temporary, original);
+  });
+
+});
+
 tape('cli - should output name and version number when verbose version', function (test) {
   test.plan(1);
 
@@ -89,6 +103,24 @@ tape('cli - should fail when current directory does not exist', function (test) 
 
   execFile('node', [pkg.bin, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
     test.equals(stderr.trim(), 'Sorry but the currently created images directory should exist', 'Error message');
+  });
+
+});
+
+tape('cli - succesfull execution', function (test) {
+  test.plan(1);
+
+  execFile('node', [pkg.bin, '-P', 'tests/fixtures', '-C', 'tests/expected'], null, function (err, stdout, stderr) {
+    test.equals(stdout.trim(), '', 'There is no output coming');
+  });
+
+});
+
+tape('cli - succesfull execution that writes success message', function (test) {
+  test.plan(1);
+
+  execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp'], null, function (err, stdout, stderr) {
+    test.ok(stdout.trim().indexOf('Total of 0 image files found') === 0, 'There is output coming');
   });
 
 });
