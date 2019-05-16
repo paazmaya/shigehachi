@@ -61,10 +61,6 @@ Along with the "compare" image, there will also be a "negate" and "composite" im
 which should help to determine which metric algorithm is the most suitable for the given
 comparison.
 
-The amount of supported metric algorithms, comparison styles and composition types depends
-of the GraphicsMagick version. Available options are listed in [the source file](./index.js) and
-in the [relevant GraphicsMagick documentation](http://www.graphicsmagick.org/compare.html).
-
 ## Comparison example
 
 By running the following command on two screen captures of
@@ -279,6 +275,78 @@ generated three images would become with the default options:
 * `diff/image-pae-tint.png`
 * `diff/image-pae-tint-negate.png`
 * `diff/image-pae-tint-composite-difference.png`
+
+## GraphicMagick is used underneath
+
+The amount of supported metric algorithms, comparison styles and composition types depends
+of the GraphicsMagick version. Available options are listed in [the source file](./index.js) and
+in the [relevant GraphicsMagick documentation](http://www.graphicsmagick.org/compare.html).
+
+Underneath, the image comparison boils down to a command similar to this:
+
+```sh
+gm compare \
+ -metric mae \
+ -highlight-color purple \
+ -highlight-style xor \
+ -file tests/fixtures/diff/square-mae-xor.png \
+ tests/fixtures/prev/square.png \
+ tests/fixtures/curr/square.png
+```
+
+Output from the above command with GraphicMagick, would output something like:
+
+```txt
+Image Difference (MeanAbsoluteError):
+           Normalized    Absolute
+          ============  ==========
+     Red: 1.0000000000    65535.0
+   Green: 0.5019607843    32896.0
+    Blue: 0.4980392157    32639.0
+   Total: 0.6666666667    43690.0
+```
+
+In similar manner, with the different metric types the results vary, namely `mse`, `pae`, `psnr`, and `rmse`:
+
+```txt
+Image Difference (MeanSquaredError):
+           Normalized    Absolute
+          ============  ==========
+     Red: 1.0000000000    65535.0
+   Green: 0.2519646290    16512.5
+    Blue: 0.2480430604    16255.5
+   Total: 0.5000025631    32767.7
+```
+
+```txt
+Image Difference (PeakAbsoluteError):
+           Normalized    Absolute
+          ============  ==========
+     Red: 1.0000000000    65535.0
+   Green: 0.5019607843    32896.0
+    Blue: 0.4980392157    32639.0
+   Total: 1.0000000000    65535.0
+```
+
+```txt
+Image Difference (PeakSignalToNoiseRatio):
+           PSNR
+          ======
+     Red: 0.00
+   Green: 5.99
+    Blue: 6.05
+   Total: 3.01
+```
+
+```txt
+Image Difference (RootMeanSquaredError):
+           Normalized    Absolute
+          ============  ==========
+     Red: 1.0000000000    65535.0
+   Green: 0.5019607843    32896.0
+    Blue: 0.4980392157    32639.0
+   Total: 0.7071085936    46340.4
+```
 
 ## Contributing
 
