@@ -160,7 +160,7 @@ tape('index - image files found when matching expression', function (test) {
   });
   instance._readPrevDir(instance.previousDir);
 
-  test.equal(instance.capturedPrev.length, 2, 'Previous images list contains files from base level of the previous dir');
+  test.equal(instance.capturedPrev.length, 3, 'Previous images list contains files from base level of the previous dir');
 });
 /*
 tape('index - runner should fail when command not found', function (test) {

@@ -20,7 +20,7 @@ tape('filterDir - filter directories recursively', function (test) {
     recursive: true
   });
 
-  test.equal(images.length, 2, 'Both png images were found');
+  test.equal(images.length, 3, 'All png images were found');
 });
 
 tape('filterDir - filter directories does not complain with missing settings', function (test) {
@@ -28,5 +28,5 @@ tape('filterDir - filter directories does not complain with missing settings', f
 
   const images = filterDir('tests/fixtures/curr');
 
-  test.equal(images.length, 1, 'Just one found');
+  test.equal(images.length, 2, 'Just two found');
 });
