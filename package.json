@@ -39,7 +39,7 @@
     "url": "https://github.com/paazmaya/shigehachi/issues"
   },
   "engines": {
-    "node": ">=8.11.1"
+    "node": ">=10.13.0"
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
