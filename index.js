@@ -73,30 +73,35 @@ class Shigehachi {
 
   /**
    * Filter the previous directory for image files
-   * @param {string} dirpath Directory which will be searched for image files
-   * @returns {void}
+   *
+   * @param {object}   options Configuration options
+   * @param {boolean}  options.verbose More information to the console
+   * @param {string}   options.previousDir Directory which will be searched for image files
+   * @returns {Array}
    */
-  _readPrevDir(dirpath) {
+  _readPrevDir(options) {
 
     try {
-      fs.accessSync(dirpath);
+      fs.accessSync(options.previousDir);
     }
     catch (error) {
-      if (this.options.verbose) {
+      if (options.verbose) {
         console.error('Previous image directory did not exists');
       }
 
-      return;
+      return [];
     }
 
-    this.capturedPrev = filterDir(dirpath, null, {
-      recursive: this.options.recursive,
-      match: this.options.match
+    const list = filterDir(options.previousDir, null, {
+      recursive: options.recursive,
+      match: options.match
     });
 
-    if (this.options.verbose) {
-      console.log('Total of ' + this.capturedPrev.length + ' image files found');
+    if (options.verbose) {
+      console.log('Total of ' + list.length + ' image files found');
     }
+
+    return list;
   }
 
   _hash(input) {
@@ -172,7 +177,7 @@ class Shigehachi {
    */
   exec() {
     // List of image files in "previous directory"
-    this._readPrevDir(this.options.previousDir);
+    this.capturedPrev = this._readPrevDir(this.options);
 
     if (ensureDirectory(this.options.outputDir) && this.options.verbose) {
       console.log('Output directory for differentiation images did not exist, thus creating it');

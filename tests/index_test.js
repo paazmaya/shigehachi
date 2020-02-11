@@ -23,9 +23,9 @@ tape('index - no files found when no matching expression', function (test) {
     previousDir: 'tests/fixtures/prev/',
     match: '\\.(tiff|bmp)$'
   });
-  instance._readPrevDir(instance.options.previousDir);
+  const list = instance._readPrevDir(instance.options);
 
-  test.equal(instance.capturedPrev.length, 0, 'Previous images list is empty');
+  test.equal(list.length, 0, 'Previous images list is empty');
 });
 
 tape('index - image files found when matching expression', function (test) {
@@ -36,9 +36,9 @@ tape('index - image files found when matching expression', function (test) {
     match: '\\.(png|gif)$',
     verbose: true
   });
-  instance._readPrevDir(instance.options.previousDir);
+  const list = instance._readPrevDir(instance.options);
 
-  test.equal(instance.capturedPrev.length, 3, 'Previous images list contains files from base level of the previous dir');
+  test.equal(list.length, 3, 'Previous images list contains files from base level of the previous dir');
 });
 /*
 tape('index - runner should fail when command not found', function (test) {
