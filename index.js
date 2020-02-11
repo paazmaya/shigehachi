@@ -66,9 +66,6 @@ class Shigehachi {
 
     // Metrics storage, indexed by the current image path
     this.results = {};
-
-    // Currently iterating index of the commandList
-    this.currentIndex = 0;
   }
 
   /**
@@ -130,7 +127,6 @@ class Shigehachi {
         const currPicture = gmArgs.pop();
         const prevPicture = gmArgs.pop();
         const diffPicture = gmArgs.pop();
-        console.log('Remaining gmArgs', gmArgs);
 
         // Identifier for the test case, simply md5 of the GraphicMagick command used
         const key = this._hash(command);
@@ -152,9 +148,7 @@ class Shigehachi {
    * @returns {void}
    */
   _nextRun() {
-    const len = this.commandList.length;
-
-    if (this.currentIndex === len) {
+    if (this.commandList.length === 0) {
       if (typeof this.options.whenDone === 'function') {
         this.options.whenDone.call(this, this.results);
       }
@@ -162,11 +156,7 @@ class Shigehachi {
       return;
     }
 
-    const command = this.commandList[this.currentIndex++];
-
-    if (this.options.verbose) {
-      console.log('Current command iteration ' + this.currentIndex + ' of ' + len);
-    }
+    const command = this.commandList.shift();
 
     this._runner(command);
   }
