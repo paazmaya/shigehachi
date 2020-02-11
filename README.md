@@ -33,7 +33,7 @@ the following command which should provide plenty of information when successful
 gm version
 ```
 
-The version tested of GraphicMagick is `1.3.26`.
+The version tested of GraphicMagick is `1.3.34`.
 
 Install the `sakugawa` command line utility globally with [npm](https://www.npmjs.com/).
 Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
@@ -226,7 +226,9 @@ The metrics output looks something similar to:
     },
     "A": "tests/fixtures/prev/postcss.png",
     "B": "tests/fixtures/curr/postcss.png",
-    "diff": "tests/fixtures/output/postcss-mae-tint.png"
+    "diff": "tests/fixtures/output/postcss-mae-tint.png",
+    "negate": "tests/fixtures/output/postcss-mae-tint-negate.png",
+    "composite": "tests/fixtures/output/postcss-mae-tint-composite-difference.png"
   }
 }
 ```
@@ -269,7 +271,7 @@ and the filenames are created as explained above. In case it is set to `true`, t
 will also be appended with the used `metric`, `style`, or `color`, depending of the relevance
 to the given method.
 
-For example while following the above example and setting the `longDiffName` to `true`, the
+For example, while following the above example and setting the `longDiffName` to `true`, the
 generated three images would become with the default options:
 
 * `diff/image-pae-tint.png`
@@ -364,6 +366,9 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
+* `v7.0.0` (2020-02)
+  - Minimum Node.js version lifted from `8.11.1` to `10.13.0`
+  - The metrics file called `shigehachi.json` contains more information, in order to serve [`hideo`](https://github.com/paazmaya/hideo) better
 * `v6.0.0` (2019-05-15)
   - Added command option `--all-variations` for generating diff images with all possible metric, compose, and style alternatives. This will run about 1320 GraphicMagick commands more per image comparison pair
   - Command line tool now saves the metrics data as `shigehachi.json` in the `output-dir` directory

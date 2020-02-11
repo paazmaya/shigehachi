@@ -22,10 +22,10 @@ const crypto = require('crypto');
 
 const filterDir = require('./lib/filter-dir'),
   createCommands = require('./lib/create-commands'),
-  types = require('./lib/types'),
   allVariationCommands = require('./lib/all-variation-commands'),
   ensureDirectory = require('./lib/ensure-directory'),
   diffImageFilename = require('./lib/diff-image-filename'),
+  sanitizeOptions = require('./lib/sanitize-options'),
   parseMetrics = require('./lib/parse-metrics');
 
 /**
@@ -56,9 +56,7 @@ class Shigehachi {
    * @returns {string} Full path to the difference image
    */
   constructor (options) {
-    this.options = options || {};
-    this._readStringOptions(this.options);
-    this._readOptions(this.options);
+    this.options = sanitizeOptions(options);
 
     // Array of arrays, gm command arguments
     this.commandList = [];
@@ -74,76 +72,6 @@ class Shigehachi {
   }
 
   /**
-   * Read the options and set defaults when not defined
-   * @param {object} options Options passed to the constructor
-   * @returns {void}
-   */
-  _readOptions(options) {
-    this.verbose = typeof options.verbose === 'boolean' ?
-      options.verbose :
-      false;
-    this.recursive = typeof options.recursive === 'boolean' ?
-      options.recursive :
-      false;
-    this.allVariations = typeof options.allVariations === 'boolean' ?
-      options.allVariations :
-      false;
-
-    // Output file name modifier for including used method/type
-    this.longDiffName = typeof options.longDiffName === 'boolean' ?
-      options.longDiffName :
-      false;
-
-    // Callback when all commands have been iterated, called with metrics
-    this.whenDone = typeof options.whenDone === 'function' ?
-      options.whenDone :
-      null;
-  }
-
-  /**
-   * Read the string options and set defaults when not defined
-   * @param {object} options Options passed to the constructor
-   * @returns {void}
-   */
-  _readStringOptions(options) {
-
-    // Difference calculation algorithm
-    this.metric = typeof options.metric === 'string' &&
-      types.METRIC.indexOf(options.metric) !== -1 ?
-      options.metric :
-      'pae';
-    this.style = typeof options.style === 'string' &&
-      types.STYLE.indexOf(options.style) !== -1 ?
-      options.style :
-      'tint';
-    // http://www.graphicsmagick.org/GraphicsMagick.html#details-highlight-color
-    this.color = typeof options.color === 'string' ?
-      options.color :
-      'pink';
-
-    this.compose = typeof options.compose === 'string' &&
-      types.COMPOSE.indexOf(options.compose) !== -1 ?
-      options.compose :
-      'difference';
-
-    // Regular expression for matching image files
-    this.match = typeof options.match === 'string' ?
-      new RegExp(options.match, 'u') :
-      /\.png$/u;
-
-    // Directories
-    this.previousDir = typeof options.previousDir === 'string' ?
-      options.previousDir :
-      'previous';
-    this.currentDir = typeof options.currentDir === 'string' ?
-      options.currentDir :
-      'current';
-    this.outputDir = typeof options.outputDir === 'string' ?
-      options.outputDir :
-      'difference';
-  }
-
-  /**
    * Filter the previous directory for image files
    * @param {string} dirpath Directory which will be searched for image files
    * @returns {void}
@@ -154,7 +82,7 @@ class Shigehachi {
       fs.accessSync(dirpath);
     }
     catch (error) {
-      if (this.verbose) {
+      if (this.options.verbose) {
         console.error('Previous image directory did not exists');
       }
 
@@ -162,11 +90,11 @@ class Shigehachi {
     }
 
     this.capturedPrev = filterDir(dirpath, null, {
-      recursive: this.recursive,
-      match: this.match
+      recursive: this.options.recursive,
+      match: this.options.match
     });
 
-    if (this.verbose) {
+    if (this.options.verbose) {
       console.log('Total of ' + this.capturedPrev.length + ' image files found');
     }
   }
@@ -185,7 +113,7 @@ class Shigehachi {
    */
   _runner(gmArgs) {
     const command = 'gm ' + gmArgs.join(' ');
-    if (this.verbose) {
+    if (this.options.verbose) {
       console.log('Command: ' + command);
     }
     execFile('gm', gmArgs, null, (error, stdout) => {
@@ -197,6 +125,7 @@ class Shigehachi {
         const currPicture = gmArgs.pop();
         const prevPicture = gmArgs.pop();
         const diffPicture = gmArgs.pop();
+        console.log('Remaining gmArgs', gmArgs);
 
         // Identifier for the test case, simply md5 of the GraphicMagick command used
         const key = this._hash(command);
@@ -221,8 +150,8 @@ class Shigehachi {
     const len = this.commandList.length;
 
     if (this.currentIndex === len) {
-      if (typeof this.whenDone === 'function') {
-        this.whenDone.call(this, this.results);
+      if (typeof this.options.whenDone === 'function') {
+        this.options.whenDone.call(this, this.results);
       }
 
       return;
@@ -230,7 +159,7 @@ class Shigehachi {
 
     const command = this.commandList[this.currentIndex++];
 
-    if (this.verbose) {
+    if (this.options.verbose) {
       console.log('Current command iteration ' + this.currentIndex + ' of ' + len);
     }
 
@@ -243,18 +172,18 @@ class Shigehachi {
    */
   exec() {
     // List of image files in "previous directory"
-    this._readPrevDir(this.previousDir);
+    this._readPrevDir(this.options.previousDir);
 
-    if (ensureDirectory(this.outputDir) && this.verbose) {
+    if (ensureDirectory(this.options.outputDir) && this.options.verbose) {
       console.log('Output directory for differentiation images did not exist, thus creating it');
     }
 
     this.capturedPrev.forEach((picture) => {
 
-      const prevPicture = path.join(this.previousDir, picture);
-      const currPicture = path.join(this.currentDir, picture);
+      const prevPicture = path.join(this.options.previousDir, picture);
+      const currPicture = path.join(this.options.currentDir, picture);
 
-      if (this.verbose) {
+      if (this.options.verbose) {
         console.log('Started command creation for ' + picture);
       }
 
@@ -280,14 +209,14 @@ class Shigehachi {
 
           this.commandList.push(
             createCommands.compare(diffPicture, prevPicture, currPicture, {
-              metric: this.metric,
-              color: this.color,
-              style: this.style
+              metric: this.options.metric,
+              color: this.options.color,
+              style: this.options.style
             }),
             createCommands.composite(diffPicture, prevPicture, currPicture, {
-              longDiffName: this.longDiffName || this.allVariations,
-              compose: this.compose,
-              style: this.style
+              longDiffName: this.options.longDiffName || this.options.allVariations,
+              compose: this.options.compose,
+              style: this.options.style
             }),
             createCommands.negate(diffPicture)
           );
