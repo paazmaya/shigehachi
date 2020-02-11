@@ -18,16 +18,8 @@ const fs = require('fs'),
 const optionator = require('optionator');
 
 const Shigehachi = require('../index'),
-  types = require('../lib/types');
-
-const dateString = (function dateString(now) {
-  now.setTime(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
-  const s = now.toISOString().replace(/[\s:]/gu, '-').split('-');
-  s.pop();
-
-  return s.join('-');
-})(new Date());
-
+  types = require('../lib/types'),
+  defaults = require('../lib/defaults');
 
 let pkg;
 
@@ -71,35 +63,35 @@ const optsParser = optionator({
       option: 'previous-dir',
       alias: 'P',
       type: 'String',
-      default: 'previous',
+      default: defaults.PREVIOUS_DIR,
       description: 'Directory in which the previous images are stored'
     },
     {
       option: 'current-dir',
       alias: 'C',
       type: 'String',
-      default: 'current',
+      default: defaults.CURRENT_DIR,
       description: 'Directory in which the current images are stored'
     },
     {
       option: 'output-dir',
       alias: 'O',
       type: 'String',
-      default: 'diff-' + dateString,
+      default: defaults.OUTPUT_DIR,
       description: 'Directory in which the resulting differentiation images are stored'
     },
     {
       option: 'color',
       alias: 'c',
       type: 'String',
-      default: 'pink',
+      default: defaults.COLOR,
       description: 'Color used in the output images, such as #b10dc9 or purple'
     },
     {
       option: 'metric',
       alias: 'm',
       type: 'String',
-      default: 'pae',
+      default: defaults.METRIC,
       enum: types.METRIC,
       description: 'Difference calculation metric'
     },
@@ -107,7 +99,7 @@ const optsParser = optionator({
       option: 'style',
       alias: 's',
       type: 'String',
-      default: 'tint',
+      default: defaults.STYLE,
       enum: types.STYLE,
       description: 'Style in which the differentiation image is created'
     },
@@ -115,7 +107,7 @@ const optsParser = optionator({
       option: 'compose',
       alias: 'p',
       type: 'String',
-      default: 'difference',
+      default: defaults.COMPOSE,
       enum: types.COMPOSE,
       description: 'Composition type used for creating a composite image'
     },
