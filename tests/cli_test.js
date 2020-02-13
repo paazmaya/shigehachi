@@ -120,7 +120,7 @@ tape('cli - succesfull execution that writes success message', function (test) {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp'], null, function (err, stdout, stderr) {
-    test.ok(stdout.trim().indexOf('Total of 0 image files found') === 0, 'There is output coming');
+    test.ok(stdout.trim().indexOf('Found total of 0 image files') === 0, 'There is output coming');
   });
 
 });

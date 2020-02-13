@@ -10,8 +10,9 @@
 
 'use strict';
 
-const tape = require('tape'),
-  filterDir = require('../../lib/filter-dir');
+const tape = require('tape');
+
+const filterDir = require('../../lib/filter-dir');
 
 tape('filterDir - filter directories recursively', function (test) {
   test.plan(1);
@@ -29,4 +30,25 @@ tape('filterDir - filter directories does not complain with missing settings', f
   const images = filterDir('tests/fixtures/curr');
 
   test.equal(images.length, 2, 'Just two found');
+});
+
+tape('filterDir - no files found when no matching expression', function (test) {
+  test.plan(1);
+
+  const list = filterDir('tests/fixtures/prev/', null, {
+    match: /\.(tiff|bmp)$/iu
+  });
+
+  test.equal(list.length, 0, 'Previous images list is empty');
+});
+
+tape('filterDir - image files found when matching expression', function (test) {
+  test.plan(1);
+
+  const list = filterDir('tests/fixtures/prev/', null, {
+    match: /\.(png|gif)$/iu,
+    verbose: true
+  });
+
+  test.equal(list.length, 3, 'Previous images list contains files from base level of the previous dir');
 });

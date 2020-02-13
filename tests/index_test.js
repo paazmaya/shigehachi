@@ -16,30 +16,6 @@ const tape = require('tape'),
   Shigehachi = require('../index');
 
 
-tape('index - no files found when no matching expression', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi({
-    previousDir: 'tests/fixtures/prev/',
-    match: '\\.(tiff|bmp)$'
-  });
-  const list = instance._readPrevDir(instance.options);
-
-  test.equal(list.length, 0, 'Previous images list is empty');
-});
-
-tape('index - image files found when matching expression', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi({
-    previousDir: 'tests/fixtures/prev/',
-    match: '\\.(png|gif)$',
-    verbose: true
-  });
-  const list = instance._readPrevDir(instance.options);
-
-  test.equal(list.length, 3, 'Previous images list contains files from base level of the previous dir');
-});
 /*
 tape('index - runner should fail when command not found', function (test) {
   test.plan(1);
@@ -50,37 +26,20 @@ tape('index - runner should fail when command not found', function (test) {
 });
 */
 
-tape('index - next runner calls runner', function (test) {
-  test.plan(1);
-
-  const instance = new Shigehachi({
-    verbose: true
-  });
-  instance.commandList = [['version']];
-
-  instance._runner = function (args) {
-    test.deepEqual(args, ['version'], 'Runner got called with expected arguments');
-  };
-
-  instance._nextRun();
-});
-
 tape('index - next runner calls callback when no more command queued', function (test) {
-  test.plan(1);
+  test.plan(2);
 
   const instance = new Shigehachi({
     verbose: true,
+    previousDir: 'tests/fixtures/prev',
+    currentDir: 'tests/fixtures/curr',
+    outputDir: 'tmp/diff',
     whenDone: function (res) {
-      test.deepEqual(res, {
-        filepath: 'results'
-      }, 'Callback got called with expected arguments');
+      test.equal(Object.keys(res).length, 2);
+      test.ok(Object.keys(res).indexOf('337ad3c782aea18879beac21669df377') !== -1);
     }
   });
-  instance.results = {
-    filepath: 'results'
-  };
-
-  instance._nextRun();
+  instance.exec();
 });
 
 tape('index - exec should not create commands when no files, but call next runner', function (test) {

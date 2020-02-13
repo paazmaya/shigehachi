@@ -369,6 +369,7 @@ Please make sure it is over 90% at all times.
 * `v7.0.0` (2020-02)
   - Minimum Node.js version lifted from `8.11.1` to `10.13.0`
   - The metrics file called `shigehachi.json` contains more information, in order to serve [`hideo`](https://github.com/paazmaya/hideo) better
+  - Default image file matching for `png` files is now case insensitive
 * `v6.0.0` (2019-05-15)
   - Added command option `--all-variations` for generating diff images with all possible metric, compose, and style alternatives. This will run about 1320 GraphicMagick commands more per image comparison pair
   - Command line tool now saves the metrics data as `shigehachi.json` in the `output-dir` directory

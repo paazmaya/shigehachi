@@ -14,19 +14,65 @@
 
 const fs = require('fs-extra'),
   path = require('path'),
-  {
-    execFile
-  } = require('child_process');
+  crypto = require('crypto');
 
-const crypto = require('crypto');
-
-const filterDir = require('./lib/filter-dir'),
-  createCommands = require('./lib/create-commands'),
+const createCommands = require('./lib/create-commands'),
   allVariationCommands = require('./lib/all-variation-commands'),
   ensureDirectory = require('./lib/ensure-directory'),
+  findFiles = require('./lib/find-files'),
   diffImageFilename = require('./lib/diff-image-filename'),
   sanitizeOptions = require('./lib/sanitize-options'),
-  parseMetrics = require('./lib/parse-metrics');
+  commandExecution = require('./lib/command-execution');
+
+/**
+ * Generate MD5 hash of the given input.
+ *
+ * @param {string} input Something to use for hashing
+ * @returns {string} MD5 hash of the input
+ */
+const createHash = (input) => {
+  const hash = crypto.createHash('md5');
+  hash.update(input);
+
+  return hash.digest('hex');
+};
+
+/**
+ * Run all the commands, reduce the results to only metrics, and parse them.
+ * Calls "whenDone" with the metrics storage.
+ */
+const interateCommands = (list, options) => {
+  const metrics = list
+    .map((item) => {
+      const command = 'gm ' + item.join(' ');
+      if (options.verbose) {
+        console.log('Command: ' + command);
+      }
+
+      return commandExecution(item, options);
+    })
+    .filter((item) => {
+      return item !== false;
+    })
+    .map((item) => {
+      // const key = createHash(command);
+      return item;
+    });
+
+  const results = {};
+  metrics.forEach((item) => {
+    const key = createHash(item.A);
+    results[key] = item;
+  });
+
+  if (options.verbose) {
+    console.log(`Metrics list is ${metrics.length} items long, while results has ${Object.keys(results).length} items`);
+  }
+
+  if (typeof options.whenDone === 'function') {
+    options.whenDone.call(this, results);
+  }
+};
 
 /**
  * @param {object} options Configuration options
@@ -60,87 +106,6 @@ class Shigehachi {
 
     // Array of arrays, gm command arguments
     this.commandList = [];
-
-    // List of files found from previous image directory
-    this.capturedPrev = [];
-
-    // Metrics storage, indexed by the current image path
-    this.results = {};
-  }
-
-  /**
-   * Filter the previous directory for image files
-   *
-   * @param {object}   options Configuration options
-   * @param {boolean}  options.verbose More information to the console
-   * @param {string}   options.previousDir Directory which will be searched for image files
-   * @returns {Array}
-   */
-  _readPrevDir(options) {
-
-    try {
-      fs.accessSync(options.previousDir);
-    }
-    catch (error) {
-      if (options.verbose) {
-        console.error('Previous image directory did not exists');
-      }
-
-      return [];
-    }
-
-    const list = filterDir(options.previousDir, null, {
-      recursive: options.recursive,
-      match: options.match
-    });
-
-    if (options.verbose) {
-      console.log('Total of ' + list.length + ' image files found');
-    }
-
-    return list;
-  }
-
-  _hash(input) {
-    const hash = crypto.createHash('md5');
-    hash.update(input);
-
-    return hash.digest('hex');
-  }
-
-  /**
-   * Execute a command with 'gm'
-   * @param {array} gmArgs List of arguments passed to the binary command
-   * @returns {void}
-   */
-  _runner(gmArgs) {
-    const command = 'gm ' + gmArgs.join(' ');
-    if (this.options.verbose) {
-      console.log('Command: ' + command);
-    }
-    execFile('gm', gmArgs, null, (error, stdout) => {
-      if (error) {
-        console.error('Error occurred when running GraphicsMagick command');
-        console.error(error);
-      }
-      else if (gmArgs[0] === 'compare') {
-        const currPicture = gmArgs.pop();
-        const prevPicture = gmArgs.pop();
-        const diffPicture = gmArgs.pop();
-
-        // Identifier for the test case, simply md5 of the GraphicMagick command used
-        const key = this._hash(command);
-
-        const metrics = parseMetrics(stdout);
-        if (metrics) {
-          metrics.A = prevPicture;
-          metrics.B = currPicture;
-          metrics.diff = diffPicture;
-          this.results[key] = metrics;
-        }
-      }
-      this._nextRun();
-    });
   }
 
   /**
@@ -148,17 +113,7 @@ class Shigehachi {
    * @returns {void}
    */
   _nextRun() {
-    if (this.commandList.length === 0) {
-      if (typeof this.options.whenDone === 'function') {
-        this.options.whenDone.call(this, this.results);
-      }
-
-      return;
-    }
-
-    const command = this.commandList.shift();
-
-    this._runner(command);
+    interateCommands(this.commandList, this.options);
   }
 
   /**
@@ -167,13 +122,13 @@ class Shigehachi {
    */
   exec() {
     // List of image files in "previous directory"
-    this.capturedPrev = this._readPrevDir(this.options);
+    const foundPrev = findFiles(this.options.previousDir, this.options);
 
     if (ensureDirectory(this.options.outputDir) && this.options.verbose) {
       console.log('Output directory for differentiation images did not exist, thus creating it');
     }
 
-    this.capturedPrev.forEach((picture) => {
+    foundPrev.forEach((picture) => {
 
       const prevPicture = path.join(this.options.previousDir, picture);
       const currPicture = path.join(this.options.currentDir, picture);
