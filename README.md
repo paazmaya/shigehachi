@@ -35,7 +35,7 @@ gm version
 
 The version tested of GraphicMagick is `1.3.34`.
 
-Install the `sakugawa` command line utility globally with [npm](https://www.npmjs.com/).
+Install the `shigehachi` command line utility globally with [npm](https://www.npmjs.com/).
 Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
 
 ```sh
@@ -64,7 +64,7 @@ comparison.
 ## Comparison example
 
 By running the following command on two screen captures of
-[naginata.fi](http://naginata.fi/en/koryu) that were taken while adjusting paddings:
+[naginata.fi](https://naginata.fi/en/koryu) that were taken while adjusting paddings:
 
 ```sh
 shigehachi --current-dir tests/fixtures/curr/website \
@@ -104,12 +104,15 @@ The file `shigehachi.json` generated to the output directory, looks something si
       "opacity": "6439.9",
       "total": "4373.4"
     },
-    "A": "tests/fixtures/prev/postcss.png",
-    "B": "tests/fixtures/curr/postcss.png",
-    "D": "tests/fixtures/output/postcss-mae-tint.png"
+    "A": "tests/fixtures/prev/website/naginata-koryu.png",
+    "B": "tests/fixtures/curr/website/naginata-koryu.png",
+    "D": "tests/expected/website/naginata-koryu.png",
+    "N": "tests/expected/website/naginata-koryu-negate.png"
   }
 }
 ```
+
+The index hash is made with `md5` algorithm, from the file path string of image A.
 
 ## Command line options
 
@@ -134,7 +137,7 @@ shigehachi [options]
   -l, --long-diff-name       Include used metric, style and composition options in difference image file names
   -r, --recursive            Recursive search of images in the previous and current directories
 
-Version 6.0.0
+Version 7.0.0
 ```
 
 Be aware of using the `--all-variations` option, since it will execute about 1320 commands per single image comparison pair.
@@ -171,7 +174,7 @@ const options = {
   longDiffName: false,
   match: '\.png$',
   metric: 'pae',
-  outputDir: 'diff-2016-09-01T11-16', // based on the current date and time
+  outputDir: 'diffence',
   previousDir: 'previous',
   recursive: false,
   allVariations: false,
@@ -227,8 +230,7 @@ The metrics output looks something similar to:
     "A": "tests/fixtures/prev/postcss.png",
     "B": "tests/fixtures/curr/postcss.png",
     "D": "tests/fixtures/output/postcss-mae-tint.png",
-    "negate": "tests/fixtures/output/postcss-mae-tint-negate.png",
-    "composite": "tests/fixtures/output/postcss-mae-tint-composite-difference.png"
+    "N": "tests/fixtures/output/postcss-mae-tint-negate.png"
   }
 }
 ```

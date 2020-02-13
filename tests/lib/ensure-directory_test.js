@@ -10,8 +10,6 @@
 
 'use strict';
 
-const fs = require('fs');
-
 const tape = require('tape'),
   ensureDirectory = require('../../lib/ensure-directory');
 
@@ -19,4 +17,10 @@ tape('ensureDirectory - false when already existed', function (test) {
   test.plan(1);
 
   test.notOk(ensureDirectory(__dirname));
+});
+
+tape('ensureDirectory - true when new created', function (test) {
+  test.plan(1);
+
+  test.ok(ensureDirectory('tmp/1234'));
 });

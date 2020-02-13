@@ -110,7 +110,7 @@ tape('cli - should fail when current directory does not exist', function (test) 
 tape('cli - succesfull execution', function (test) {
   test.plan(1);
 
-  execFile('node', [pkg.bin, '-P', 'tests/fixtures', '-C', 'tests/expected'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/1'], null, function (err, stdout, stderr) {
     test.equals(stdout.trim(), '', 'There is no output coming');
   });
 
@@ -119,7 +119,7 @@ tape('cli - succesfull execution', function (test) {
 tape('cli - succesfull execution that writes success message', function (test) {
   test.plan(1);
 
-  execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/2'], null, function (err, stdout, stderr) {
     test.ok(stdout.trim().indexOf('Found total of 0 image files') === 0, 'There is output coming');
   });
 
