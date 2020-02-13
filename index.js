@@ -55,7 +55,6 @@ const interateCommands = (list, options) => {
       return item !== false;
     })
     .map((item) => {
-      // const key = createHash(command);
       return item;
     });
 
@@ -69,9 +68,7 @@ const interateCommands = (list, options) => {
     console.log(`Metrics list is ${metrics.length} items long, while results has ${Object.keys(results).length} items`);
   }
 
-  if (typeof options.whenDone === 'function') {
-    options.whenDone.call(this, results);
-  }
+  return results;
 };
 
 /**
@@ -113,7 +110,10 @@ class Shigehachi {
    * @returns {void}
    */
   _nextRun() {
-    interateCommands(this.commandList, this.options);
+    const results = interateCommands(this.commandList, this.options);
+    if (typeof this.options.whenDone === 'function') {
+      this.options.whenDone.call(this, results);
+    }
   }
 
   /**
@@ -150,7 +150,7 @@ class Shigehachi {
       }
 
       if (bothExist) {
-        if (this.allVariations) {
+        if (this.options.allVariations) {
           this.commandList.push(...allVariationCommands(picture, prevPicture, currPicture, this.options));
         }
         else {

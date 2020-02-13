@@ -179,7 +179,7 @@ if (!fs.existsSync(opts.currentDir)) {
  * @param {Object} metrics Data of the comparison with numbers normalised
  * @returns {void}
  */
-const _whenDone = function _whenDone(metrics) {
+opts.whenDone = (metrics) => {
   const output = JSON.stringify(metrics, null, '  ');
   const filepath = path.join(opts.outputDir, pkg.name + '.json');
   fs.writeFileSync(filepath, output, 'utf8');
@@ -188,46 +188,5 @@ const _whenDone = function _whenDone(metrics) {
   }
 };
 
-const hachi = new Shigehachi({
-  verbose: typeof opts.verbose === 'boolean' ?
-    opts.verbose :
-    false,
-  previousDir: typeof opts.previousDir === 'string' ?
-    opts.previousDir :
-    'previous',
-  currentDir: typeof opts.currentDir === 'string' ?
-    opts.currentDir :
-    'current',
-  outputDir: typeof opts.outputDir === 'string' ?
-    opts.outputDir :
-    'difference',
-  color: typeof opts.color === 'string' ?
-    opts.color :
-    'pink',
-  metric: typeof opts.metric === 'string' &&
-    types.METRIC.indexOf(opts.metric) !== -1 ?
-    opts.metric :
-    'pae',
-  style: typeof opts.style === 'string' &&
-    types.STYLE.indexOf(opts.style) !== -1 ?
-    opts.style :
-    'tint',
-  compose: typeof opts.compose === 'string' &&
-    types.COMPOSE.indexOf(opts.compose) !== -1 ?
-    opts.compose :
-    'difference',
-  allVariations: typeof opts.allVariations === 'boolean' ?
-    opts.allVariations :
-    false,
-  match: typeof opts.match === 'string' ?
-    new RegExp(opts.match, 'u') :
-    /\.png$/u,
-  longDiffName: typeof opts.longDiffName === 'boolean' ?
-    opts.longDiffName :
-    false,
-  recursive: typeof opts.recursive === 'boolean' ?
-    opts.recursive :
-    false,
-  whenDone: _whenDone
-});
+const hachi = new Shigehachi(opts);
 hachi.exec();

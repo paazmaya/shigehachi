@@ -106,7 +106,7 @@ The file `shigehachi.json` generated to the output directory, looks something si
     },
     "A": "tests/fixtures/prev/postcss.png",
     "B": "tests/fixtures/curr/postcss.png",
-    "diff": "tests/fixtures/output/postcss-mae-tint.png"
+    "D": "tests/fixtures/output/postcss-mae-tint.png"
   }
 }
 ```
@@ -226,7 +226,7 @@ The metrics output looks something similar to:
     },
     "A": "tests/fixtures/prev/postcss.png",
     "B": "tests/fixtures/curr/postcss.png",
-    "diff": "tests/fixtures/output/postcss-mae-tint.png",
+    "D": "tests/fixtures/output/postcss-mae-tint.png",
     "negate": "tests/fixtures/output/postcss-mae-tint-negate.png",
     "composite": "tests/fixtures/output/postcss-mae-tint-composite-difference.png"
   }
