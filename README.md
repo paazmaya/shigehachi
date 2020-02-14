@@ -368,7 +368,7 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
-* `v7.0.0` (2020-02)
+* `v7.0.0` (2020-02-14)
   - Minimum Node.js version lifted from `8.11.1` to `10.13.0`
   - The metrics file called `shigehachi.json` contains more information, in order to serve [`hideo`](https://github.com/paazmaya/hideo) better
   - Default image file matching for `png` files is now case insensitive
