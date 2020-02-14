@@ -10,14 +10,13 @@
  * Licensed under the MIT license
  */
 
-'use strict';
-
 const path = require('path');
 
-const tape = require('tape'),
-  diffImageFilename = require('../../lib/diff-image-filename');
+const tape = require('tape');
 
-tape('diffImageFilename - uses configured diff directory', function (test) {
+const diffImageFilename = require('../../lib/diff-image-filename');
+
+tape('diffImageFilename - uses configured diff directory', (test) => {
   test.plan(1);
 
   const filepath = diffImageFilename('old-book-by-mr-sonobe.png', {
@@ -29,7 +28,7 @@ tape('diffImageFilename - uses configured diff directory', function (test) {
   test.equal(filepath, path.join('not-same', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
 });
 
-tape('diffImageFilename - enforces diff image as png', function (test) {
+tape('diffImageFilename - enforces diff image as png', (test) => {
   test.plan(1);
 
   const filepath = diffImageFilename('old-book-by-mr-sonobe.jpg', {
@@ -41,7 +40,7 @@ tape('diffImageFilename - enforces diff image as png', function (test) {
   test.equal(filepath, path.join('differences', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
 });
 
-tape('diffImageFilename - enforces diff image as png even when it has no suffix', function (test) {
+tape('diffImageFilename - enforces diff image as png even when it has no suffix', (test) => {
   test.plan(1);
 
   const filepath = diffImageFilename('old-book-by-mr-sonobe', {
@@ -53,7 +52,7 @@ tape('diffImageFilename - enforces diff image as png even when it has no suffix'
   test.equal(filepath, path.join('differences', 'old-book-by-mr-sonobe.png'), 'Resulting file is png');
 });
 
-tape('diffImageFilename - gets more details when longDiffName used', function (test) {
+tape('diffImageFilename - gets more details when longDiffName used', (test) => {
   test.plan(1);
 
   const filepath = diffImageFilename('old-book-by-mr-sonobe', {
@@ -62,5 +61,6 @@ tape('diffImageFilename - gets more details when longDiffName used', function (t
     style: 'tint',
     longDiffName: true
   });
-  test.equal(filepath, path.join('differences', 'old-book-by-mr-sonobe-pae-tint.png'), 'Resulting file contains default metric');
+  test.equal(filepath, path.join('differences', 'old-book-by-mr-sonobe-pae-tint.png'),
+    'Resulting file contains default metric');
 });

@@ -8,7 +8,7 @@
  * Licensed under the MIT license
  */
 
-'use strict';
+/* eslint-disable func-names, handle-callback-err, max-len */
 
 const fs = require('fs'),
   path = require('path'),
@@ -20,7 +20,7 @@ const tape = require('tape');
 
 const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
 
-tape('cli - should output version number', function (test) {
+tape('cli - should output version number', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-V'], null, function (err, stdout) {
@@ -29,7 +29,7 @@ tape('cli - should output version number', function (test) {
 
 });
 
-tape('cli - should complain when package.json is gone', function (test) {
+tape('cli - should complain when package.json is gone', (test) => {
   test.plan(1);
 
   const original = 'package.json',
@@ -43,7 +43,7 @@ tape('cli - should complain when package.json is gone', function (test) {
 
 });
 
-tape('cli - should output name and version number when verbose version', function (test) {
+tape('cli - should output name and version number when verbose version', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-Vv'], null, function (err, stdout) {
@@ -52,17 +52,17 @@ tape('cli - should output name and version number when verbose version', functio
 
 });
 
-tape('cli - help output', function (test) {
+tape('cli - help output', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '--help'], null, function (err, stdout) {
-    const count = (stdout.match(/differentiation/g) || []).length;
+    const count = (stdout.match(/differentiation/gu) || []).length;
     test.equals(count, 2, 'Word "differentiation" is found several times');
   });
 
 });
 
-tape('cli - does not allow to use wrong metric', function (test) {
+tape('cli - does not allow to use wrong metric', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-m', 'hoplaa'], null, function (err, stdout, stderr) {
@@ -71,7 +71,7 @@ tape('cli - does not allow to use wrong metric', function (test) {
 
 });
 
-tape('cli - does not allow to use wrong style', function (test) {
+tape('cli - does not allow to use wrong style', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-s', 'hoplaa'], null, function (err, stdout, stderr) {
@@ -80,7 +80,7 @@ tape('cli - does not allow to use wrong style', function (test) {
 
 });
 
-tape('cli - does not allow to use wrong compose', function (test) {
+tape('cli - does not allow to use wrong compose', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-p', 'hoplaa'], null, function (err, stdout, stderr) {
@@ -89,7 +89,7 @@ tape('cli - does not allow to use wrong compose', function (test) {
 
 });
 
-tape('cli - should fail when previous directory does not exist', function (test) {
+tape('cli - should fail when previous directory does not exist', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'not-around-here'], null, function (err, stdout, stderr) {
@@ -98,7 +98,7 @@ tape('cli - should fail when previous directory does not exist', function (test)
 
 });
 
-tape('cli - should fail when current directory does not exist', function (test) {
+tape('cli - should fail when current directory does not exist', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
@@ -107,19 +107,19 @@ tape('cli - should fail when current directory does not exist', function (test) 
 
 });
 
-tape('cli - succesfull execution', function (test) {
+tape('cli - succesfull execution', (test) => {
   test.plan(1);
 
-  execFile('node', [pkg.bin, '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/1'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/1'], null, function (err, stdout) {
     test.equals(stdout.trim(), '', 'There is no output coming');
   });
 
 });
 
-tape('cli - succesfull execution that writes success message', function (test) {
+tape('cli - succesfull execution that writes success message', (test) => {
   test.plan(1);
 
-  execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/2'], null, function (err, stdout, stderr) {
+  execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/2'], null, function (err, stdout) {
     test.ok(stdout.trim().indexOf('Found total of 0 image files') === 0, 'There is output coming');
   });
 

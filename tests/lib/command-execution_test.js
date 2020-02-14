@@ -10,20 +10,19 @@
  * Licensed under the MIT license
  */
 
-'use strict';
-
 const fs = require('fs');
 
-const tape = require('tape'),
-  commandExecution = require('../../lib/command-execution');
+const tape = require('tape');
 
-tape('commandExecution - false when checking version', function (test) {
+const commandExecution = require('../../lib/command-execution');
+
+tape('commandExecution - false when checking version', (test) => {
   test.plan(1);
 
   test.notOk(commandExecution(['version']));
 });
 
-tape('commandExecution - should success with compare', function (test) {
+tape('commandExecution - should success with compare', (test) => {
   test.plan(3);
 
   const output = commandExecution([
@@ -41,7 +40,7 @@ tape('commandExecution - should success with compare', function (test) {
   test.ok(fs.existsSync('tmp/square-mae-xor.png'), 'Diff image is generated');
 });
 
-tape('commandExecution - should fail with compare', function (test) {
+tape('commandExecution - should fail with compare', (test) => {
   test.plan(1);
 
   const output = commandExecution([
@@ -54,12 +53,10 @@ tape('commandExecution - should fail with compare', function (test) {
   test.notOk(output);
 });
 
-tape('commandExecution - should fail with unknow', function (test) {
+tape('commandExecution - should fail with unknow', (test) => {
   test.plan(1);
 
-  const output = commandExecution([
-    'unknown'
-  ]);
+  const output = commandExecution(['unknown']);
 
   test.notOk(output);
 });

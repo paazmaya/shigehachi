@@ -8,12 +8,13 @@
  * Licensed under the MIT license
  */
 
-'use strict';
+/* eslint-disable max-lines-per-function */
 
-const tape = require('tape'),
-  createCommands = require('../../lib/create-commands');
+const tape = require('tape');
 
-tape('createCommands - create composite command', function (test) {
+const createCommands = require('../../lib/create-commands');
+
+tape('createCommands - create composite command', (test) => {
   test.plan(1);
 
   const diff = 'difference.png';
@@ -37,7 +38,7 @@ tape('createCommands - create composite command', function (test) {
   ], 'Returned arguments are correct');
 });
 
-tape('createCommands - create composite command uses longDiffName', function (test) {
+tape('createCommands - create composite command uses longDiffName', (test) => {
   test.plan(1);
 
   const diff = 'difference.png';
@@ -62,7 +63,7 @@ tape('createCommands - create composite command uses longDiffName', function (te
   ], 'Returned arguments are correct');
 });
 
-tape('createCommands - create compare command', function (test) {
+tape('createCommands - create compare command', (test) => {
   test.plan(1);
 
   const diff = 'difference image.png';
@@ -90,7 +91,7 @@ tape('createCommands - create compare command', function (test) {
   ], 'Returned arguments are correct');
 });
 
-tape('createCommands - create negate command', function (test) {
+tape('createCommands - create negate command', (test) => {
   test.plan(1);
 
   const diff = 'difference.png';

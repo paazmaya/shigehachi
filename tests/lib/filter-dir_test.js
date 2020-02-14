@@ -8,13 +8,11 @@
  * Licensed under the MIT license
  */
 
-'use strict';
-
 const tape = require('tape');
 
 const filterDir = require('../../lib/filter-dir');
 
-tape('filterDir - filter directories recursively', function (test) {
+tape('filterDir - filter directories recursively', (test) => {
   test.plan(1);
 
   const images = filterDir('tests/fixtures/curr', null, {
@@ -24,7 +22,7 @@ tape('filterDir - filter directories recursively', function (test) {
   test.equal(images.length, 3, 'All png images were found');
 });
 
-tape('filterDir - filter directories does not complain with missing settings', function (test) {
+tape('filterDir - filter directories does not complain with missing settings', (test) => {
   test.plan(1);
 
   const images = filterDir('tests/fixtures/curr');
@@ -32,7 +30,7 @@ tape('filterDir - filter directories does not complain with missing settings', f
   test.equal(images.length, 2, 'Just two found');
 });
 
-tape('filterDir - no files found when no matching expression', function (test) {
+tape('filterDir - no files found when no matching expression', (test) => {
   test.plan(1);
 
   const list = filterDir('tests/fixtures/prev/', null, {
@@ -42,7 +40,7 @@ tape('filterDir - no files found when no matching expression', function (test) {
   test.equal(list.length, 0, 'Previous images list is empty');
 });
 
-tape('filterDir - image files found when matching expression', function (test) {
+tape('filterDir - image files found when matching expression', (test) => {
   test.plan(1);
 
   const list = filterDir('tests/fixtures/prev/', null, {

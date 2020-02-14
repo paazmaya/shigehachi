@@ -10,11 +10,10 @@
  * Licensed under the MIT license
  */
 
-'use strict';
-
-const fs = require('fs-extra'),
-  path = require('path'),
+const path = require('path'),
   crypto = require('crypto');
+
+const fs = require('fs-extra');
 
 const createCommands = require('./lib/create-commands'),
   allVariationCommands = require('./lib/all-variation-commands'),

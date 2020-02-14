@@ -10,12 +10,11 @@
  * Licensed under the MIT license
  */
 
-'use strict';
+const tape = require('tape');
 
-const tape = require('tape'),
-  allVariationCommands = require('../../lib/all-variation-commands');
+const allVariationCommands = require('../../lib/all-variation-commands');
 
-tape('allVariationCommands - huge number of commands', function (test) {
+tape('allVariationCommands - huge number of commands', (test) => {
   test.plan(1);
 
   const list = allVariationCommands('postcss.png', 'prev/postcss.png', 'curr/postcss.png', {

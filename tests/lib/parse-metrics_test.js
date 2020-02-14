@@ -8,12 +8,13 @@
  * Licensed under the MIT license
  */
 
-'use strict';
+/* eslint-disable max-lines-per-function */
 
-const tape = require('tape'),
-  parseMetrics = require('../../lib/parse-metrics');
+const tape = require('tape');
 
-tape('parseMetrics - gm output gets parsed meaningfully with mae metric', function (test) {
+const parseMetrics = require('../../lib/parse-metrics');
+
+tape('parseMetrics - gm output gets parsed meaningfully with mae metric', (test) => {
   test.plan(4);
 
   const output = [
@@ -36,7 +37,7 @@ tape('parseMetrics - gm output gets parsed meaningfully with mae metric', functi
   test.equal(res.normalized.total, '0.0667332540', 'Normalized value for total recorded correctly');
 });
 
-tape('parseMetrics - gm output gets parsed meaningfully with mse metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with mse metric', (test) => {
   test.plan(4);
 
   const output = [
@@ -59,7 +60,7 @@ tape('parseMetrics - gm output gets parsed meaningfully with mse metric', functi
   test.equal(res.normalized.total, '0.0554032469', 'Normalized value for total recorded correctly');
 });
 
-tape('parseMetrics - gm output gets parsed meaningfully with pae metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with pae metric', (test) => {
   test.plan(4);
 
   const output = [
@@ -82,7 +83,7 @@ tape('parseMetrics - gm output gets parsed meaningfully with pae metric', functi
   test.equal(res.normalized.total, '1.0000000000', 'Normalized value for total recorded correctly');
 });
 
-tape('parseMetrics - gm output gets parsed meaningfully with psnr metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with psnr metric', (test) => {
   test.plan(4);
 
   const output = [
@@ -105,7 +106,7 @@ tape('parseMetrics - gm output gets parsed meaningfully with psnr metric', funct
   test.equal(res.psnr.total, '12.56', 'psnr value for total recorded correctly');
 });
 
-tape('parseMetrics - gm output gets parsed meaningfully with rmse metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with rmse metric', (test) => {
   test.plan(4);
 
   const output = [
@@ -128,7 +129,7 @@ tape('parseMetrics - gm output gets parsed meaningfully with rmse metric', funct
   test.equal(res.normalized.total, '0.2353789431', 'Normalized value for total recorded correctly');
 });
 
-tape('parseMetrics - gm output gets parsed meaningfully with double output from rmse metric', function (test) {
+tape('parseMetrics - gm output gets parsed meaningfully with double output from rmse metric', (test) => {
   test.plan(4);
 
   const output = [
@@ -160,7 +161,7 @@ tape('parseMetrics - gm output gets parsed meaningfully with double output from 
   test.equal(res.normalized.total, '0.2393789431', 'Normalized value for total from the latter values');
 });
 
-tape('parseMetrics - gm output with messy things', function (test) {
+tape('parseMetrics - gm output with messy things', (test) => {
   test.plan(1);
 
   const output = [
@@ -182,7 +183,7 @@ tape('parseMetrics - gm output with messy things', function (test) {
 });
 
 
-tape('parseMetrics - MeanSquaredError succesfull parsing', function (test) {
+tape('parseMetrics - MeanSquaredError succesfull parsing', (test) => {
   test.plan(5);
 
   const output = `Image Difference (MeanSquaredError):
@@ -203,7 +204,7 @@ tape('parseMetrics - MeanSquaredError succesfull parsing', function (test) {
   test.equal(res.absolute.green, '3946.8', 'Absolute value for green is correct');
 });
 
-tape('parseMetrics - PeakAbsoluteError succesfull parsing', function (test) {
+tape('parseMetrics - PeakAbsoluteError succesfull parsing', (test) => {
   test.plan(5);
 
   const output = `Image Difference (PeakAbsoluteError):
@@ -224,7 +225,7 @@ tape('parseMetrics - PeakAbsoluteError succesfull parsing', function (test) {
   test.equal(res.absolute.green, '51657.0', 'Absolute value for green is correct');
 });
 
-tape('parseMetrics - PeakSignalToNoiseRatio succesfull parsing', function (test) {
+tape('parseMetrics - PeakSignalToNoiseRatio succesfull parsing', (test) => {
   test.plan(5);
 
   const output = `Image Difference (PeakSignalToNoiseRatio):
@@ -245,7 +246,7 @@ tape('parseMetrics - PeakSignalToNoiseRatio succesfull parsing', function (test)
   test.equal(res.psnr.green, '12.20', 'psnr value for green is correct');
 });
 
-tape('parseMetrics - RootMeanSquaredError succesfull parsing', function (test) {
+tape('parseMetrics - RootMeanSquaredError succesfull parsing', (test) => {
   test.plan(5);
 
   const output = `Image Difference (RootMeanSquaredError):
@@ -266,7 +267,7 @@ tape('parseMetrics - RootMeanSquaredError succesfull parsing', function (test) {
   test.equal(res.absolute.green, '16082.6', 'Absolute value for green is correct');
 });
 
-tape('parseMetrics - ignore parsing of version output', function (test) {
+tape('parseMetrics - ignore parsing of version output', (test) => {
   test.plan(1);
 
   const output = `GraphicsMagick 1.3.31 2018-11-17 Q16 http://www.GraphicsMagick.org/

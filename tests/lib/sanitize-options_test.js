@@ -8,20 +8,21 @@
  * Licensed under the MIT license
  */
 
-'use strict';
+/* eslint-disable max-lines-per-function, max-statements */
 
-const tape = require('tape'),
-  sanitizeOptions = require('../../lib/sanitize-options');
+const tape = require('tape');
 
-tape('sanitizeOptions - plenty of defaults', function (test) {
+const sanitizeOptions = require('../../lib/sanitize-options');
+
+tape('sanitizeOptions - plenty of defaults', (test) => {
   test.plan(1);
 
   const output = sanitizeOptions();
   test.equal(Object.keys(output).length, 13);
 });
 
-tape('sanitizeOptions - default options gets set with expected values', function (test) {
-  test.plan(12);
+tape('sanitizeOptions - default options gets set with expected values', (test) => {
+  test.plan(13);
   const output = sanitizeOptions();
 
   test.equal(output.metric, 'pae', 'Metric is PeakAbsoluteError');
@@ -36,9 +37,10 @@ tape('sanitizeOptions - default options gets set with expected values', function
   test.equal(output.currentDir, 'current', 'Current directory');
   test.equal(output.outputDir, 'difference', 'Difference directory');
   test.equal(output.whenDone, null, 'Callback is null');
+  test.ok(output.allVariations === false, 'allVariations is boolean false');
 });
 
-tape('sanitizeOptions - algorithm and directory options gets set', function (test) {
+tape('sanitizeOptions - algorithm and directory options gets set', (test) => {
   test.plan(8);
 
   const output = sanitizeOptions({
@@ -62,25 +64,27 @@ tape('sanitizeOptions - algorithm and directory options gets set', function (tes
   test.equal(output.outputDir, '3', 'Difference directory');
 });
 
-tape('sanitizeOptions - other options gets set', function (test) {
-  test.plan(5);
+tape('sanitizeOptions - other options gets set', (test) => {
+  test.plan(6);
 
   const output = sanitizeOptions({
     verbose: true,
     match: '\\.(png|jpg|gif)$',
     longDiffName: true,
-    whenDone: function () {}
+    allVariations: true,
+    whenDone: () => {}
   });
 
   test.ok(output.verbose === true, 'Verbosity is boolean true');
   test.ok(output.match instanceof RegExp, 'Match is an Regular Expression');
   test.equal(output.match.source, '\\.(png|jpg|gif)$', 'Matching regular expression');
   test.ok(output.longDiffName === true, 'longDiffName is boolean true');
+  test.ok(output.allVariations === true, 'allVariations is boolean true');
   test.equal(typeof output.whenDone, 'function', 'Callback is a function');
 });
 
-tape('sanitizeOptions - wrong type of options get ignored', function (test) {
-  test.plan(12);
+tape('sanitizeOptions - wrong type of options get ignored', (test) => {
+  test.plan(13);
 
   const output = sanitizeOptions({
     metric: [],
@@ -93,6 +97,7 @@ tape('sanitizeOptions - wrong type of options get ignored', function (test) {
     outputDir: {},
     verbose: 'yes',
     match: false,
+    allVariations: new Date(),
     longDiffName: 'hello there',
     whenDone: 'callback me not'
   });
@@ -109,9 +114,10 @@ tape('sanitizeOptions - wrong type of options get ignored', function (test) {
   test.equal(output.currentDir, 'current', 'Current directory');
   test.equal(output.outputDir, 'difference', 'Difference directory');
   test.equal(output.whenDone, null, 'Callback is null');
+  test.ok(output.allVariations === false, 'allVariations is boolean false');
 });
 
-tape('sanitizeOptions - metric option must be one of the predefined', function (test) {
+tape('sanitizeOptions - metric option must be one of the predefined', (test) => {
   test.plan(1);
 
   const output = sanitizeOptions({
@@ -121,7 +127,7 @@ tape('sanitizeOptions - metric option must be one of the predefined', function (
   test.equal(output.metric, 'pae', 'Metric is the default');
 });
 
-tape('sanitizeOptions - style option must be one of the predefined', function (test) {
+tape('sanitizeOptions - style option must be one of the predefined', (test) => {
   test.plan(1);
 
   const output = sanitizeOptions({
@@ -131,7 +137,7 @@ tape('sanitizeOptions - style option must be one of the predefined', function (t
   test.equal(output.style, 'tint', 'Style is the default');
 });
 
-tape('sanitizeOptions - compose option must be one of the predefined', function (test) {
+tape('sanitizeOptions - compose option must be one of the predefined', (test) => {
   test.plan(1);
 
   const output = sanitizeOptions({

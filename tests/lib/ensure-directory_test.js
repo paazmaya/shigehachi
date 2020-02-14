@@ -8,19 +8,18 @@
  * Licensed under the MIT license
  */
 
-'use strict';
+const tape = require('tape');
 
-const tape = require('tape'),
-  ensureDirectory = require('../../lib/ensure-directory');
+const ensureDirectory = require('../../lib/ensure-directory');
 
-tape('ensureDirectory - false when already existed', function (test) {
+tape('ensureDirectory - false when already existed', (test) => {
   test.plan(1);
 
   test.notOk(ensureDirectory(__dirname));
 });
 
-tape('ensureDirectory - true when new created', function (test) {
+tape('ensureDirectory - true when new created', (test) => {
   test.plan(1);
 
-  test.ok(ensureDirectory('tmp/1234'));
+  test.ok(ensureDirectory('tmp/1234'), 'tmp/1234 was created');
 });
