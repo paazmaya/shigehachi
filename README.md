@@ -7,7 +7,6 @@
 [![Build Status](https://semaphoreci.com/api/v1/paazmaya/shigehachi/branches/master/shields_badge.svg)](https://semaphoreci.com/paazmaya/shigehachi)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/master?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/master)
 [![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/master/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
-[![Analytics](https://ga-beacon.appspot.com/UA-2643697-15/shigehachi/index?flat)](https://github.com/igrigorik/ga-beacon)
 [![dependencies Status](https://david-dm.org/paazmaya/shigehachi/status.svg)](https://david-dm.org/paazmaya/shigehachi)
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
 
@@ -367,6 +366,8 @@ can be executed with `npm run coverage` after running `npm test`.
 Please make sure it is over 90% at all times.
 
 ## Version history
+
+- Run tests also against Node.js version 14. Now versions 10 (Travis), 12 (AppVeyor), and 14 (Travis) of Node.js are covered
 
 * `v7.0.0` (2020-02-14)
   - Minimum Node.js version lifted from `8.11.1` to `10.13.0`
