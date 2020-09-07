@@ -10,6 +10,8 @@ blocks:
     task:
       prologue:
         commands:
+          - sudo apt-get update
+          - sudo apt-get install -y graphicsmagick
           - checkout
           - sem-version node 10
           - cache restore
@@ -28,6 +30,8 @@ blocks:
     task:
       prologue:
         commands:
+          - sudo apt-get update
+          - sudo apt-get install -y graphicsmagick
           - checkout
           - sem-version node 14
           - cache restore
