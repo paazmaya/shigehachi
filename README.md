@@ -4,7 +4,7 @@
 
 ![Mr Shigehachi Sonobe](./logo.png)
 
-[![Build Status](https://semaphoreci.com/api/v1/paazmaya/shigehachi/branches/master/shields_badge.svg)](https://semaphoreci.com/paazmaya/shigehachi)
+[![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/master?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/master)
 [![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/master/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
 [![dependencies Status](https://david-dm.org/paazmaya/shigehachi/status.svg)](https://david-dm.org/paazmaya/shigehachi)
@@ -367,7 +367,8 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
-- Run tests also against Node.js version 14. Now versions 10 (Travis), 12 (AppVeyor), and 14 (Travis) of Node.js are covered
+- Run tests also against Node.js version 14. Now versions 10 (Semaphore), 12 (AppVeyor), and 14 (Semaphore) of Node.js are covered
+- Migrate to version 2 of Semaphore CI
 
 * `v7.0.0` (2020-02-14)
   - Minimum Node.js version lifted from `8.11.1` to `10.13.0`
