@@ -1,11 +1,11 @@
 {
   "name": "shigehachi",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
-      "version": "7.0.0",
+      "version": "7.0.1",
       "license": "MIT",
       "dependencies": {
         "fs-extra": "9.1.0",
@@ -2233,6 +2233,7 @@
       "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.0.1.tgz",
       "integrity": "sha512-jR2b5v7d2vIOust+w3wtFKZIfpC2pnRmFAhAC/BuweZFQR8qZzxH1OyrQ10HmdVYiXWkYUqPVsz91cG7EL2FBg==",
       "dependencies": {
+        "graceful-fs": "^4.1.6",
         "universalify": "^1.0.0"
       },
       "optionalDependencies": {

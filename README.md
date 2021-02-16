@@ -367,9 +367,9 @@ Please make sure it is over 90% at all times.
 
 ## Version history
 
-- Run tests also against Node.js version 14. Now versions 10 (Semaphore), 12 (AppVeyor), and 14 (Semaphore) of Node.js are covered
-- Migrate to version 2 of Semaphore CI
-
+* `v7.0.1` (2021-02-16)
+  - Run tests also against Node.js version 14. Now versions 10 (Semaphore), 12 (AppVeyor), and 14 (Semaphore) of Node.js are covered
+  - Migrate to version 2 of Semaphore CI
 * `v7.0.0` (2020-02-14)
   - Minimum Node.js version lifted from `8.11.1` to `10.13.0`
   - The metrics file called `shigehachi.json` contains more information, in order to serve [`hideo`](https://github.com/paazmaya/hideo) better
