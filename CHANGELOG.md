@@ -5,6 +5,8 @@ It follows the guidance from https://keepachangelog.com/en/1.0.0/.
 
 ## Unreleased
 
+## `v7.0.2` (2021-05-23)
+- Update `fs-extra` to keep sanity with dependencies
 
 ## `v7.0.1` (2021-02-16)
 - Run tests also against Node.js version 14. Now versions 10 (Semaphore), 12 (AppVeyor), and 14 (Semaphore) of Node.js are covered
