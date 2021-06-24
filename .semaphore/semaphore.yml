@@ -6,26 +6,6 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: Test with Node.js v10
-    task:
-      prologue:
-        commands:
-          - sudo apt-get update
-          - sudo apt-get install -y graphicsmagick
-          - checkout
-          - sem-version node 10
-          - cache restore
-          - npm install
-          - cache store
-      jobs:
-        - name: Lint
-          commands:
-            - npm run lint
-        - name: Unit test and post coverage
-          commands:
-          - npm test
-          - npm run coverage
-
   - name: Test with Node.js v14
     task:
       prologue:
@@ -41,6 +21,7 @@ blocks:
         - name: Lint
           commands:
             - npm run lint
-        - name: Unit test
+        - name: Unit test and post coverage
           commands:
           - npm test
+          - npm run coverage
