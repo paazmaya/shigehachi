@@ -63,7 +63,7 @@ tape('index - exec should not create commands when no files, but call next runne
 tape('index - output directory gets created when it does not exist', (test) => {
   test.plan(2);
 
-  const outputDir = 'tmp/diff-' + (new Date()).getTime();
+  const outputDir = 'tmp/diff-' + new Date().getTime();
   const instance = new Shigehachi({
     verbose: true,
     match: 'nothing$',
@@ -78,7 +78,7 @@ tape('index - output directory gets created when it does not exist', (test) => {
 tape('index - output directory gets created recursively when it does not exist', (test) => {
   test.plan(2);
 
-  const outputDir = 'tmp/diff-' + (new Date()).getTime();
+  const outputDir = 'tmp/diff-' + new Date().getTime();
   const instance = new Shigehachi({
     verbose: true,
     recursive: true,
