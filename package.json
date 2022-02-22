@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
-    "fs-extra": "10.0.0",
+    "fs-extra": "10.0.1",
     "optionator": "0.9.1"
   },
   "devDependencies": {
