@@ -8,7 +8,6 @@
  * Licensed under the MIT license
  */
 
-/* eslint-disable handle-callback-err */
 
 const fs = require('fs');
 
