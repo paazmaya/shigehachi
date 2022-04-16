@@ -7,7 +7,7 @@
 [![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/master?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/master)
 [![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/master/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
-[![dependencies Status](https://david-dm.org/paazmaya/shigehachi/status.svg)](https://david-dm.org/paazmaya/shigehachi)
+
 [![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
 
 This tool reads a folder, searching for images and then tries to find matching ones
