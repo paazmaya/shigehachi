@@ -4,7 +4,7 @@
 
 ![Mr Shigehachi Sonobe](./logo.png)
 
-[![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
+[![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi/branches/master.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/master?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/master)
 [![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/master/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
 
