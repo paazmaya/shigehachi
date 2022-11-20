@@ -3,6 +3,7 @@
   "version": "7.0.2",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
+  "type": "module",
   "bin": "bin/shigehachi.js",
   "author": {
     "name": "Juga Paazmaya",
@@ -10,7 +11,7 @@
     "url": "https://paazmaya.fi"
   },
   "scripts": {
-    "lint": "eslint index.js bin/shigehachi.js lib",
+    "lint": "eslint *.js bin/shigehachi.js lib",
     "test": "nyc --all --exclude tests tape tests/*_test.js tests/*/*_test.js && rm -rf tmp",
     "coverage": "nyc --all --exclude tests report --reporter=text-lcov > coverage.lcov && codecov"
   },
@@ -52,7 +53,7 @@
   "devDependencies": {
     "codecov": "3.8.3",
     "eslint": "8.28.0",
-    "eslint-config-paazmaya": "8.0.0",
+    "eslint-config-paazmaya": "9.0.0",
     "eslint-plugin-node": "11.1.0",
     "nyc": "15.1.0",
     "tape": "5.6.1"
