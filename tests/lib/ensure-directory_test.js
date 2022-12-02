@@ -15,7 +15,7 @@ import ensureDirectory from '../../lib/ensure-directory.js';
 tape('ensureDirectory - false when already existed', (test) => {
   test.plan(1);
 
-  test.notOk(ensureDirectory(__dirname));
+  test.notOk(ensureDirectory('tests'));
 });
 
 tape('ensureDirectory - true when new created', (test) => {

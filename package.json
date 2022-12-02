@@ -12,8 +12,8 @@
   },
   "scripts": {
     "lint": "eslint *.js bin/shigehachi.js lib",
-    "test": "c8 --all --exclude tests tape tests/*_test.js tests/*/*_test.js && rm -rf tmp",
-    "coverage": "c8 --all --exclude tests report --reporter=text-lcov > coverage.lcov && codecov"
+    "test": "c8 --exclude tests tape tests/*_test.js tests/*/*_test.js && rm -rf tmp",
+    "coverage": "c8 --exclude tests report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",

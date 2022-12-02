@@ -53,7 +53,7 @@ tape('commandExecution - should fail with compare', (test) => {
   test.notOk(output);
 });
 
-tape('commandExecution - should fail with unknow', (test) => {
+tape('commandExecution - should fail with unknown', (test) => {
   test.plan(1);
 
   const output = commandExecution(['unknown']);

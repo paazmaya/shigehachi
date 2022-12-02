@@ -93,7 +93,7 @@ tape('cli - should fail when previous directory does not exist', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'not-around-here'], null, function (err, stdout, stderr) {
-    test.equals(stderr.trim(), 'Sorry but the previously created images directory should exist', 'Error message');
+    test.equals(stderr.trim().indexOf('Sorry but the previously created images directory should exist') !== -1, 'Error message');
   });
 
 });
@@ -102,7 +102,7 @@ tape('cli - should fail when current directory does not exist', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
-    test.equals(stderr.trim(), 'Sorry but the currently created images directory should exist', 'Error message');
+    test.ok(stdout.trim().indexOf('Sorry but the currently created images directory should exist') !== -1, 'Error message');
   });
 
 });
