@@ -8,9 +8,9 @@
  * Licensed under the MIT license
  */
 
-const tape = require('tape');
+import tape from 'tape';
 
-const filterDir = require('../../lib/filter-dir');
+import filterDir from '../../lib/filter-dir.js';
 
 tape('filterDir - filter directories recursively', (test) => {
   test.plan(1);

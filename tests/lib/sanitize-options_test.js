@@ -10,9 +10,9 @@
 
 /* eslint-disable max-lines-per-function, max-statements */
 
-const tape = require('tape');
+import tape from 'tape';
 
-const sanitizeOptions = require('../../lib/sanitize-options');
+import sanitizeOptions from '../../lib/sanitize-options.js';
 
 tape('sanitizeOptions - plenty of defaults', (test) => {
   test.plan(1);

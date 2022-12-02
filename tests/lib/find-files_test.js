@@ -10,11 +10,11 @@
  * Licensed under the MIT license
  */
 
-const path = require('path');
+import path from 'path';
 
-const tape = require('tape');
+import tape from 'tape';
 
-const findFiles = require('../../lib/find-files');
+import findFiles from '../../lib/find-files.js';
 
 tape('findFiles - interface', (test) => {
   test.plan(2);

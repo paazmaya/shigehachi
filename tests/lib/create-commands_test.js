@@ -10,9 +10,9 @@
 
 /* eslint-disable max-lines-per-function */
 
-const tape = require('tape');
+import tape from 'tape';
 
-const createCommands = require('../../lib/create-commands');
+import createCommands from '../../lib/create-commands.js';
 
 tape('createCommands - create composite command', (test) => {
   test.plan(1);

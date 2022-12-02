@@ -9,11 +9,11 @@
  */
 
 
-const fs = require('fs');
+import fs from 'fs';
 
-const tape = require('tape');
+import tape from 'tape';
 
-const Shigehachi = require('../index');
+import Shigehachi from '../index.js';
 
 
 /*

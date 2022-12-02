@@ -10,11 +10,11 @@
  * Licensed under the MIT license
  */
 
-const path = require('path');
+import path from 'path';
 
-const tape = require('tape');
+import tape from 'tape';
 
-const diffImageFilename = require('../../lib/diff-image-filename');
+import diffImageFilename from '../../lib/diff-image-filename.js';
 
 tape('diffImageFilename - uses configured diff directory', (test) => {
   test.plan(1);

@@ -10,18 +10,18 @@
  * Licensed under the MIT license
  */
 
-const path = require('path'),
-  crypto = require('crypto');
+import path from 'path';
+import crypto from 'crypto';
 
-const fs = require('fs-extra');
+import fs from 'fs-extra';
 
-const createCommands = require('./lib/create-commands'),
-  allVariationCommands = require('./lib/all-variation-commands'),
-  ensureDirectory = require('./lib/ensure-directory'),
-  findFiles = require('./lib/find-files'),
-  diffImageFilename = require('./lib/diff-image-filename'),
-  sanitizeOptions = require('./lib/sanitize-options'),
-  commandExecution = require('./lib/command-execution');
+import createCommands from './lib/create-commands.js';
+import allVariationCommands from './lib/all-variation-commands.js';
+import ensureDirectory from './lib/ensure-directory.js';
+import findFiles from './lib/find-files.js';
+import diffImageFilename from './lib/diff-image-filename.js';
+import sanitizeOptions from './lib/sanitize-options.js';
+import commandExecution from './lib/command-execution.js';
 
 /**
  * Generate MD5 hash of the given input.
@@ -178,4 +178,4 @@ class Shigehachi {
   }
 }
 
-module.exports = Shigehachi;
+export default Shigehachi;

@@ -11,26 +11,16 @@
  */
 
 
-const fs = require('fs'),
-  path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const optionator = require('optionator');
+import optionator from 'optionator';
 
-const Shigehachi = require('../index'),
-  types = require('../lib/types'),
-  defaults = require('../lib/defaults');
+import Shigehachi from '../index.js';
+import types from '../lib/types.js';
+import defaults from '../lib/defaults.js';
 
-let pkg;
-
-try {
-  const packageJson = fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8');
-  pkg = JSON.parse(packageJson);
-}
-catch (error) {
-  console.error('Could not read/parse "package.json", quite strange...');
-  console.error(error);
-  process.exit(1);
-}
+import pkg from '../package.json' assert { type: 'json' };
 
 const optsParser = optionator({
   prepend: `${pkg.name} [options]`,

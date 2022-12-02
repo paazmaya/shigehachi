@@ -10,11 +10,11 @@
  * Licensed under the MIT license
  */
 
-const fs = require('fs');
+import fs from 'fs';
 
-const tape = require('tape');
+import tape from 'tape';
 
-const commandExecution = require('../../lib/command-execution');
+import commandExecution from '../../lib/command-execution.js';
 
 tape('commandExecution - false when checking version', (test) => {
   test.plan(1);

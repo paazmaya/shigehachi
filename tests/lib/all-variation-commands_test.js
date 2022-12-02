@@ -10,9 +10,9 @@
  * Licensed under the MIT license
  */
 
-const tape = require('tape');
+import tape from 'tape';
 
-const allVariationCommands = require('../../lib/all-variation-commands');
+import allVariationCommands from '../../lib/all-variation-commands.js';
 
 tape('allVariationCommands - huge number of commands', (test) => {
   test.plan(1);

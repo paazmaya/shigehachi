@@ -8,9 +8,9 @@
  * Licensed under the MIT license
  */
 
-const tape = require('tape');
+import tape from 'tape';
 
-const ensureDirectory = require('../../lib/ensure-directory');
+import ensureDirectory from '../../lib/ensure-directory.js';
 
 tape('ensureDirectory - false when already existed', (test) => {
   test.plan(1);

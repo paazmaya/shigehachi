@@ -10,9 +10,9 @@
 
 /* eslint-disable max-lines-per-function */
 
-const tape = require('tape');
+import tape from 'tape';
 
-const parseMetrics = require('../../lib/parse-metrics');
+import parseMetrics from '../../lib/parse-metrics.js';
 
 tape('parseMetrics - gm output gets parsed meaningfully with mae metric', (test) => {
   test.plan(4);
