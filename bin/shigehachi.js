@@ -20,7 +20,9 @@ import Shigehachi from '../index.js';
 import types from '../lib/types.js';
 import defaults from '../lib/defaults.js';
 
-import pkg from '../package.json' assert { type: 'json' };
+/* import pkg from '../package.json' assert { type: 'json' };*/
+const packageFile = new URL('../package.json', import.meta.url);
+const pkg = JSON.parse(fs.readFileSync(packageFile, 'utf8'));
 
 const optsParser = optionator({
   prepend: `${pkg.name} [options]`,
