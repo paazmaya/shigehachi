@@ -1,6 +1,6 @@
 {
   "name": "shigehachi",
-  "version": "7.0.2",
+  "version": "8.0.0",
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "type": "module",
@@ -11,7 +11,7 @@
     "url": "https://paazmaya.fi"
   },
   "scripts": {
-    "lint": "eslint *.js bin/shigehachi.js lib",
+    "lint": "eslint *.js bin lib",
     "test": "c8 --exclude tests tape tests/*_test.js tests/*/*_test.js && rm -rf tmp",
     "coverage": "c8 --exclude tests report --reporter=text-lcov > coverage.lcov && codecov"
   },
@@ -52,10 +52,10 @@
   },
   "devDependencies": {
     "codecov": "3.8.3",
-    "eslint": "8.40.0",
+    "eslint": "8.42.0",
     "eslint-config-paazmaya": "9.0.1",
     "eslint-plugin-node": "11.1.0",
-    "c8": "7.13.0",
+    "c8": "7.14.0",
     "tape": "5.6.3"
   }
 }

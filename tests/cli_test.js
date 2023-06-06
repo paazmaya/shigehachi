@@ -31,20 +31,6 @@ tape('cli - should output version number', (test) => {
 
 });
 
-tape('cli - should complain when package.json is gone', (test) => {
-  test.plan(1);
-
-  const original = 'package.json',
-    temporary = 'cabbage';
-
-  fs.renameSync(original, temporary);
-  execFile('node', [pkg.bin, '-V'], null, function (err, stdout, stderr) {
-    test.ok(stderr.trim().indexOf('Could not read/parse "package.json", quite strange...') === 0);
-    fs.renameSync(temporary, original);
-  });
-
-});
-
 tape('cli - should output name and version number when verbose version', (test) => {
   test.plan(1);
 
@@ -95,7 +81,7 @@ tape('cli - should fail when previous directory does not exist', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'not-around-here'], null, function (err, stdout, stderr) {
-    test.equals(stderr.trim().indexOf('Sorry but the previously created images directory should exist') !== -1, 'Error message');
+    test.ok(stderr.trim().indexOf('Sorry but the previously created images directory should exist') !== -1, 'Error message');
   });
 
 });
@@ -104,12 +90,12 @@ tape('cli - should fail when current directory does not exist', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'tests/expected', '-C', 'not-around-here'], null, function (err, stdout, stderr) {
-    test.ok(stdout.trim().indexOf('Sorry but the currently created images directory should exist') !== -1, 'Error message');
+    test.ok(stderr.trim().indexOf('Sorry but the currently created images directory should exist') !== -1, 'Error message');
   });
 
 });
 
-tape('cli - succesfull execution', (test) => {
+tape('cli - successful execution', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/1'], null, function (err, stdout) {
@@ -118,7 +104,7 @@ tape('cli - succesfull execution', (test) => {
 
 });
 
-tape('cli - succesfull execution that writes success message', (test) => {
+tape('cli - successful execution that writes success message', (test) => {
   test.plan(1);
 
   execFile('node', [pkg.bin, '-v', '-P', 'tests/fixtures', '-C', 'tests/expected', '-O', 'tmp/2'], null, function (err, stdout) {

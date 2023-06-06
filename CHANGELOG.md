@@ -5,7 +5,11 @@ It follows the guidance from https://keepachangelog.com/en/1.0.0/.
 
 ## Unreleased
 
+## `v8.0.0` (2023-06-06)
+
 - Minimum supported Node.js version lifted from `10.13.0` to `14.15.0`
+- Test against Node.js v18
+- It's all ES Modules now
 
 ## `v7.0.2` (2021-05-23)
 - Update `fs-extra` to keep sanity with dependencies

@@ -21,5 +21,7 @@ tape('ensureDirectory - false when already existed', (test) => {
 tape('ensureDirectory - true when new created', (test) => {
   test.plan(1);
 
-  test.ok(ensureDirectory('tmp/1234'), 'tmp/1234 was created');
+  const dirname = new Date().getTime().toString();
+
+  test.ok(ensureDirectory('tmp/' + dirname), `tmp/${dirname} was created`);
 });
