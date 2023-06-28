@@ -18,7 +18,7 @@ blocks:
           - checkout
           - sem-version node 18
           - cache restore
-          - npm install
+          - npm ci
           - cache store
       jobs:
         - name: Lint
@@ -28,3 +28,6 @@ blocks:
           commands:
           - npm test
           - npm run coverage
+          - curl -Os https://uploader.codecov.io/latest/linux/codecov
+          - chmod +x codecov
+          - ./codecov -t $CODECOV_TOKEN

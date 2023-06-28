@@ -31,7 +31,7 @@ the following command which should provide plenty of information when successful
 gm version
 ```
 
-The version tested of GraphicMagick is `1.3.34`.
+The version tested of GraphicMagick is `1.3.40`.
 
 Install the `shigehachi` command line utility globally with [npm](https://www.npmjs.com/).
 Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
@@ -40,7 +40,7 @@ Elevated privileges might be needed via `sudo`, depending on the platform. In mo
 npm install --global shigehachi
 ```
 
-Please note that the minimum supported version of [Node.js](https://nodejs.org/en/) is `14.15.0`, which is [the active Long Term Support (LTS) version](https://github.com/nodejs/Release#release-schedule).
+Please note that the minimum supported version of [Node.js](https://nodejs.org/en/) is `18.12.0`, which is [the active Long Term Support (LTS) version](https://github.com/nodejs/Release#release-schedule).
 
 Run from the command line, for example getting the help output:
 
@@ -135,7 +135,7 @@ shigehachi [options]
   -l, --long-diff-name       Include used metric, style and composition options in difference image file names
   -r, --recursive            Recursive search of images in the previous and current directories
 
-Version 7.0.0
+Version 8.0.0
 ```
 
 Be aware of using the `--all-variations` option, since it will execute about 1320 commands per single image comparison pair.
@@ -158,6 +158,12 @@ First include this module in your script:
 
 ```js
 const Shigehachi = require('shigehachi');
+```
+
+Or as EcmaScript Modules style:
+
+```js
+import Shigehachi from 'shigehachi';
 ```
 
 Define the options, which follow the same convention as the command line options, with the
@@ -236,7 +242,7 @@ The metrics output looks something similar to:
 ## File matching
 
 Please note that the command line option and the module configuration expects the `match`
-to be a string which is passed to `new RegExp()` constructor.
+to be a string which is passed to [`new RegExp()` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 By default all PNG files are taken in use, with `/\.png$/`, but the reason for having
 the option as a regular expression, is to have much more flexibility in which file names
@@ -360,7 +366,7 @@ Linting is done with [ESLint](http://eslint.org) and can be executed with `npm r
 There should be no errors appearing after any JavaScript file changes.
 
 Unit tests are written with [`tape`](https://github.com/substack/tape) and can be executed with `npm test`.
-Code coverage is inspected with [`nyc`](https://github.com/istanbuljs/nyc) and
+Code coverage is inspected with [`c8`](https://github.com/bcoe/c8) and
 can be executed with `npm run coverage` after running `npm test`.
 Please make sure it is over 90% at all times.
 

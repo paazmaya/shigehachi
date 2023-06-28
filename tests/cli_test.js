@@ -11,9 +11,8 @@
 /* eslint-disable func-names, handle-callback-err, max-len */
 
 import fs from 'fs';
-import path from 'path';
 import {
-    execFile
+  execFile
 } from 'child_process';
 
 import tape from 'tape';

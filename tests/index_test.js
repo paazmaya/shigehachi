@@ -8,13 +8,11 @@
  * Licensed under the MIT license
  */
 
-
 import fs from 'fs';
 
 import tape from 'tape';
 
 import Shigehachi from '../index.js';
-
 
 /*
 tape('index - runner should fail when command not found', (test) => {

@@ -13,7 +13,7 @@
   "scripts": {
     "lint": "eslint *.js bin lib",
     "test": "c8 --exclude tests tape tests/*_test.js tests/*/*_test.js && rm -rf tmp",
-    "coverage": "c8 --exclude tests report --reporter=text-lcov > coverage.lcov && codecov"
+    "coverage": "c8 --exclude tests report --reporter=text-lcov > coverage.lcov"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,7 @@
     "url": "https://github.com/paazmaya/shigehachi/issues"
   },
   "engines": {
-    "node": ">=14.15.0"
+    "node": ">=18.12.0"
   },
   "homepage": "https://github.com/paazmaya/shigehachi",
   "dependencies": {
@@ -51,7 +51,6 @@
     "optionator": "0.9.3"
   },
   "devDependencies": {
-    "codecov": "3.8.3",
     "eslint": "8.43.0",
     "eslint-config-paazmaya": "9.0.1",
     "eslint-plugin-node": "11.1.0",
