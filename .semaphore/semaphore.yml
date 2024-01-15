@@ -9,14 +9,14 @@ agent:
     os_image: ubuntu2004
 
 blocks:
-  - name: Test with Node.js v18
+  - name: Test with Node.js v20
     task:
       prologue:
         commands:
           - sudo apt-get update
           - sudo apt-get install -y graphicsmagick
           - checkout
-          - sem-version node 18
+          - sem-version node 20
           - cache restore
           - npm ci
           - cache store
