@@ -4,7 +4,9 @@
   "description": "Compare two sets of images and generate difference images",
   "main": "index.js",
   "type": "module",
-  "bin": "bin/shigehachi.js",
+  "bin": {
+    "shigehachi": "bin/shigehachi.js"
+  },
   "author": {
     "name": "Juga Paazmaya",
     "email": "paazmaya@yahoo.com",
@@ -17,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paazmaya/shigehachi.git"
+    "url": "git+https://github.com/paazmaya/shigehachi.git"
   },
   "keywords": [
     "image",
