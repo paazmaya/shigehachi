@@ -4,8 +4,8 @@ name: Ubuntu Based Pipeline
 agent:
   machine:
     type: e1-standard-2
-    # https://docs.semaphoreci.com/reference/os-ubuntu-images/ubuntu-2204-image
-    os_image: ubuntu2204
+    # https://docs.semaphoreci.com/reference/os-ubuntu-images/ubuntu-2004-image
+    os_image: ubuntu2004
 
 blocks:
   - name: Test with Node.js v22
