@@ -14,6 +14,7 @@ blocks:
         commands:
           - sudo apt-get update
           - sudo apt-get install -y graphicsmagick
+          - gm version
           - checkout
           - sem-version node 22
           - cache restore
