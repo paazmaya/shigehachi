@@ -17,10 +17,12 @@ matrix:
 cache:
   - node_modules
 
+# http://www.graphicsmagick.org/INSTALL-windows.html#retrieve-install-package
+# https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick-binaries/1.3.45/
 install:
   - ps: Install-Product node $env:nodejs_version
-  - appveyor DownloadFile "https://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/1.3.45/GraphicsMagick-1.3.45-Q16-win64-dll.exe"
-  - GraphicsMagick-1.3.45-Q16-win64-dll.exe /SP /VERYSILENT /NORESTART /NOICONS /DIR=%CD%\gm
+  - appveyor DownloadFile "https://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/1.3.45/GraphicsMagick-1.3.45-Q8-win32-dll.exe"
+  - GraphicsMagick-1.3.45-Q8-win32-dll.exe /SP /VERYSILENT /NORESTART /NOICONS /DIR=%CD%\gm
   - set PATH=%CD%\gm;%PATH%
   - npm ci
 

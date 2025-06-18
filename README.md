@@ -33,7 +33,7 @@ the following command which should provide plenty of information when successful
 gm version
 ```
 
-The version tested of GraphicMagick is `1.3.40`.
+The version tested of GraphicMagick is `1.3.45`. ([Windows binaries available at Sourceforge](https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick-binaries/1.3.45/))
 
 Install the `shigehachi` command line utility globally with [npm](https://www.npmjs.com/).
 Elevated privileges might be needed via `sudo`, depending on the platform. In most cases just:
