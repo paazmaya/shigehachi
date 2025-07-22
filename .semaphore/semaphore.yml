@@ -8,7 +8,7 @@ agent:
     os_image: ubuntu2004
 
 blocks:
-  - name: Test with Node.js v22
+  - name: Test with Node.js v24
     task:
       prologue:
         commands:
@@ -16,7 +16,7 @@ blocks:
           - sudo apt-get install -y graphicsmagick
           - gm version
           - checkout
-          - sem-version node 22
+          - sem-version node 24
           - cache restore
           - npm ci
           - cache store
