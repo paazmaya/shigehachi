@@ -160,13 +160,13 @@ npm install --save shigehachi
 First include this module in your script:
 
 ```js
-const Shigehachi = require('shigehachi');
+const Shigehachi = require("shigehachi");
 ```
 
 Or as EcmaScript Modules style:
 
 ```js
-import Shigehachi from 'shigehachi';
+import Shigehachi from "shigehachi";
 ```
 
 Define the options, which follow the same convention as the command line options, with the
@@ -175,19 +175,19 @@ options by using their default values:
 
 ```js
 const options = {
-  color: 'pink',
-  compose: 'difference',
-  currentDir: 'current',
+  color: "pink",
+  compose: "difference",
+  currentDir: "current",
   longDiffName: false,
-  match: '\.png$',
-  metric: 'pae',
-  outputDir: 'diffence',
-  previousDir: 'previous',
+  match: "\.png$",
+  metric: "pae",
+  outputDir: "diffence",
+  previousDir: "previous",
   recursive: false,
   allVariations: false,
-  style: 'tint',
+  style: "tint",
   verbose: false,
-  whenDone: null
+  whenDone: null,
 };
 ```
 
@@ -206,8 +206,8 @@ collection object of metrics, indexed by the current image file path.
 ```js
 const options = {
   whenDone: function (metrics) {
-    console.log(JSON.stringify(metrics, null, '  '));
-  }
+    console.log(JSON.stringify(metrics, null, "  "));
+  },
 };
 
 const hachi = new Shigehachi(options);
@@ -283,9 +283,9 @@ to the given method.
 For example, while following the above example and setting the `longDiffName` to `true`, the
 generated three images would become with the default options:
 
-* `diff/image-pae-tint.png`
-* `diff/image-pae-tint-negate.png`
-* `diff/image-pae-tint-composite-difference.png`
+- `diff/image-pae-tint.png`
+- `diff/image-pae-tint-negate.png`
+- `diff/image-pae-tint-composite-difference.png`
 
 ## GraphicMagick is used underneath
 
