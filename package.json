@@ -35,10 +35,8 @@
   "files": [
     "bin",
     "lib",
-    "LICENSE",
     "index.js",
-    "npm-shrinkwrap.json",
-    "README.md"
+    "npm-shrinkwrap.json"
   ],
   "license": "MIT",
   "bugs": {

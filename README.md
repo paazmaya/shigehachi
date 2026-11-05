@@ -4,10 +4,10 @@
 
 ![Mr Shigehachi Sonobe](./logo.png)
 
-[![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi/branches/master.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
-[![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/master?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/master)
-[![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/master/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
-[![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=master)](http://inch-ci.org/github/paazmaya/shigehachi)
+[![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi/branches/main.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
+[![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/main?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/main)
+[![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/main/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
+[![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=main)](http://inch-ci.org/github/paazmaya/shigehachi)
 
 This tool reads a folder, searching for images and then tries to find matching ones
 from another folder. These pairs are compared and an image is created to a third folder,
