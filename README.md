@@ -7,7 +7,6 @@
 [![Ubuntu Build Status](https://paazmaya.semaphoreci.com/badges/shigehachi/branches/main.svg)](https://paazmaya.semaphoreci.com/projects/shigehachi)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/0tj1ycxk27j5ff58/branch/main?svg=true)](https://ci.appveyor.com/project/paazmaya/shigehachi/branch/main)
 [![codecov](https://codecov.io/gh/paazmaya/shigehachi/branch/main/graph/badge.svg)](https://codecov.io/gh/paazmaya/shigehachi)
-[![Inline docs](http://inch-ci.org/github/paazmaya/shigehachi.svg?branch=main)](http://inch-ci.org/github/paazmaya/shigehachi)
 
 This tool reads a folder, searching for images and then tries to find matching ones
 from another folder. These pairs are compared and an image is created to a third folder,
@@ -17,7 +16,7 @@ which visualises the differences of the first two.
 
 The name of the project is for honouring the legacy of Mr Sonobe Shigehachi (園部 繁八),
 who was the 16th head master of
-[Jikishinkageryu Naginatajutsu (直心影流薙刀術)](http://naginata.fi/en/koryu),
+[Jikishinkageryu Naginatajutsu (直心影流薙刀術)](https://naginata.fi/en/koryu),
 which is an ancient Japanese martial art, focusing the handling of a long pole like weapon
 called naginata.
 
@@ -25,7 +24,7 @@ called naginata.
 
 ## Getting started
 
-Make sure you have [GraphicMagick](http://www.graphicsmagick.org/) installed and available
+Make sure you have [GraphicMagick](https://www.graphicsmagick.org/) installed and available
 in the `PATH`, before trying to use `shigehachi`. This can be tested by running for example
 the following command which should provide plenty of information when successful:
 
@@ -265,7 +264,7 @@ negation and composition steps inside the single comparison of two image files.
 By default the comparison image will have the same basename as the two which are being compared.
 For example `prev/image.jpg` and `curr/image.jpg` will produce `diff/image.png`.
 Please note that the generated images are always in [png](http://www.w3.org/TR/PNG/)
-format, due to quality requirements.
+format, due to quality requirements.s
 
 The negated image, which is generated from the comparison image, will have `-negate` appended
 to the basename, before the suffix. For example in the above case it would
@@ -291,7 +290,7 @@ generated three images would become with the default options:
 
 The amount of supported metric algorithms, comparison styles and composition types depends
 of the GraphicsMagick version. Available options are listed in [the source file](./index.js) and
-in the [relevant GraphicsMagick documentation](http://www.graphicsmagick.org/compare.html).
+in the [relevant GraphicsMagick documentation](https://www.graphicsmagick.org/compare.html).
 
 Underneath, the image comparison boils down to a command similar to this:
 
@@ -361,11 +360,11 @@ Image Difference (RootMeanSquaredError):
 
 ## Contributing
 
-["A Beginner's Guide to Open Source: The Best Advice for Making your First Contribution"](http://www.erikaheidi.com/blog/a-beginners-guide-to-open-source-the-best-advice-for-making-your-first-contribution/).
+["A Beginner's Guide to Open Source: The Best Advice for Making your First Contribution"](https://www.erikaheidi.com/blog/a-beginners-guide-to-open-source-the-best-advice-for-making-your-first-contribution/).
 
 [Also there is a blog post about "45 Github Issues Dos and Don’ts"](https://davidwalsh.name/45-github-issues-dos-donts).
 
-Linting is done with [ESLint](http://eslint.org) and can be executed with `npm run lint`.
+Linting is done with [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) and can be executed with `npm run lint`.
 There should be no errors appearing after any JavaScript file changes.
 
 Unit tests are written with [`tape`](https://github.com/substack/tape) and can be executed with `npm test`.
