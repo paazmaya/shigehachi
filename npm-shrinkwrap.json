@@ -18,7 +18,7 @@
       "devDependencies": {
         "c8": "11.0.0",
         "oxlint": "1.67.0",
-        "tape": "5.10.2"
+        "tape": "5.11.0"
       },
       "engines": {
         "node": ">=24.12.0"
@@ -1974,18 +1974,19 @@
       }
     },
     "node_modules/mock-property": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/mock-property/-/mock-property-1.1.0.tgz",
-      "integrity": "sha512-1/JjbLoGwv87xVsutkX0XJc0M0W4kb40cZl/K41xtTViBOD9JuFPKfyMNTrLJ/ivYAd0aPqu/vduamXO0emTFQ==",
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/mock-property/-/mock-property-1.1.2.tgz",
+      "integrity": "sha512-Rw0vY0wBdNtm3sbANVMDUgO5Htew9xotKoqcdK/a4rW8jf5KEl6MAWGMBhjKng6gpPjX8SmO8f+65ssnxNroTw==",
       "dev": true,
       "dependencies": {
         "define-data-property": "^1.1.4",
+        "es-errors": "^1.3.0",
         "functions-have-names": "^1.2.3",
-        "gopd": "^1.0.1",
+        "gopd": "^1.2.0",
         "has-property-descriptors": "^1.0.2",
-        "hasown": "^2.0.2",
+        "hasown": "^2.0.4",
         "isarray": "^2.0.5",
-        "object-inspect": "^1.13.2"
+        "object-inspect": "^1.13.4"
       },
       "engines": {
         "node": ">= 0.4"
@@ -2022,9 +2023,9 @@
       }
     },
     "node_modules/object-inspect": {
-      "version": "1.13.4",
-      "resolved": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz",
-      "integrity": "sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==",
+      "version": "1.14.0",
+      "resolved": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.14.0.tgz",
+      "integrity": "sha512-IVgHNlp/jwQX271+Xzoq9LZNTWXxZK+cEOrGBOBxXNbn7fapnZ+Ts6TVMgNOuAezwG2wdtnMX97tTPK6VEnuOQ==",
       "dev": true,
       "engines": {
         "node": ">= 0.4"
@@ -2695,9 +2696,9 @@
       }
     },
     "node_modules/tape": {
-      "version": "5.10.2",
-      "resolved": "https://registry.npmjs.org/tape/-/tape-5.10.2.tgz",
-      "integrity": "sha512-MfhVVAWa834kfYL4KgrqHblWfwkjaQvfaQhAX/bBTNQsK8oJ4ztpUe7jiemR2Vegw4pYwpnQMy51MhEmRzbbsg==",
+      "version": "5.11.0",
+      "resolved": "https://registry.npmjs.org/tape/-/tape-5.11.0.tgz",
+      "integrity": "sha512-bp6lvkFt2evk2fb5uZISsqZ7e2EP/1kOY1ioaUjIx7Z+So5HLVM4YlhtUxjmAFCUn+FsefAn7rBbCBrRSMRgyg==",
       "dev": true,
       "dependencies": {
         "@ljharb/now": "^1.0.1",
@@ -2718,8 +2719,8 @@
         "inherits": "^2.0.4",
         "is-regex": "^1.2.1",
         "minimist": "^1.2.8",
-        "mock-property": "^1.1.0",
-        "object-inspect": "^1.13.4",
+        "mock-property": "^1.1.2",
+        "object-inspect": "^1.14.0",
         "object-is": "^1.1.6",
         "object-keys": "^1.1.1",
         "object.assign": "^4.1.7",
@@ -4393,18 +4394,19 @@
       "dev": true
     },
     "mock-property": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/mock-property/-/mock-property-1.1.0.tgz",
-      "integrity": "sha512-1/JjbLoGwv87xVsutkX0XJc0M0W4kb40cZl/K41xtTViBOD9JuFPKfyMNTrLJ/ivYAd0aPqu/vduamXO0emTFQ==",
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/mock-property/-/mock-property-1.1.2.tgz",
+      "integrity": "sha512-Rw0vY0wBdNtm3sbANVMDUgO5Htew9xotKoqcdK/a4rW8jf5KEl6MAWGMBhjKng6gpPjX8SmO8f+65ssnxNroTw==",
       "dev": true,
       "requires": {
         "define-data-property": "^1.1.4",
+        "es-errors": "^1.3.0",
         "functions-have-names": "^1.2.3",
-        "gopd": "^1.0.1",
+        "gopd": "^1.2.0",
         "has-property-descriptors": "^1.0.2",
-        "hasown": "^2.0.2",
+        "hasown": "^2.0.4",
         "isarray": "^2.0.5",
-        "object-inspect": "^1.13.2"
+        "object-inspect": "^1.13.4"
       }
     },
     "node-exports-info": {
@@ -4428,9 +4430,9 @@
       }
     },
     "object-inspect": {
-      "version": "1.13.4",
-      "resolved": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz",
-      "integrity": "sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==",
+      "version": "1.14.0",
+      "resolved": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.14.0.tgz",
+      "integrity": "sha512-IVgHNlp/jwQX271+Xzoq9LZNTWXxZK+cEOrGBOBxXNbn7fapnZ+Ts6TVMgNOuAezwG2wdtnMX97tTPK6VEnuOQ==",
       "dev": true
     },
     "object-is": {
@@ -4885,9 +4887,9 @@
       "dev": true
     },
     "tape": {
-      "version": "5.10.2",
-      "resolved": "https://registry.npmjs.org/tape/-/tape-5.10.2.tgz",
-      "integrity": "sha512-MfhVVAWa834kfYL4KgrqHblWfwkjaQvfaQhAX/bBTNQsK8oJ4ztpUe7jiemR2Vegw4pYwpnQMy51MhEmRzbbsg==",
+      "version": "5.11.0",
+      "resolved": "https://registry.npmjs.org/tape/-/tape-5.11.0.tgz",
+      "integrity": "sha512-bp6lvkFt2evk2fb5uZISsqZ7e2EP/1kOY1ioaUjIx7Z+So5HLVM4YlhtUxjmAFCUn+FsefAn7rBbCBrRSMRgyg==",
       "dev": true,
       "requires": {
         "@ljharb/now": "^1.0.1",
@@ -4908,8 +4910,8 @@
         "inherits": "^2.0.4",
         "is-regex": "^1.2.1",
         "minimist": "^1.2.8",
-        "mock-property": "^1.1.0",
-        "object-inspect": "^1.13.4",
+        "mock-property": "^1.1.2",
+        "object-inspect": "^1.14.0",
         "object-is": "^1.1.6",
         "object-keys": "^1.1.1",
         "object.assign": "^4.1.7",
